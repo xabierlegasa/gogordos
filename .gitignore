@@ -1,0 +1,9 @@
+# phpstorm
+.idea/
+
+# composer
+vendor/
+
+# logs
+logs/
+!/logs/README.md
