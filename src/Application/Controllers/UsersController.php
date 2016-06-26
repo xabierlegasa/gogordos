@@ -2,6 +2,8 @@
 
 namespace Gogordos\Application\Controllers;
 
+use Gogordos\Application\UseCases\RegisterUserRequest;
+use Gogordos\Application\UseCases\RegisterUserUseCase;
 
 class UsersController
 {
@@ -12,20 +14,6 @@ class UsersController
     {
         $this->registerUserUseCase = $registerUserUseCase;
     }
-
-//    /**
-//     * Example action for calling dummy command!
-//     * @param $request
-//     * @return string
-//     */
-//    public function dummy($request)
-//    {
-//        /** @var DummyResponse $commandResponse */
-//        $commandResponse = $this->bus->handle(
-//            new DummyCommand('xabi', 'xabi@vreasy.com', '123456789')
-//        );
-//        exit;
-//    }
 
     public function register($request)
     {

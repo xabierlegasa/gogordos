@@ -1,3 +1,6 @@
+# tests coverage
+tests/coverage/
+
 # phpstorm
 .idea/
 
