@@ -30,7 +30,7 @@ require __DIR__ . '/../src/framework/slim/middleware.php';
 require __DIR__ . '/../src/framework/slim/routes.php';
 
 // Register routes
-require __DIR__ . '/../src/framework/slim/command_bus.php';
+// require __DIR__ . '/../src/framework/slim/command_bus.php';
 
 // Run app
 $app->run();
