@@ -1,0 +1,1 @@
+web01 ansible_user=xabi ansible_port=22 ansible_host=178.62.74.17 ansible_ssh_private_key_file=/Users/xabi/.ssh/xabid

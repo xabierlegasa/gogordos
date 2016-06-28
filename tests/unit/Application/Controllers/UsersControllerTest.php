@@ -28,26 +28,17 @@ class UsersControllerTest extends TestCase
 
     public function test_when_valid_params_are_provided_user_can_register_successfully()
     {
-        $requestMock = $this->prophesize(RequestExtended::class);
-        $requestMock->get("username")->shouldBeCalled()->willReturn('xabierlegasa');
-        $requestMock->get('email')->shouldBeCalled()->willReturn('xabierlegasa@gmail.com');
-        $requestMock->get('password')->shouldBeCalled()->willReturn('1111');
+        $requestMock = $this->prophesize(Request::class);
+        $requestMock->getParam("username")->shouldBeCalled()->willReturn('xabierlegasa');
+        $requestMock->getParam('email')->shouldBeCalled()->willReturn('xabierlegasa@gmail.com');
+        $requestMock->getParam('password')->shouldBeCalled()->willReturn('1111');
 
         $this->registerUserUseCase->execute(Argument::any())
             ->shouldBeCalled()
-            ->willReturn(new RegisterUserResponse('ok'));
+            ->willReturn(new RegisterUserResponse('success'));
 
         $json = $this->sut->register($requestMock->reveal());
 
-        $this->assertEquals('{"response_code":"ok"}', $json);
-    }
-}
-
-
-/** get() method must be defined so phpunit does not complain */
-class RequestExtended extends Request
-{
-    public function get()
-    {
+        $this->assertEquals(['status' => 'success'], $json);
     }
 }

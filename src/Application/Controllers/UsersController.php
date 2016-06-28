@@ -3,7 +3,9 @@
 namespace Gogordos\Application\Controllers;
 
 use Gogordos\Application\UseCases\RegisterUserRequest;
+use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
+use Slim\Http\Request;
 
 class UsersController
 {
@@ -15,17 +17,18 @@ class UsersController
         $this->registerUserUseCase = $registerUserUseCase;
     }
 
-    public function register($request)
+    public function register(Request $request)
     {
-        $username = $request->get('username');
-        $email = $request->get('email');
-        $password = $request->get('password');
-
+        $username = $request->getParam('username');
+        $email = $request->getParam('email');
+        $password = $request->getParam('password');
+        
         $registerUserRequest = new RegisterUserRequest($username, $email, $password);
+        /** @var RegisterUserResponse $response */
         $response = $this->registerUserUseCase->execute($registerUserRequest);
 
-        $json = json_encode(['response_code' => $response->code()]);
+        $data = ['status' => $response->code()];
 
-        return $json;
+        return $data;
     }
 }

@@ -11,6 +11,9 @@ namespace Gogordos\Application\UseCases;
 
 class RegisterUserResponse
 {
+    const STATUS_SUCCESS = 'success';
+    const STATUS_ERROR = 'error';
+    
     /** @var string */
     private $code;
     

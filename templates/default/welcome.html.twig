@@ -1,0 +1,64 @@
+{% extends 'default/base.html.twig' %}
+
+
+{% block body %}
+
+
+    {% if true %}
+        <div class="jumbotron">
+            <h1>Bienvenid@ gogord@!</h1>
+            <p class="lead">Un sitio donde recomendar restaurantes entre amigos.</p>
+            <p><a class="btn btn-lg btn-success" href="/" role="button">Sí, quiero ser un gogordo</a></p>
+        </div>
+    {% else %}
+        <div class="jumbotron">
+            <h1>Tip:</h1>
+            <p class="lead">Un gogordo de verdad, metería un par de recomendaciones. Ahí lo dejo...</p>
+        </div>
+    {% endif %}
+
+
+
+
+
+    <br><br>
+    <div class="row">
+        <div class="col-lg-6">
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Restaurante</th>
+                    <th>Ciudad</th>
+                    <th>Categoria</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>Chino chino</td>
+                    <td>Barcelona</td>
+                    <td>Chino chino</td>
+                </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <nav>
+        <ul class="pagination">
+
+
+        </ul>
+    </nav>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+{% endblock %}
+
