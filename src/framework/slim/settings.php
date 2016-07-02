@@ -11,7 +11,7 @@ return [
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',
-            'path' => __DIR__ . '/../../../src/framework/logs/app.log',
+            'path' => __DIR__ . '/../../../src/Framework/logs/app.log',
         ],
     ],
 ];

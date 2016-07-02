@@ -3,8 +3,8 @@
 namespace Gogordos\framework\Repositories;
 
 
-use Gogordos\domain\entities\User;
-use Gogordos\domain\repositories\UsersRepository;
+use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Repositories\UsersRepository;
 use PDO;
 
 class UsersRepositoryMysql implements UsersRepository
@@ -17,5 +17,14 @@ class UsersRepositoryMysql implements UsersRepository
         $affectedRows = $connection->execute([
             ':name' => $name
         ]);
+    }
+
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function findByEmail($email)
+    {
+        // TODO: Implement findByEmail() method.
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gogordos\domain\events;
+namespace Gogordos\Domain\events;
 
 class UserCreatedEvent
 {

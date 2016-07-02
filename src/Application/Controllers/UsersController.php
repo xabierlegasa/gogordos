@@ -22,10 +22,15 @@ class UsersController
         $username = $request->getParam('username');
         $email = $request->getParam('email');
         $password = $request->getParam('password');
-        
-        $registerUserRequest = new RegisterUserRequest($username, $email, $password);
-        /** @var RegisterUserResponse $response */
-        $response = $this->registerUserUseCase->execute($registerUserRequest);
+
+        try {
+            $registerUserRequest = new RegisterUserRequest($username, $email, $password);
+            /** @var RegisterUserResponse $response */
+            $response = $this->registerUserUseCase->execute($registerUserRequest);
+        } catch (\Exception $e) {
+
+        }
+
 
         $data = ['status' => $response->code()];
 

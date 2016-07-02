@@ -3,6 +3,7 @@
 
 use Gogordos\Application\Controllers\UsersController;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
+use Gogordos\Framework\Repositories\UsersRepositoryMysql;
 
 $container = $app->getContainer();
 
@@ -36,9 +37,17 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+$container['UsersRepository'] = function ($c) {
+    return new UsersRepositoryMysql();
+};
+
+
+
 
 $container['RegisterUserUseCase'] = function ($c) {
-    return new RegisterUserUseCase();
+    return new RegisterUserUseCase(
+        $c->get('UsersRepository')
+    );
 };
 
 $container['UsersController'] = function ($c) {

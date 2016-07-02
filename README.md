@@ -36,8 +36,7 @@ Tests with coverage:
 Deploy to prod:
 
 ```
-cd ansistrano
-ansible-playbook -i hosts_prod -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`" deploy.ym
+ansible-playbook -i ./ansistrano/hosts_prod -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`" ./ansistrano/deploy.yml
 ```
 
 
