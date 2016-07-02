@@ -1,1 +1,5 @@
-- composer: command=install working_dir={{ ansistrano_release_path.stdout }}
+- name: GOGORDOS | Echo ansistrano release path
+  shell: echo "{{ ansistrano_release_path.stdout }}"
+
+- name: GOGORDOS | Install Composer dependencies
+  composer: command=install working_dir={{ ansistrano_release_path.stdout }}

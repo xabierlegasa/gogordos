@@ -1,5 +1,5 @@
 ---
-- name: Deploy app to gogordos.net
+- name: Deploy gogordos app
   hosts: all
   vars:
     ansistrano_deploy_from: "{{ playbook_dir }}/../../gogordos"
@@ -8,5 +8,8 @@
     ansistrano_deploy_via: git
     ansistrano_git_repo: git@github.com:xabierlegasa/gogordos.git
     ansistrano_git_branch: master
+    # Hooks: custom tasks if you need them
+    ansistrano_after_update_code_tasks_file: "{{ playbook_dir }}/my-custom-tasks/after-code-update.yml"
+    ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/my-custom-tasks/after-symlink.yml"
   roles:
     - { role: carlosbuenosvinos.ansistrano-deploy }
