@@ -3,17 +3,18 @@
 namespace Tests\Domain;
 
 use Gogordos\Domain\Entities\UserId;
+use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 
-class UserIdTest extends \PHPUnit_Framework_TestCase {
+class UserIdTest extends TestCase
+{
 
-//    TEST IF THIS WORKS IN PHP7
-//    public function should_require_instance_of_uuid()
-//    {
-//        $this->expectException(\Exception::class);
-//
-//        $id = new UserId;
-//    }
+    public function should_require_instance_of_uuid()
+    {
+        $this->expectException(\Exception::class);
+
+        $id = new UserId;
+    }
 
     public function test_should_create_new_user_id()
     {

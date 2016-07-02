@@ -7,8 +7,11 @@ use Gogordos\Application\UseCases\RegisterUserRequest;
 use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator;
 
 class RegisterUserUseCaseTest extends TestCase
@@ -39,10 +42,11 @@ class RegisterUserUseCaseTest extends TestCase
 
         $email = 'hello@example.com';
         $username = 'username';
+        $existingUser = User::register(new UserId(Uuid::uuid4()), $email, $username, 'password');
 
         $this->usersRepository->findByEmail($email)
             ->shouldBeCalled()
-            ->willReturn(new User($username, $email));
+            ->willReturn($existingUser);
 
         $this->sut->execute(new RegisterUserRequest($username, $email, 'password'));
     }
@@ -71,7 +75,7 @@ class RegisterUserUseCaseTest extends TestCase
 
         $this->sut->execute(new RegisterUserRequest($username, 'hello@example.com', 'password'));
     }
-    
+
     public function test_when_password_has_less_than_four_characters_should_throw_an_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -83,18 +87,20 @@ class RegisterUserUseCaseTest extends TestCase
     {
         $username = 'username';
         $email = 'hello@example.com';
+        $password = 'password';
+
         $this->usersRepository->findByEmail($email)
             ->shouldBeCalled()
             ->willReturn(null);
 
-        $user = new User($username, $email);
-        $this->usersRepository->save($user)
+        $user = User::register(new UserId(Uuid::uuid4()), $email, $username, $password);
+        
+        $this->usersRepository->save(Argument::type(User::class))
             ->shouldBeCalled()
             ->willReturn($user);
 
-
         /** @var RegisterUserResponse $response */
-        $response = $this->sut->execute(new RegisterUserRequest('username', 'hello@example.com', 'password'));
+        $response = $this->sut->execute(new RegisterUserRequest($username, $email, $password));
 
         $this->assertEquals('success', $response->code());
     }

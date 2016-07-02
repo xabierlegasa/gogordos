@@ -4,7 +4,9 @@ namespace Gogordos\Application\UseCases;
 
 use Gogordos\Application\Exceptions\UserAlreadyExistsException;
 use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
+use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator;
 
 class RegisterUserUseCase
@@ -34,7 +36,13 @@ class RegisterUserUseCase
     {
         $this->checkInputDataIsValid($request);
 
-        $user = new User($request->username(), $request->email());
+        $user = User::register(
+            new UserId(Uuid::uuid4()),
+            $request->email(),
+            $request->username(),
+            $request->password()
+        );
+
         $this->usersRepository->save($user);
 
         return new RegisterUserResponse('success');
