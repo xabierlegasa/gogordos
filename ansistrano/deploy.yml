@@ -4,7 +4,7 @@
   vars:
     ansistrano_deploy_from: "{{ playbook_dir }}/../../gogordos"
     ansistrano_deploy_to: "/var/www/gogordos"
-    ansistrano_keep_releases: 2
+    ansistrano_keep_releases: 5
     ansistrano_deploy_via: git
     ansistrano_git_repo: git@github.com:xabierlegasa/gogordos.git
     ansistrano_git_branch: master
