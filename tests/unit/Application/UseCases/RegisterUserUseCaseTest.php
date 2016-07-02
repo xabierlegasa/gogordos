@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Application\UserCases;
+namespace Tests\Application\UseCases;
 
 use Gogordos\Application\Exceptions\UserAlreadyExistsException;
 use Gogordos\Application\UseCases\RegisterUserRequest;

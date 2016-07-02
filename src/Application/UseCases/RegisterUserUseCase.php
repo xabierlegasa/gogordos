@@ -3,6 +3,7 @@
 namespace Gogordos\Application\UseCases;
 
 use Gogordos\Application\Exceptions\UserAlreadyExistsException;
+use Gogordos\Application\StatusCode;
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
@@ -43,9 +44,12 @@ class RegisterUserUseCase
             $request->password()
         );
 
-        $this->usersRepository->save($user);
+        $user = $this->usersRepository->save($user);
 
-        return new RegisterUserResponse('success');
+        return new RegisterUserResponse(
+            StatusCode::STATUS_SUCCESS,
+            $user
+        );
     }
 
     /**

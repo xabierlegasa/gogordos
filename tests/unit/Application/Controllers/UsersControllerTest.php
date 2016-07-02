@@ -3,6 +3,7 @@
 namespace Tests\Application\Controllers;
 
 use Gogordos\Application\Controllers\UsersController;
+use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use PHPUnit\Framework\TestCase;
@@ -35,10 +36,10 @@ class UsersControllerTest extends TestCase
 
         $this->registerUserUseCase->execute(Argument::any())
             ->shouldBeCalled()
-            ->willReturn(new RegisterUserResponse('success'));
+            ->willReturn(new RegisterUserResponse('success', null));
 
         $json = $this->sut->register($requestMock->reveal());
 
-        $this->assertEquals(['status' => 'success'], $json);
+        $this->assertEquals(['status' => StatusCode::STATUS_SUCCESS], $json);
     }
 }

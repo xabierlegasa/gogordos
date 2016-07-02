@@ -9,21 +9,37 @@
 namespace Gogordos\Application\UseCases;
 
 
+use Gogordos\Domain\Entities\User;
+
 class RegisterUserResponse
 {
-    const STATUS_SUCCESS = 'success';
-    const STATUS_ERROR = 'error';
-    
     /** @var string */
     private $code;
-    
-    public function __construct($code)
+
+    /** @var User */
+    private $user;
+
+    /**
+     * RegisterUserResponse constructor.
+     * @param $code
+     * @param User $user
+     */
+    public function __construct($code, User $user = null)
     {
         $this->code = $code;
+        $this->user = $user;
     }
     
     public function code()
     {
         return $this->code;
+    }
+
+    /**
+     * @return User
+     */
+    public function user()
+    {
+        return $this->user;
     }
 }

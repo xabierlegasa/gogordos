@@ -8,13 +8,13 @@ interface UsersRepository
 {
     /**
      * @param string $email
-     * @return mixed
+     * @return User|null
      */
     public function findByEmail($email);
 
     /**
      * @param User $user
-     * @return mixed
+     * @return User
      */
     public function save(User $user);
 }
