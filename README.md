@@ -15,9 +15,7 @@ composer install
 php -S localhost:8080 -t public/
 ```
 
-
 Project should be here: http://localhost:8080
-
 
 
 ## Run tests
@@ -30,5 +28,21 @@ Project should be here: http://localhost:8080
 Tests with coverage:
 
 ```
-./vendor/bin/phpunit --coverage-clover "tests/coverage/coverage.xml" --coverage-xml "tests/coverage/coverage-xml/" --coverage-html "tests/coverage/coverage-html/"
+./vendor/bin/phpunit --coverage-clover "tests/reports/unit/coverage.xml" --log-junit "tests/reports/unit/log-junit-phpunit.xml" --coverage-html "tests/reports/unit/coverage-html/"
 ```
+
+## Deploy
+
+Deploy to prod:
+
+```
+cd ansistrano
+ansible-playbook -i hosts_prod -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`" deploy.ym
+```
+
+
+
+
+
+
+
