@@ -2,7 +2,9 @@
 
 namespace Gogordos\Application\Controllers;
 
+use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\Exceptions\UserAlreadyExistsException;
+use Gogordos\Application\Exceptions\UsernameAlreadyExistsException;
 use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\RegisterUserRequest;
 use Gogordos\Application\UseCases\RegisterUserResponse;
@@ -34,7 +36,10 @@ class UsersController
             /** @var RegisterUserResponse $response */
             $response = $this->registerUserUseCase->execute($registerUserRequest);
         } catch (\Exception $e) {
-            if ($e instanceof \InvalidArgumentException || $e instanceof UserAlreadyExistsException) {
+            if ($e instanceof \InvalidArgumentException
+                || $e instanceof EmailAlreadyExistsException
+                || $e instanceof UsernameAlreadyExistsException
+            ) {
                 return ['status' => StatusCode::STATUS_ERROR, 'message' => $e->getMessage()];
             }
             return [

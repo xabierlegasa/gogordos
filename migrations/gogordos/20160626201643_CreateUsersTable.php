@@ -19,11 +19,13 @@ class CreateUsersTable extends Ruckusing_Migration_Base
         $t->column("password_hash", "string", ["limit" => 255, "null" => false]);
         $t->finish();
 
+        $this->add_timestamps("users");
+        
         $this->add_index("users", "id", ["unique" => true]);
         $this->add_index("users", "email", ["unique" => true]);
         $this->add_index("users", "username", ["unique" => true]);
+        $this->add_index("users", "created_at", ["unique" => false]);
 
-        $this->add_timestamps("users");
     }
 
     public function down()

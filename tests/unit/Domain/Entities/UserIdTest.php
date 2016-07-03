@@ -28,5 +28,6 @@ class UserIdTest extends TestCase
         $id = UserId::fromString('d16f9fe7-e947-460e-99f6-2d64d65f46bc');
 
         $this->assertInstanceOf('Gogordos\Domain\Entities\UserId', $id);
+        $this->assertEquals(36, strlen($id));
     }
 }

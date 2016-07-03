@@ -13,6 +13,13 @@ interface UsersRepository
     public function findByEmail($email);
 
     /**
+     * @param string $email
+     * @param string $username
+     * @return User|null
+     */
+    public function findByEmailOrUsername($email, $username);
+    
+    /**
      * Insert a user in the DB. Returns true if successful, or false otherwise
      * @param User $user
      * @return bool

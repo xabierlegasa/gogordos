@@ -1,11 +1,9 @@
-- name: GOGORDOS | Echo ansistrano release path
-  shell: echo "{{ ansistrano_release_path.stdout }}"
-
 - name: GOGORDOS | Install Composer dependencies
   composer: command=install working_dir={{ ansistrano_release_path.stdout }}
 
-
 - name: GOGORDOS | Run migrations
-  shell: ./vendor/bin/ruckus.php db:migrate
+  command: ./vendor/bin/ruckus.php db:migrate
   args:
-    path: {{ ansistrano_release_path.stdout }}
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+

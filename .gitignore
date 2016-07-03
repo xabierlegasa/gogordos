@@ -1,6 +1,18 @@
+# Sonarqube
 .sonar/
+
 tests/reports/
+
+# IntelliJ files
 .idea/
+
 vendor/
+
 logs/
 !/logs/README.md
+
+# Mac stuff
+.DS_Store
+
+# config file
+src/Framework/Slim/config_env.php.dist

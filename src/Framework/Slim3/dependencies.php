@@ -4,6 +4,7 @@
 use Gogordos\Application\Controllers\UsersController;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Framework\Repositories\UsersRepositoryMysql;
+use Gogordos\Framework\Slim\Config;
 
 $container = $app->getContainer();
 
@@ -38,11 +39,12 @@ $container['view'] = function ($container) {
 };
 
 $container['UsersRepository'] = function ($c) {
-    return new UsersRepositoryMysql();
+    /** @var Config $config */
+    $config = $c->get('settings')['config'];
+    return new UsersRepositoryMysql(
+        $config
+    );
 };
-
-
-
 
 $container['RegisterUserUseCase'] = function ($c) {
     return new RegisterUserUseCase(

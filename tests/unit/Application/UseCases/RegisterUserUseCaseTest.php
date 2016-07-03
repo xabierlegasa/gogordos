@@ -2,7 +2,7 @@
 
 namespace Tests\Application\UseCases;
 
-use Gogordos\Application\Exceptions\UserAlreadyExistsException;
+use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\UseCases\RegisterUserRequest;
 use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
@@ -12,7 +12,6 @@ use Gogordos\Domain\Repositories\UsersRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
-use Respect\Validation\Validator;
 
 class RegisterUserUseCaseTest extends TestCase
 {
@@ -31,15 +30,15 @@ class RegisterUserUseCaseTest extends TestCase
         );
     }
 
-    public function test_when_user_already_exists_should_throw_an_exception()
+    public function test_when_user_with_same_email_exists_should_throw_an_exception()
     {
-        $this->expectException(UserAlreadyExistsException::class);
+        $this->expectException(EmailAlreadyExistsException::class);
 
         $email = 'hello@example.com';
         $username = 'username';
-        $existingUser = User::register(new UserId(Uuid::uuid4()), $email, $username, 'password');
+        $existingUser = User::register(new UserId(Uuid::uuid4()), $email, 'a_different_username', 'password');
 
-        $this->usersRepository->findByEmail($email)
+        $this->usersRepository->findByEmailOrUsername($email, $username)
             ->shouldBeCalled()
             ->willReturn($existingUser);
 
@@ -84,7 +83,7 @@ class RegisterUserUseCaseTest extends TestCase
         $email = 'hello@example.com';
         $password = 'password';
 
-        $this->usersRepository->findByEmail($email)
+        $this->usersRepository->findByEmailOrUsername($email, $username)
             ->shouldBeCalled()
             ->willReturn(null);
 

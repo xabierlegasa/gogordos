@@ -3,6 +3,7 @@
 namespace Tests\Application\Controllers;
 
 use Gogordos\Application\Controllers\UsersController;
+use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
@@ -36,10 +37,40 @@ class UsersControllerTest extends TestCase
 
         $this->registerUserUseCase->execute(Argument::any())
             ->shouldBeCalled()
-            ->willReturn(new RegisterUserResponse('success', null));
+            ->willReturn(new RegisterUserResponse(StatusCode::STATUS_SUCCESS, null));
 
         $json = $this->sut->register($requestMock->reveal());
 
         $this->assertEquals(['status' => StatusCode::STATUS_SUCCESS], $json);
+    }
+
+    public function test_when_user_whith_provided_email_already_exists_should_return_correct_error_response()
+    {
+        $requestMock = $this->prophesize(Request::class);
+        $requestMock->getParam("username")->shouldBeCalled()->willReturn('xabierlegasa');
+        $requestMock->getParam('email')->shouldBeCalled()->willReturn('xabierlegasa@gmail.com');
+        $requestMock->getParam('password')->shouldBeCalled()->willReturn('1111');
+
+        $this->registerUserUseCase->execute(Argument::any())
+            ->shouldBeCalled()
+            ->willThrow(new EmailAlreadyExistsException('Exception message here'));
+        $json = $this->sut->register($requestMock->reveal());
+
+        $this->assertEquals(['status' => StatusCode::STATUS_ERROR, 'message' => 'Exception message here'], $json);
+    }
+
+    public function test_when_infrastructure_throws_an_exception_controller_should_return_correct_error_response()
+    {
+        $requestMock = $this->prophesize(Request::class);
+        $requestMock->getParam("username")->shouldBeCalled()->willReturn('xabierlegasa');
+        $requestMock->getParam('email')->shouldBeCalled()->willReturn('xabierlegasa@gmail.com');
+        $requestMock->getParam('password')->shouldBeCalled()->willReturn('1111');
+
+        $this->registerUserUseCase->execute(Argument::any())
+            ->shouldBeCalled()
+            ->willThrow(new \Exception('Exception message'));
+        $json = $this->sut->register($requestMock->reveal());
+
+        $this->assertEquals(['status' => StatusCode::STATUS_ERROR, 'message' => 'Yuuups something went wrong. Message:' . 'Exception message'], $json);
     }
 }

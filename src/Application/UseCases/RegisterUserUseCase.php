@@ -2,7 +2,8 @@
 
 namespace Gogordos\Application\UseCases;
 
-use Gogordos\Application\Exceptions\UserAlreadyExistsException;
+use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
+use Gogordos\Application\Exceptions\UsernameAlreadyExistsException;
 use Gogordos\Application\StatusCode;
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
@@ -33,7 +34,7 @@ class RegisterUserUseCase
     {
         $this->checkInputDataIsValid($request);
 
-        $this->checkUserDoesNotExist($request->email());
+        $this->checkUserDoesNotExist($request);
 
         $user = User::register(
             new UserId(Uuid::uuid4()),
@@ -71,15 +72,20 @@ class RegisterUserUseCase
     }
 
     /**
-     * @param string $email
-     * @throws UserAlreadyExistsException
+     * @param RegisterUserRequest $request
+     * @throws EmailAlreadyExistsException
+     * @throws UsernameAlreadyExistsException
      */
-    private function checkUserDoesNotExist($email)
+    private function checkUserDoesNotExist(RegisterUserRequest $request)
     {
-        $user = $this->usersRepository->findByEmail($email);
-        
+        $user = $this->usersRepository->findByEmailOrUsername($request->email(), $request->username());
+
         if ($user) {
-            throw new UserAlreadyExistsException('User already exists');
+            if ($user->email() === $request->email()) {
+                throw new EmailAlreadyExistsException('A user with that email already exists');
+            }
+            
+            throw new UsernameAlreadyExistsException('A user with that username already exists');
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gogordos\framework\Repositories;
+namespace Gogordos\Framework\Repositories;
 
 
 use Gogordos\Domain\Entities\User;
@@ -8,7 +8,6 @@ use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
 use PDO;
 use PDOStatement;
-use Ramsey\Uuid\Uuid;
 
 
 /**
@@ -16,7 +15,7 @@ use Ramsey\Uuid\Uuid;
  * Class UsersRepositoryMysql
  * @package Gogordos\framework\Repositories
  */
-class UsersRepositoryMysql implements UsersRepository
+class UsersRepositoryMysql extends BaseRepository implements UsersRepository
 {
     /**
      * Insert a user in the DB. Returns true if successful, or false otherwise
@@ -29,15 +28,15 @@ class UsersRepositoryMysql implements UsersRepository
         $email = $user->email();
         $username = $user->username();;
         $passwordHash = $user->password();
-
-        $connection = $this->getConnection();
+        $createdAt = date('Y-m-d H:i:s');
 
         /** @var PDOStatement $statement */
-        $statement = $connection->prepare('INSERT INTO users (id, email, username, password_hash) VALUES (?, ?, ?, ?)');
+        $statement = $this->getConnection()->prepare('INSERT INTO users (id, email, username, password_hash, created_at) VALUES (?, ?, ?, ?, ?)');
         $statement->bindParam(1, $userId, PDO::PARAM_STR);
         $statement->bindParam(2, $email, PDO::PARAM_STR);
         $statement->bindParam(3, $username, PDO::PARAM_STR);
         $statement->bindParam(4, $passwordHash, PDO::PARAM_STR);
+        $statement->bindParam(5, $createdAt, PDO::PARAM_STR);
 
         $result = $statement->execute();
 
@@ -50,9 +49,8 @@ class UsersRepositoryMysql implements UsersRepository
      */
     public function findByEmail($email)
     {
-        $connection = $this->getConnection();
         /** @var PDOStatement $statement */
-        $statement = $connection->prepare('SELECT * FROM users WHERE email = :email');
+        $statement = $this->getConnection()->prepare('SELECT * FROM users WHERE email = :email');
 
         $statement->execute([
             ':email' => $email
@@ -72,12 +70,32 @@ class UsersRepositoryMysql implements UsersRepository
         );
     }
 
-    private function getConnection()
+    /**
+     * @param string $email
+     * @param string $username
+     * @return User|null
+     */
+    public function findByEmailOrUsername($email, $username)
     {
-        // TODO REMOVE CREDENTIALS FROM HERE!
-        // See PDO prepared statements
-        $connection = new PDO('mysql:host=localhost;dbname=gogordos;charset=utf8', 'root', 'root');
+        /** @var PDOStatement $statement */
+        $statement = $this->getConnection()->prepare('SELECT * FROM users WHERE email = :email OR username = :username');
 
-        return $connection;
+        $statement->execute([
+            ':email' => $email,
+            ':username' => $username
+        ]);
+        $row = $statement->fetch(PDO::FETCH_OBJ);
+
+        if ($row === false) {
+            return null;
+        }
+
+        /** User was found */
+        return User::register(
+            UserId::fromString($row->id),
+            $row->email,
+            $row->username,
+            $row->password_hash
+        );
     }
 }
