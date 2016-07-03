@@ -1,13 +1,18 @@
 - name: GOGORDOS | Install Composer dependencies
   composer: command=install working_dir={{ ansistrano_release_path.stdout }}
 
-- name: GOGORDOS | Copy config file for correct environment
+- name: GOGORDOS | Copy config file with correct environment credentials
   command: cp ../../shared/config_env.php src/Framework/Slim/
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
 
+- name: GOGORDOS | Copy ruckusing migrations config file with correct environment credentials
+  command: cp ../../shared/ruckusing.conf.php ruckusing.conf.php
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
 - name: GOGORDOS | Run migrations
-  command: ./vendor/bin/ruckus.php db:migrate
+  command: ./vendor/bin/ruckus.php db:migrate ENV=production
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
 
