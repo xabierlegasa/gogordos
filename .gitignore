@@ -1,3 +1,6 @@
+# Config file specific for each ENV
+src/Framework/Slim/config_env.php
+
 # Sonarqube
 .sonar/
 

@@ -2,7 +2,7 @@
   composer: command=install working_dir={{ ansistrano_release_path.stdout }}
 
 - name: GOGORDOS | Copy config file for correct environment
-  command: cp 
+  command: cp ../../shared/config_env.php src/Framework/Slim/
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
 
