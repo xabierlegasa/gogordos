@@ -9,25 +9,25 @@ class User
     private $id;
 
     /** @var string */
-    private $username;
+    private $email;
 
     /** @var string */
-    private $email;
+    private $username;
 
     /** @var string */
     private $password;
 
     /**
      * @param UserId $userId
-     * @param string $username
      * @param string $email
+     * @param string $username
      * @param string $password
      */
-    private function __construct(UserId $userId, $username, $email, $password)
+    private function __construct(UserId $userId, $email, $username ,$password)
     {
         $this->id = $userId;
-        $this->username = $username;
         $this->email = $email;
+        $this->username = $username;
         $this->password = $password;
     }
 
@@ -35,16 +35,32 @@ class User
      * Register a new User
      *
      * @param UserId $userId
-     * @param Email $email
-     * @param Username $username
-     * @param Password $password
+     * @param string $email
+     * @param string $username
+     * @param string $password
      * @return User
      */
     public static function register(UserId $userId, $email, $username, $password)
     {
         return new User($userId, $email, $username, $password);
     }
-    
+
+    /**
+     * @return UserId
+     */
+    public function id()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function email()
+    {
+        return $this->email;
+    }
+
     /**
      * @return string
      */
@@ -56,9 +72,9 @@ class User
     /**
      * @return string
      */
-    public function email()
+    public function password()
     {
-        return $this->email;
+        return $this->password;
     }
 
     /**

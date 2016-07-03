@@ -6,27 +6,19 @@ namespace Gogordos\Application\UseCases;
 class RegisterUserRequest
 {
     /** @var string */
-    protected $username;
+    protected $email;
 
     /** @var string */
-    protected $email;
+    protected $username;
 
     /** @var string */
     protected $password;
 
-    public function __construct($username, $email, $password)
+    public function __construct($email, $username, $password)
     {
-        $this->username = $username;
         $this->email = $email;
+        $this->username = $username;
         $this->password = $password;
-    }
-
-    /**
-     * @return string
-     */
-    public function username()
-    {
-        return $this->username;
     }
 
     /**
@@ -35,6 +27,14 @@ class RegisterUserRequest
     public function email()
     {
         return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function username()
+    {
+        return $this->username;
     }
 
     /**

@@ -14,6 +14,7 @@ class UserId {
 
     /**
      * Create a new Uuid instance
+     * @param Uuid $value
      */
     public function __construct(Uuid $value)
     {

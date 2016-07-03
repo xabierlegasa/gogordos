@@ -22,17 +22,12 @@ class RegisterUserUseCaseTest extends TestCase
     /** @var UsersRepository */
     private $usersRepository;
 
-    /** @var Validator */
-    private $validator;
-
     protected function setUp()
     {
         $this->usersRepository = $this->prophesize(UsersRepository::class);
-        $this->validator = $this->prophesize(Validator::class);
 
         $this->sut = new RegisterUserUseCase(
-            $this->usersRepository->reveal(),
-            $this->validator->reveal()
+            $this->usersRepository->reveal()
         );
     }
 
@@ -48,7 +43,7 @@ class RegisterUserUseCaseTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($existingUser);
 
-        $this->sut->execute(new RegisterUserRequest($username, $email, 'password'));
+        $this->sut->execute(new RegisterUserRequest($email, $username, 'password'));
     }
 
     public function test_when_user_email_is_invalid_should_throw_an_exception()
@@ -94,13 +89,13 @@ class RegisterUserUseCaseTest extends TestCase
             ->willReturn(null);
 
         $user = User::register(new UserId(Uuid::uuid4()), $email, $username, $password);
-        
+
         $this->usersRepository->save(Argument::type(User::class))
             ->shouldBeCalled()
             ->willReturn($user);
 
         /** @var RegisterUserResponse $response */
-        $response = $this->sut->execute(new RegisterUserRequest($username, $email, $password));
+        $response = $this->sut->execute(new RegisterUserRequest($email, $username, $password));
 
         $this->assertEquals('success', $response->code());
     }

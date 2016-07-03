@@ -20,13 +20,9 @@ class RegisterUserUseCase
     /** @var  UsersRepository */
     private $usersRepository;
 
-    /** @var Validator */
-    private $validator;
-
-    public function __construct(UsersRepository $usersRepository, $validator)
+    public function __construct(UsersRepository $usersRepository)
     {
         $this->usersRepository = $usersRepository;
-        $this->validator = $validator;
     }
 
     /**
@@ -37,6 +33,8 @@ class RegisterUserUseCase
     {
         $this->checkInputDataIsValid($request);
 
+        $this->checkUserDoesNotExist($request->email());
+
         $user = User::register(
             new UserId(Uuid::uuid4()),
             $request->email(),
@@ -44,13 +42,19 @@ class RegisterUserUseCase
             $request->password()
         );
 
-        $user = $this->usersRepository->save($user);
-
-        return new RegisterUserResponse(
-            StatusCode::STATUS_SUCCESS,
-            $user
-        );
+        if ($this->usersRepository->save($user)) {
+            return new RegisterUserResponse(
+                StatusCode::STATUS_SUCCESS,
+                $user
+            );
+        } else {
+            return new RegisterUserResponse(
+                StatusCode::STATUS_ERROR,
+                null
+            );
+        }
     }
+
 
     /**
      * @param $email
@@ -73,6 +77,7 @@ class RegisterUserUseCase
     private function checkUserDoesNotExist($email)
     {
         $user = $this->usersRepository->findByEmail($email);
+        
         if ($user) {
             throw new UserAlreadyExistsException('User already exists');
         }
@@ -120,13 +125,12 @@ class RegisterUserUseCase
     }
 
     /**
-     * @param RegisterUserRequest $registerUserRequest
+     * @param RegisterUserRequest $request
      */
-    private function checkInputDataIsValid(RegisterUserRequest $registerUserRequest)
+    private function checkInputDataIsValid(RegisterUserRequest $request)
     {
-        $this->checkEmailIsValid($registerUserRequest->email());
-        $this->checkUsernameIsValid($registerUserRequest->username());
-        $this->checkPasswordIsValid($registerUserRequest->password());
-        $this->checkUserDoesNotExist($registerUserRequest->email());
+        $this->checkEmailIsValid($request->email());
+        $this->checkUsernameIsValid($request->username());
+        $this->checkPasswordIsValid($request->password());
     }
 }
