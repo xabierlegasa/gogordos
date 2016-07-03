@@ -1,6 +1,11 @@
 - name: GOGORDOS | Install Composer dependencies
   composer: command=install working_dir={{ ansistrano_release_path.stdout }}
 
+- name: GOGORDOS | Copy config file for correct environment
+  command: cp 
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
 - name: GOGORDOS | Run migrations
   command: ./vendor/bin/ruckus.php db:migrate
   args:
