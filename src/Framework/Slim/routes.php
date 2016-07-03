@@ -27,12 +27,14 @@ $app->get('/SignUp', function ($request, $response, $args) {
     return $this->view->render($response, 'default/signUp.html.twig', []);
 })->setName('signUp');
 
+
 $app->post('/SignUp', function ($request, ResponseInterface $response, $args) {
     $usersController = new UsersController($this->get('RegisterUserUseCase'));
     $data = $usersController->register($request);
 
-    $response = $response->withHeader('Content-Type', 'application/json');
-    $response = $response->withJson($data, 200);
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($data, 200);
 
     return $response;
 })->setName('signUp');
