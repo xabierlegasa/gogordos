@@ -29,7 +29,7 @@ class UsersController
     {
         $email = $request->getParam('email');
         $username = $request->getParam('username');
-        $password = $request->getParam('password');
+        $password = password_hash($request->getParam('password'), PASSWORD_DEFAULT);
 
         try {
             $registerUserRequest = new RegisterUserRequest($email, $username, $password);
