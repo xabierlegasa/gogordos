@@ -5,30 +5,22 @@ use Psr\Http\Message\ResponseInterface;
 
 // Routes
 
-//$app->get('/[{name}]', function ($request, $response, $args) {
-//    // Sample log message
-//    $this->logger->info("Slim-Skeleton '/' route");
-//
-//    // Render index view
-//    return $this->renderer->render($response, 'index.phtml', $args);
-//});
-
-
 $app->get('/', function ($request, $response, $args) {
     // Sample log message
     $this->logger->info("Slim-Skeleton '/' route");
 
-    return $this->view->render($response, 'default/welcome.html.twig', [
-        'foo' => 'bar'
+    return $this->renderer->render($response, 'index.html', [
+        "router" => $this->router
     ]);
-});
-
-$app->get('/SignUp', function ($request, $response, $args) {
-    return $this->view->render($response, 'default/signUp.html.twig', []);
-})->setName('signUp');
+})->setName("home");;
 
 
-$app->post('/SignUp', function ($request, ResponseInterface $response, $args) {
+//$app->get('/SignUp', function ($request, $response, $args) {
+//    return $this->renderer->render($response, 'signup.phtml', ["router" => $this->router]);
+//})->setName('signUp');
+
+
+$app->post('/api/users', function ($request, ResponseInterface $response, $args) {
     $usersController = new UsersController($this->get('RegisterUserUseCase'));
     $data = $usersController->register($request);
 
@@ -38,12 +30,3 @@ $app->post('/SignUp', function ($request, ResponseInterface $response, $args) {
 
     return $response;
 })->setName('signUp');
-
-
-
-$app->post('/api/users', function ($request, $response, $args) {
-
-
-});
-
-

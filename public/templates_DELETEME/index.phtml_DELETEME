@@ -1,0 +1,14 @@
+<?php include_once __DIR__ . '/base_header.phtml'; ?>
+
+
+
+
+    Index page is here
+
+
+
+
+
+
+
+<?php include_once __DIR__ . '/base_footer.phtml'; ?>

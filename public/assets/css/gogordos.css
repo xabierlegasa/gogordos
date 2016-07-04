@@ -5,3 +5,7 @@
 .hidde-element {
     visibility: hidden;
 }
+
+.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}

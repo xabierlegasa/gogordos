@@ -1,0 +1,71 @@
+<?php include_once __DIR__ . '/base_header.phtml'; ?>
+
+    <div ng-view></div>
+
+
+
+    <div class="container" ng-controller="SignUpController as signUpCtrl">
+        <div class="row">
+            <div class="col-md-6">
+
+
+                <form name="signUpForm"
+                      ng-submit="signUpForm.$valid && signUpCtrl.register()"
+                      novalidate>
+<!--                      action="--><?//= $router->pathFor('signUp', []) ?><!--"-->
+<!--                      method="POST"-->
+
+                    <!--  Live Preview -->
+                    <blockquote>
+                        <strong>Tu perfil gogordo será: </strong>
+                        <div><span style="color:rgba(128, 128, 128, 0.74)">gogordos.com/</span>{{signUpCtrl.user.username}}</div>
+                    </blockquote>
+
+                    <div>
+                        <label for="username"
+                               class="required">Nombre de usuario de twitter</label>
+                        <input
+                            ng-model="signUpCtrl.user.username"
+                            required
+                            type="text"
+                            name="username"
+                            required="required"
+                            maxlength="255"
+                            pattern=".{2,}"
+                            class="form-control">
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div>
+                        <label for="email" class="required">Email</label>
+                        <input
+                            ng-model="signUpCtrl.user.email"
+                            required
+                            type="email"
+                            name="email"
+                            required="required"
+                            class="form-control">
+                    </div>
+                    <div>
+                        <label for="password" class="required">Contraseña</label>
+                        <input
+                            ng-model="signUpCtrl.user.password"
+                            required
+                            type="password"
+                            name="password"
+                            required="required"
+                            class="form-control"></div>
+                    <br>
+                    <div>
+                        <input type="submit" class="btn btn-default" value="Register">
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+<?php include_once __DIR__ . '/base_footer.phtml'; ?>
