@@ -19,3 +19,8 @@
     background-color: #f5f5f5;
 }
 /* Sticky Footer. End.*/
+
+.right {
+    position: absolute;
+    right: 10px;
+}

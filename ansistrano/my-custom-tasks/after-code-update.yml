@@ -1,11 +1,14 @@
 - name: Gogordos | Install Composer dependencies
   composer: command=install working_dir={{ ansistrano_release_path.stdout }}
 
-- name: Gogordos | Create slim log folder
+- name: Gogordos | Create log folder for slim
   file: path="{{ ansistrano_release_path.stdout }}/logs/slim" state=directory mode=0777
 
-- name: Gogordos | Create ruckusing migrations log folder
+- name: Gogordos | Create lof folder for ruckusing migrations
   file: path="{{ ansistrano_release_path.stdout }}/logs/ruckusing-migrations" state=directory mode=0777
+
+- name: Gogordos | Create file with current version
+  copy: dest="{{ ansistrano_release_path.stdout }}/ansistrano/current_version.txt" owner=www-data group=www-data mode=0644 content="{{ ansistrano_release_path.stdout }}"
 
 - name: Gogordos | Copy config file with correct environment credentials
   command: cp ../../shared/config_env.php src/Framework/Slim/

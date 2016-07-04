@@ -1,16 +1,19 @@
 <?php
 
 use Gogordos\Application\Controllers\UsersController;
+use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
 
 // Routes
 
 $app->get('/', function ($request, $response, $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
 
-    return $this->renderer->render($response, 'index.html', [
-        "router" => $this->router
+    /** @var CurrentVersion $currentVersion */
+    $currentVersion = $this->CurrentVersion;
+
+    return $this->renderer->render($response, 'index.phtml', [
+        "router" => $this->router,
+        "version" => $currentVersion->get()
     ]);
 })->setName("home");;
 
