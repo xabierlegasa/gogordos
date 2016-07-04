@@ -1,2 +1,2 @@
-- name: Restart Nginx
+- name: Gogordos | Reload Nginx
   service: name=nginx state=reloaded
