@@ -1,0 +1,16 @@
+
+list.html cod here
+
+
+<pre>{{placeList}}</pre>
+
+<div class="row padded">
+    <div class="list-group col-xd-3">
+        <a class="list-group-item"
+           ng-repeat="item in placeList"
+           ng-href="#/home/{{ item.name }}"
+           ng-click="selectItem(item)">{{item.name}}</a>
+    </div>
+
+    <div ui-view class="col-xd-9"></div>
+</div>

@@ -14,72 +14,52 @@
 
 
 angular.module('myapp', [
-    'ui.router'
+    'ui.router',
+    'myapp.signUp'
 ])
-    
-    .config(function($stateProvider, $urlRouterProvider){
 
-    // For any unmatched url, send to /state1
-    $urlRouterProvider.otherwise("/state1")
+    .config(function ($stateProvider, $urlRouterProvider) {
+        //
+        // // For any unmatched url, send to /state1
+        // $urlRouterProvider.otherwise("/state1")
 
-    $stateProvider
-        .state('state1', {
-            url: "/state1",
-            templateUrl: "state1.html"
-        })
-        .state('state1.list', {
-            url: "/list",
-            templateUrl: "state1.list.html",
-            controller: function($scope){
-                $scope.items = ["A", "List", "Of", "Items"];
-            }
-        })
-
-        .state('state2', {
-            url: "/state2",
-            templateUrl: "state2.html"
-        })
-        .state('state2.list', {
-            url: "/list",
-            templateUrl: "state2.list.html",
-            controller: function($scope){
-                $scope.things = ["A", "Set", "Of", "Things"];
-            }
-        })
-})
+        $stateProvider
+            .state('home', {
+                url: '/home',
+                templateUrl: 'templates/places/list.html',
+                controller: 'ListController',
+                controllerAs: 'listCtrl'
+            })
+            .state('signup', {
+                url: '/signup',
+                templateUrl: 'templates/users/signUp.html',
+                controller: 'SignUpController',
+                controllerAs: 'signUpCtrl'
+            })
+            .state('home.item', {
+                url: '/:item',
+                templateUrl: 'templates/places/list.item.html',
+                controller: 'ItemController',
+            })
+        ;
+    })
 
 
-// // Declare app level module which depends on views, and components
-// angular.module('myApp', [
-//     'ui.router'
-// ])
-//
-// .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-//
-//     // For any unmatched url, redirect to /state1
-//     $urlRouterProvider.otherwise("/state2");
-//
-//     $stateProvider
-//         .state('/state1', {
-//             url: "/state1",
-//             templateUrl: "angular/state1/state1.html"
-//         })
-//         .state('state1.list', {
-//            url: "/list",
-//             templateUrl: "angular/state1/state1.list.html",
-//             controller: function($scope) {
-//                 $scope.items = ["A", "List", "Of", "Items"]
-//             }
-//         })
-//         .state('/state2', {
-//             url: "/state2",
-//             templateUrl: "angular/state2/state2.html"
-//         })
-//         .state('state2.list', {
-//             url: "/list",
-//             templateUrl: "angular/state2/state2.list.html",
-//             controller: function($scope) {
-//                 $scope.items = ["A", "Set", "Of", "Things"]
-//             }
-//         });
-// }]);
+    .controller('ListController', ['$scope', function ($scope) {
+        $scope.placeList = [
+            {name: 'Chino chino', city: 'Barcelona'},
+            {name: 'Vega', city: 'Madrid'}
+        ];
+
+        $scope.selectItem = function(item){
+          console.log('item clicked: ' + item.name);
+        };
+    }])
+
+    .controller('ItemController', ['$scope', '$stateParams', function ($scope, $stateParams) {
+        console.log('Go get this item from the server: ' + $stateParams.item);
+        $scope.item = $stateParams.item;
+    }])
+
+    ;
+;

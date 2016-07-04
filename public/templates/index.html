@@ -6,7 +6,6 @@
     <title>Gogordos.com Recomendación de restaurantes entre amigos. Restaurantes recomendados.</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
 
     <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap-theme.min.css">
@@ -37,6 +36,7 @@
     <script type="text/javascript" src="/assets/vendor/angular/angular-ui-router.min.js"></script>
 
     <script type="text/javascript" src="/angular/app.js"></script>
+    <script type="text/javascript" src="/angular/sign_up/sign_up_controller.js"></script>
     <!--<script type="text/javascript" src="/angular/view1/view1.js"></script>-->
     <!--<script type="text/javascript" src="/angular/signUp/signUp.js"></script>-->
 </head>
@@ -51,12 +51,14 @@
             <div class="header clearfix">
                 <nav>
                     <ul class="nav nav-pills pull-right">
-                        <li role="presentation" class="active"><a href="#!/SignUp">Regístrate</a>
+                        <!--<li role="presentation" class="active"><a href="#/signup">Regístrate</a>-->
+                        <!--<li role="presentation" class="active"><a ng-click="$state.go('signup', {})" href="javascript: void(0);">Regístrate</a>-->
+                        <li role="presentation" class="active"><a ui-sref="signup({})">Regístrate</a>
                         </li>
                         <li role="presentation"><a href="">Iniciar sesión</a></li>
                     </ul>
                 </nav>
-                <h3 class="text-muted"><a href="/#!/">Gogordos</a> <span class="beta">Beta</span></h3>
+                <h3 class="text-muted"><a href="#/home">Gogordos</a> <span class="beta">Beta</span></h3>
             </div>
 
             <br>
@@ -64,21 +66,25 @@
         </div>
     </div>
 
-    <div class="navbar">
-        <div class="navbar-inner">
-            <a class="brand" href="#">Quick Start</a>
-            <ul class="nav">
-                <li><a ui-sref="state1">Route 1</a></li>
-                <li><a ui-sref="state2">Route 2</a></li>
-            </ul>
-        </div>
-    </div>
+    (index page stuff)
+    <br>
+    <br>
 
-    <div class="row">
-        <div class="span12">
-            <div class="well" ui-view></div>
-        </div>
-    </div>
+    <div ui-view></div>
+
+
+
+
+    <!--<div class="navbar">-->
+        <!--<div class="navbar-inner">-->
+            <!--<a class="brand" href="#">Quick Start</a>-->
+            <!--<ul class="nav">-->
+                <!--<li><a ui-sref="state1">Route 1</a></li>-->
+                 <!--<li><a ui-sref="state2">Route 2</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+
 
     <footer class="footer">
         <p></p>
