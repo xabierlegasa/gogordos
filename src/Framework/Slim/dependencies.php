@@ -30,26 +30,6 @@ $container['renderer'] = function ($c) {
     return new Slim\Views\PhpRenderer($settings['template_path']);
 };
 
-
-//// Register slim/php-view component on container
-//$container['view'] = function ($c) {
-//    return new \Slim\Views\PhpRenderer('../templates/');
-//};
-
-//// twig
-//$container['view'] = function ($container) {
-//    $view = new \Slim\Views\Twig('../templates', [
-//        //'cache' => '../templates/cache'
-//        'cache' => false
-//    ]);
-//    $view->addExtension(new \Slim\Views\TwigExtension(
-//        $container['router'],
-//        $container['request']->getUri()
-//    ));
-//
-//    return $view;
-//};
-
 $container['UsersRepository'] = function ($c) {
     /** @var Config $config */
     $config = $c->get('settings')['config'];
