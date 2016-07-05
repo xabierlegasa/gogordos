@@ -3,6 +3,7 @@
 
 use Gogordos\Application\Controllers\UsersController;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
+use Gogordos\Domain\Services\Authenticator;
 use Gogordos\Framework\Config\CurrentVersion;
 use Gogordos\Framework\Repositories\UsersRepositoryMysql;
 use Gogordos\Framework\Slim\Config;
@@ -38,6 +39,12 @@ $container['renderer'] = function ($c) {
     return new Slim\Views\PhpRenderer($settings['template_path']);
 };
 
+$container['Authentication'] = function ($c) {
+    return new Authenticator(
+        new \Lcobucci\JWT\Builder()
+    );
+};
+
 $container['UsersRepository'] = function ($c) {
     return new UsersRepositoryMysql(
         $c->get('Config')
@@ -46,7 +53,8 @@ $container['UsersRepository'] = function ($c) {
 
 $container['RegisterUserUseCase'] = function ($c) {
     return new RegisterUserUseCase(
-        $c->get('UsersRepository')
+        $c->get('UsersRepository'),
+        $c->get('Authentication')
     );
 };
 

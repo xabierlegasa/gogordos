@@ -8,6 +8,7 @@ use Gogordos\Application\StatusCode;
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
+use Gogordos\Domain\Services\Authenticator;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Validator;
 
@@ -20,10 +21,16 @@ class RegisterUserUseCase
 
     /** @var  UsersRepository */
     private $usersRepository;
+    
+    /**
+     * @var Authenticator
+     */
+    private $authenticator;
 
-    public function __construct(UsersRepository $usersRepository)
+    public function __construct(UsersRepository $usersRepository, Authenticator $authenticator)
     {
         $this->usersRepository = $usersRepository;
+        $this->authenticator = $authenticator;
     }
 
     /**
@@ -43,20 +50,24 @@ class RegisterUserUseCase
             $request->password()
         );
 
-        if ($this->usersRepository->save($user)) {
-            return new RegisterUserResponse(
-                StatusCode::STATUS_SUCCESS,
-                $user
-            );
-        } else {
+
+
+        if (!$this->usersRepository->save($user)) {
             return new RegisterUserResponse(
                 StatusCode::STATUS_ERROR,
                 null
             );
         }
+
+        $jwt = $this->authenticator->createJWTForUser($user);
+        
+        return new RegisterUserResponse(
+            StatusCode::STATUS_SUCCESS,
+            $user,
+            $jwt
+        );
     }
-
-
+    
     /**
      * @param $email
      * @throws \InvalidArgumentException

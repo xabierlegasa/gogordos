@@ -41,5 +41,9 @@ class UserId {
     {
         return $this->value->toString();
     }
-
+    
+    public function value()
+    {
+        return $this->value->toString();
+    }
 }

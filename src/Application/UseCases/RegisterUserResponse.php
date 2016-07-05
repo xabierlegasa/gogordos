@@ -19,15 +19,20 @@ class RegisterUserResponse
     /** @var User */
     private $user;
 
+    /** @var string */
+    private $jwt;
+
     /**
      * RegisterUserResponse constructor.
      * @param $code
      * @param User $user
+     * @param string $jwt
      */
-    public function __construct($code, User $user = null)
+    public function __construct($code, User $user = null, $jwt = null)
     {
         $this->code = $code;
         $this->user = $user;
+        $this->jwt = $jwt;
     }
     
     public function code()
@@ -41,5 +46,10 @@ class RegisterUserResponse
     public function user()
     {
         return $this->user;
+    }
+
+    public function jwt()
+    {
+        return $this->jwt;
     }
 }

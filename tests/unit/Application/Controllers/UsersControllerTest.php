@@ -7,8 +7,11 @@ use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
+use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Ramsey\Uuid\Uuid;
 use Slim\Http\Request;
 
 class UsersControllerTest extends TestCase
@@ -34,14 +37,22 @@ class UsersControllerTest extends TestCase
         $requestMock->getParam("username")->shouldBeCalled()->willReturn('xabierlegasa');
         $requestMock->getParam('email')->shouldBeCalled()->willReturn('xabierlegasa@gmail.com');
         $requestMock->getParam('password')->shouldBeCalled()->willReturn('1111');
+        $userMock = $this->prophesize(User::class);
 
         $this->registerUserUseCase->execute(Argument::any())
             ->shouldBeCalled()
-            ->willReturn(new RegisterUserResponse(StatusCode::STATUS_SUCCESS, null));
+            ->willReturn(
+                new RegisterUserResponse(
+                    StatusCode::STATUS_SUCCESS,
+                    $userMock->reveal(),
+                    'headerB64.payloadB64.signatureB64'
+                )
+            );
 
-        $json = $this->sut->register($requestMock->reveal());
-
-        $this->assertEquals(['status' => StatusCode::STATUS_SUCCESS], $json);
+        $data = $this->sut->register($requestMock->reveal());
+        
+        $this->assertEquals(StatusCode::STATUS_SUCCESS, $data['status']);
+        $this->assertEquals('headerB64.payloadB64.signatureB64', $data['jwt']);
     }
 
     public function test_when_user_whith_provided_email_already_exists_should_return_correct_error_response()

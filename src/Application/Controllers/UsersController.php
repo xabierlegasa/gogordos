@@ -48,8 +48,11 @@ class UsersController
             ];
         }
 
-        $data = ['status' => $response->code()];
-
+        $data = [
+            'status' => $response->code(),
+            'jwt' => $response->jwt()
+        ];
+        
         return $data;
     }
 }

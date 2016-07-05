@@ -9,6 +9,7 @@ use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
+use Gogordos\Domain\Services\Authenticator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
@@ -21,12 +22,17 @@ class RegisterUserUseCaseTest extends TestCase
     /** @var UsersRepository */
     private $usersRepository;
 
+    /** @var Authenticator */
+    private $authenticator;
+
     protected function setUp()
     {
         $this->usersRepository = $this->prophesize(UsersRepository::class);
+        $this->authenticator = $this->prophesize(Authenticator::class);
 
         $this->sut = new RegisterUserUseCase(
-            $this->usersRepository->reveal()
+            $this->usersRepository->reveal(),
+            $this->authenticator->reveal()
         );
     }
 
@@ -82,12 +88,17 @@ class RegisterUserUseCaseTest extends TestCase
         $username = 'username';
         $email = 'hello@example.com';
         $password = 'password';
+        $jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJhZG1pbiI6dHJ1ZX0.OLvs36KmqB9cmsUrMpUutfhV52_iSz4bQMYJjkI_TLQ';
 
         $this->usersRepository->findByEmailOrUsername($email, $username)
             ->shouldBeCalled()
             ->willReturn(null);
 
         $user = User::register(new UserId(Uuid::uuid4()), $email, $username, $password);
+
+        $this->authenticator->createJWTForUser(Argument::type(User::class))
+            ->shouldBeCalled()
+            ->willReturn($jwt);
 
         $this->usersRepository->save(Argument::type(User::class))
             ->shouldBeCalled()
@@ -97,5 +108,6 @@ class RegisterUserUseCaseTest extends TestCase
         $response = $this->sut->execute(new RegisterUserRequest($email, $username, $password));
 
         $this->assertEquals('success', $response->code());
+        $this->assertEquals($jwt, $response->jwt());
     }
 }
