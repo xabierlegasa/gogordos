@@ -45,21 +45,62 @@ angular.module('myapp', [
     })
 
 
-    .controller('ListController', ['$scope', function ($scope) {
-        $scope.placeList = [
-            {name: 'Chino chino', city: 'Barcelona'},
-            {name: 'Vega', city: 'Madrid'}
-        ];
+    .controller('ListController',
+        [
+            '$scope',
+            '$http',
+            '$localStorage',
+            '$sessionStorage',
+            function ($scope, $http, $localStorage, $sessionStorage) {
+                console.log();
+                var jwt = $localStorage.jwt;
+                if (typeof jwt == "undefined") {
+                    // TODO redirect to login page now!
+                    console.log('no jwt. Go to login view');
+                } else {
+                    console.log('get user from jwt');
+                    // Check with the jwt logged in data
+                    $http({
+                        method: 'GET',
+                        url: '/api/auth/user',
+                        data: jwt,
+                    }).success(function (data) {
 
-        $scope.selectItem = function(item){
-          console.log('item clicked: ' + item.name);
-        };
-    }])
+                        console.log('answer from auth:');
+                        console.log(data);
+
+                        // controller.response = data;
+                        //
+                        // if (data.status == 'success') {
+                        //     console.log(data.jwt);
+                        //     console.log('now go home');
+                        //     $localStorage.jwt = data.jwt;
+                        //
+                        //     $state.go('home');
+                        // } else {
+                        //     console.log('data status is not success. Show the erro.r message');
+                        // }
+                    }).catch(function (user) {
+                        console.log('yuuuups error');
+                        controller.errors = user.data.error;
+                    });
+                }
+
+                $scope.placeList = [
+                    {name: 'Chino chino', city: 'Barcelona'},
+                    {name: 'Vega', city: 'Madrid'}
+                ];
+
+                $scope.selectItem = function (item) {
+                    console.log('item clicked: ' + item.name);
+                };
+            }])
 
     .controller('ItemController', ['$scope', '$stateParams', function ($scope, $stateParams) {
         console.log('Go get this item from the server: ' + $stateParams.item);
         $scope.item = $stateParams.item;
     }])
 
-    ;
+
+;
 ;

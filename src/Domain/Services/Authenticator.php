@@ -5,7 +5,9 @@ namespace Gogordos\Domain\Services;
 
 use Gogordos\Domain\Entities\User;
 use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Parser;
 use Ramsey\Uuid\Uuid;
+use Lcobucci\JWT\Configuration;
 
 class Authenticator
 {
@@ -30,7 +32,7 @@ class Authenticator
      * @param User $user
      * @return string
      */
-    public function createJWTForUser(User $user)
+    public function createJWTFromUser(User $user)
     {
         $jwtIdJson = $this->buildJwtId($user);
 
@@ -67,4 +69,18 @@ class Authenticator
         return $jwtIdJson;
     }
 
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function isValidJwtToken($token)
+    {
+        $token = (new Parser())->parse((string) $token); // Parses from a string
+        $token->getHeaders(); // Retrieves the token header
+        $token->getClaims(); // Retrieves the token claims
+
+
+
+        return false;
+    }
 }

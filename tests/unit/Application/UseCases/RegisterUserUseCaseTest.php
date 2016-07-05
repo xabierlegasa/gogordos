@@ -96,7 +96,7 @@ class RegisterUserUseCaseTest extends TestCase
 
         $user = User::register(new UserId(Uuid::uuid4()), $email, $username, $password);
 
-        $this->authenticator->createJWTForUser(Argument::type(User::class))
+        $this->authenticator->createJWTFromUser(Argument::type(User::class))
             ->shouldBeCalled()
             ->willReturn($jwt);
 
