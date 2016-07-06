@@ -36,6 +36,7 @@
 
     <script type="text/javascript" src="/angular/app.js"></script>
     <script type="text/javascript" src="/angular/sign_up/sign_up_controller.js"></script>
+    <script type="text/javascript" src="/angular/sign_up/account_box_controller.js"></script>
 </head>
 <body>
 
@@ -45,10 +46,16 @@
     <div class="row">
         <div class="col-md-9 ">
 
-            <div class="header clearfix">
-                <nav>
-                    
-                    <div ui-view="accountBox"></div>
+            <div ng-controller="AccountBoxController" class="header clearfix">
+                <nav style="margin-top: 11px;">
+                    <ul ng-if="loggedIn == true" class="nav nav-pills pull-right">
+                        <li role="presentation"><a href="">{{ account.username }}</a></li>
+                    </ul>
+
+                    <ul ng-if="loggedIn == false" class="nav nav-pills pull-right">
+                        <li role="presentation" class="active"><a ui-sref="signup({})">Regístrate</a></li>
+                        <li role="presentation"><a href="">Iniciar sesión</a></li>
+                    </ul>
                     
                 </nav>
                 <h3 class="text-muted"><a href="#/home">Gogordos</a> <span class="beta">Beta</span></h3>

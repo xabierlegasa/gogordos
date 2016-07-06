@@ -8,8 +8,9 @@ angular.module('myapp.signUp', [
             '$http',
             '$state',
             '$scope',
+            '$rootScope',
             '$localStorage',
-            function ($http, $state, $scope, $localStorage) {
+            function ($http, $state, $scope, $rootScope, $localStorage) {
 
                 var controller = this;
                 this.user = {};
@@ -25,10 +26,8 @@ angular.module('myapp.signUp', [
                         controller.response = data;
 
                         if (data.status == 'success') {
-                            console.log(data.jwt);
-                            console.log('now go home');
                             $localStorage.jwt = data.jwt;
-
+                            $rootScope.$broadcast('user-registered', {user: user});
                             $state.go('home');
                         } else {
                             console.log('data status is not success. Show the erro.r message');

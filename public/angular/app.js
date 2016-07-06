@@ -2,14 +2,11 @@
 
 angular.module('myapp', [
     'ui.router',
-    'myapp.signUp'
+    'myapp.signUp',
+    'myapp.accountBox'
 ])
 
-    .config(function ($stateProvider, $urlRouterProvider) {
-        //
-        // // For any unmatched url, send to /state1
-        // $urlRouterProvider.otherwise("/state1")
-
+    .config(function ($stateProvider) {
         $stateProvider
             .state('home', {
                 views: {
@@ -18,12 +15,6 @@ angular.module('myapp', [
                         templateUrl: 'templates/places/list.html',
                         controller: 'ListController',
                         controllerAs: 'listCtrl'
-                    },
-                    'accountBox': {
-                        url: '/home',
-                        templateUrl: 'templates/users/accountBox.html',
-                        controller: 'AccountBoxController',
-                        controllerAs: 'accountBoxCtrl'
                     }
                 }
             })
@@ -34,12 +25,6 @@ angular.module('myapp', [
                         templateUrl: 'templates/users/signUp.html',
                         controller: 'SignUpController',
                         controllerAs: 'signUpCtrl'
-                    },
-                    'accountBox': {
-                        url: '/signup',
-                        templateUrl: 'templates/users/accountBox.html',
-                        controller: 'AccountBoxController',
-                        controllerAs: 'accountBoxCtrl'
                     }
                 }
             })
@@ -51,40 +36,7 @@ angular.module('myapp', [
         ;
     })
 
-    .controller('AccountBoxController',
-        [
-            '$scope',
-            '$http',
-            '$localStorage',
-            function ($scope, $http, $localStorage) {
-                var jwt = $localStorage.jwt;
-                $scope.loggedIn = false;
-                
-                if (typeof jwt == "undefined") {
-                    // keep default view with register+login buttons
-                    console.log('no jwt param');
-                } else {
-                    console.log('jwt: ' + jwt);
-                    // Check with the jwt logged in data
-                    $http({
-                        method: 'GET',
-                        url: '/api/auth',
-                        params: {jwt: jwt}
-                    }).success(function (data) {
-
-                        console.log('answer from auth:');
-                        console.log(data.user.username);
-                        $scope.loggedIn = true;
-
-                    }).catch(function (user) {
-                        console.log('yuuuups error');
-                        controller.errors = user.data.error;
-                    });
-                }
-            }
-        ]
-    )
-
+// TODO, move all this to its own file, so we only have routes here
     .controller('ListController',
         [
             '$scope',
@@ -94,7 +46,6 @@ angular.module('myapp', [
             function ($scope, $http, $localStorage, $sessionStorage) {
                 $scope.foo = 'bar';
 
-                
 
                 $scope.placeList = [
                     {name: 'Chino chino', city: 'Barcelona'},
