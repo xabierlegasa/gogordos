@@ -11,7 +11,7 @@ use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Slim\Http\Request;
 
-class UsersController
+class RegisterController
 {
     /** @var RegisterUserUseCase */
     private $registerUserUseCase;

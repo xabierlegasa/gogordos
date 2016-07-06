@@ -1,7 +1,9 @@
 <?php
 // DIC configuration
 
-use Gogordos\Application\Controllers\UsersController;
+use Gogordos\Application\Controllers\AuthenticationController;
+use Gogordos\Application\Controllers\RegisterController;
+use Gogordos\Application\UseCases\AuthenticateUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Services\Authenticator;
 use Gogordos\Framework\Config\CurrentVersion;
@@ -39,12 +41,6 @@ $container['renderer'] = function ($c) {
     return new Slim\Views\PhpRenderer($settings['template_path']);
 };
 
-$container['Authentication'] = function ($c) {
-    return new Authenticator(
-        new \Lcobucci\JWT\Builder()
-    );
-};
-
 $container['UsersRepository'] = function ($c) {
     return new UsersRepositoryMysql(
         $c->get('Config')
@@ -54,12 +50,12 @@ $container['UsersRepository'] = function ($c) {
 $container['RegisterUserUseCase'] = function ($c) {
     return new RegisterUserUseCase(
         $c->get('UsersRepository'),
-        $c->get('Authentication')
+        $c->get('Authenticator')
     );
 };
 
-$container['UsersController'] = function ($c) {
-    return new UsersController(
+$container['RegisterController'] = function ($c) {
+    return new RegisterController(
         $c->get('RegisterUserUseCase')
     );
 };
@@ -70,5 +66,25 @@ $container['CurrentVersion'] = function ($c) {
         $c->get('logger')
     );
 };
+
+$container['Authenticator'] = function ($c) {
+    return new Authenticator(
+        new \Lcobucci\JWT\Builder()
+    );
+};
+
+$container['AuthenticateUseCase'] = function ($c) {
+    return new AuthenticateUseCase(
+        $c->get('Authenticator')
+    );
+};
+
+$container['AuthenticationController'] = function ($c) {
+    return new AuthenticationController(
+        $c->get('AuthenticateUseCase')
+    );
+};
+
+
 
 

@@ -52,22 +52,27 @@ angular.module('myapp', [
             '$localStorage',
             '$sessionStorage',
             function ($scope, $http, $localStorage, $sessionStorage) {
-                console.log();
+                $scope.foo = 'bar';
+
                 var jwt = $localStorage.jwt;
                 if (typeof jwt == "undefined") {
-                    // TODO redirect to login page now!
-                    console.log('no jwt. Go to login view');
+                    // keep default view with register+login buttons
+                    console.log('no jwt param');
                 } else {
-                    console.log('get user from jwt');
+                    console.log('get user from jwt. JWT: ');
+                    console.log(jwt);
                     // Check with the jwt logged in data
+                    var that = $scope;
                     $http({
                         method: 'GET',
-                        url: '/api/auth/user',
-                        data: jwt,
+                        url: '/api/auth',
+                        params: {jwt: jwt}
                     }).success(function (data) {
 
                         console.log('answer from auth:');
-                        console.log(data);
+                        console.log(data.user.username);
+                        that.loggedId = true;
+
 
                         // controller.response = data;
                         //

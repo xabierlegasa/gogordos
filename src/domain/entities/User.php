@@ -108,4 +108,9 @@ class User
     {
         $this->password = $password;
     }
+    
+    public function isAdmin()
+    {
+        return false;
+    }
 }

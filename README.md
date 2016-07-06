@@ -40,6 +40,10 @@ ansible-playbook -i ./ansistrano/hosts_prod -e "ansistrano_release_version=`date
 ```
 
 
+## Run the server
+
+
+php -S localhost:8080 -t public/
 
 
 

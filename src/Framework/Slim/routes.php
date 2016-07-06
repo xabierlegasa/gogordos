@@ -1,6 +1,7 @@
 <?php
 
-use Gogordos\Application\Controllers\UsersController;
+use Gogordos\Application\Controllers\AuthenticationController;
+use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,15 +18,9 @@ $app->get('/', function ($request, $response, $args) {
     ]);
 })->setName("home");;
 
-
-//$app->get('/SignUp', function ($request, $response, $args) {
-//    return $this->renderer->render($response, 'signup.phtml', ["router" => $this->router]);
-//})->setName('signUp');
-
-
 $app->post('/api/users', function ($request, ResponseInterface $response, $args) {
-    $usersController = new UsersController($this->get('RegisterUserUseCase'));
-    $data = $usersController->register($request);
+    $registerController = new RegisterController($this->get('RegisterUserUseCase'));
+    $data = $registerController->register($request);
 
     $response = $response
         ->withHeader('Content-Type', 'application/json')
@@ -33,3 +28,14 @@ $app->post('/api/users', function ($request, ResponseInterface $response, $args)
 
     return $response;
 })->setName('signUp');
+
+$app->get('/api/auth', function ($request, ResponseInterface $response, $args) {
+    $authenticationController = new AuthenticationController($this->get('AuthenticateUseCase'));
+    $data = $authenticationController->authenticate($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($data, 200);
+
+    return $response;
+})->setName('getUserFromJWT');

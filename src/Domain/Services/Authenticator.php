@@ -3,7 +3,9 @@
 namespace Gogordos\Domain\Services;
 
 
+use Gogordos\Domain\Entities\AuthUserData;
 use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Ramsey\Uuid\Uuid;
@@ -63,6 +65,7 @@ class Authenticator
     {
         $jtiClaim = [
             'id' => $user->id()->value(),
+            'username' => $user->username(),
             'is_admin' => 'false'
         ];
         $jwtIdJson = json_encode($jtiClaim);
@@ -71,16 +74,28 @@ class Authenticator
 
     /**
      * @param string $token
-     * @return bool
+     * @return AuthUserData
+     * @throws \Exception
      */
-    public function isValidJwtToken($token)
+    public function userFromToken($token)
     {
-        $token = (new Parser())->parse((string) $token); // Parses from a string
-        $token->getHeaders(); // Retrieves the token header
-        $token->getClaims(); // Retrieves the token claims
+        try {
+            $token = (new Parser())->parse((string) $token); // Parses from a string
+            $token->getHeaders(); // Retrieves the token header
+            $token->getClaims(); // Retrieves the token claims
 
+            $jti = json_decode($token->getHeader('jti'), true);
+            $userId = $jti['id'];
+            $username = $jti['username'];
 
+            $authUserData = new AuthUserData(new UserId(Uuid::fromString($userId)), $username);
 
+            return $authUserData;
+        } catch (\Exception $e) {
+            // TODO log the error
+            throw new \InvalidArgumentException('Error validating logged in user');
+        }
+        
         return false;
     }
 }
