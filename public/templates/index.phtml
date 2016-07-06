@@ -47,15 +47,9 @@
 
             <div class="header clearfix">
                 <nav>
-
-                    FOO<pre>{{foo}}</pre>
-                    <ul ng-if="loggedId" class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="">xabi</a></li>
-                    </ul>
-                    <ul ng-if="!loggedIn" class="nav nav-pills pull-right">
-                        <li role="presentation" class="active"><a ui-sref="signup({})">Regístrate</a></li>
-                        <li role="presentation"><a href="">Iniciar sesión</a></li>
-                    </ul>
+                    
+                    <div ui-view="accountBox"></div>
+                    
                 </nav>
                 <h3 class="text-muted"><a href="#/home">Gogordos</a> <span class="beta">Beta</span></h3>
             </div>
@@ -65,15 +59,7 @@
         </div>
     </div>
 
-
-    <label>Click me: <input type="checkbox" ng-model="checked" ng-init="checked=true" /></label><br/>
-    Show when checked:
-<span ng-if="checked" class="animate-if">
-  This is removed when the checkbox is unchecked.
-</span>
-
-
-    <div ui-view></div>
+    <div ui-view="main" ></div>
 
 </div> <!-- /container -->
 

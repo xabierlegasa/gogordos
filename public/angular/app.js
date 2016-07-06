@@ -1,17 +1,4 @@
 'use strict';
-//
-// // Declare app level module which depends on views, and components
-// angular.module('myApp', [
-//     'ngRoute',
-//     'myApp.view1',
-//     'myApp.signUp'
-// ]).
-// config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
-//     $locationProvider.hashPrefix('!');
-//
-//     $routeProvider.otherwise({redirectTo: '/'});
-// }]);
-
 
 angular.module('myapp', [
     'ui.router',
@@ -25,16 +12,36 @@ angular.module('myapp', [
 
         $stateProvider
             .state('home', {
-                url: '/home',
-                templateUrl: 'templates/places/list.html',
-                controller: 'ListController',
-                controllerAs: 'listCtrl'
+                views: {
+                    'main': {
+                        url: '/home',
+                        templateUrl: 'templates/places/list.html',
+                        controller: 'ListController',
+                        controllerAs: 'listCtrl'
+                    },
+                    'accountBox': {
+                        url: '/home',
+                        templateUrl: 'templates/users/accountBox.html',
+                        controller: 'AccountBoxController',
+                        controllerAs: 'accountBoxCtrl'
+                    }
+                }
             })
             .state('signup', {
-                url: '/signup',
-                templateUrl: 'templates/users/signUp.html',
-                controller: 'SignUpController',
-                controllerAs: 'signUpCtrl'
+                views: {
+                    'main': {
+                        url: '/signup',
+                        templateUrl: 'templates/users/signUp.html',
+                        controller: 'SignUpController',
+                        controllerAs: 'signUpCtrl'
+                    },
+                    'accountBox': {
+                        url: '/signup',
+                        templateUrl: 'templates/users/accountBox.html',
+                        controller: 'AccountBoxController',
+                        controllerAs: 'accountBoxCtrl'
+                    }
+                }
             })
             .state('home.item', {
                 url: '/:item',
@@ -44,6 +51,39 @@ angular.module('myapp', [
         ;
     })
 
+    .controller('AccountBoxController',
+        [
+            '$scope',
+            '$http',
+            '$localStorage',
+            function ($scope, $http, $localStorage) {
+                var jwt = $localStorage.jwt;
+                $scope.loggedIn = false;
+                
+                if (typeof jwt == "undefined") {
+                    // keep default view with register+login buttons
+                    console.log('no jwt param');
+                } else {
+                    console.log('jwt: ' + jwt);
+                    // Check with the jwt logged in data
+                    $http({
+                        method: 'GET',
+                        url: '/api/auth',
+                        params: {jwt: jwt}
+                    }).success(function (data) {
+
+                        console.log('answer from auth:');
+                        console.log(data.user.username);
+                        $scope.loggedIn = true;
+
+                    }).catch(function (user) {
+                        console.log('yuuuups error');
+                        controller.errors = user.data.error;
+                    });
+                }
+            }
+        ]
+    )
 
     .controller('ListController',
         [
@@ -54,42 +94,7 @@ angular.module('myapp', [
             function ($scope, $http, $localStorage, $sessionStorage) {
                 $scope.foo = 'bar';
 
-                var jwt = $localStorage.jwt;
-                if (typeof jwt == "undefined") {
-                    // keep default view with register+login buttons
-                    console.log('no jwt param');
-                } else {
-                    console.log('get user from jwt. JWT: ');
-                    console.log(jwt);
-                    // Check with the jwt logged in data
-                    var that = $scope;
-                    $http({
-                        method: 'GET',
-                        url: '/api/auth',
-                        params: {jwt: jwt}
-                    }).success(function (data) {
-
-                        console.log('answer from auth:');
-                        console.log(data.user.username);
-                        that.loggedId = true;
-
-
-                        // controller.response = data;
-                        //
-                        // if (data.status == 'success') {
-                        //     console.log(data.jwt);
-                        //     console.log('now go home');
-                        //     $localStorage.jwt = data.jwt;
-                        //
-                        //     $state.go('home');
-                        // } else {
-                        //     console.log('data status is not success. Show the erro.r message');
-                        // }
-                    }).catch(function (user) {
-                        console.log('yuuuups error');
-                        controller.errors = user.data.error;
-                    });
-                }
+                
 
                 $scope.placeList = [
                     {name: 'Chino chino', city: 'Barcelona'},
@@ -99,7 +104,10 @@ angular.module('myapp', [
                 $scope.selectItem = function (item) {
                     console.log('item clicked: ' + item.name);
                 };
-            }])
+            }
+        ]
+    )
+
 
     .controller('ItemController', ['$scope', '$stateParams', function ($scope, $stateParams) {
         console.log('Go get this item from the server: ' + $stateParams.item);

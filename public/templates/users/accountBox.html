@@ -1,0 +1,9 @@
+
+<ul ng-if="loggedIn == true" class="nav nav-pills pull-right">
+    <li role="presentation"><a href="">xabi</a></li>
+</ul>
+
+<ul ng-if="loggedIn == false" class="nav nav-pills pull-right">
+    <li role="presentation" class="active"><a ui-sref="signup({})">Regístrate</a></li>
+    <li role="presentation"><a href="">Iniciar sesión</a></li>
+</ul>
