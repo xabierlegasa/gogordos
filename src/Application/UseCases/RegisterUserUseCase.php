@@ -59,7 +59,7 @@ class RegisterUserUseCase
             );
         }
 
-        $jwt = $this->authenticator->createJWTFromUser($user);
+        $jwt = $this->authenticator->authTokenFromUser($user);
         
         return new RegisterUserResponse(
             StatusCode::STATUS_SUCCESS,

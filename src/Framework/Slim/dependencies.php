@@ -3,6 +3,7 @@
 
 use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\RegisterController;
+use Gogordos\Application\Services\JwtAuthenticator;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Services\Authenticator;
@@ -68,8 +69,9 @@ $container['CurrentVersion'] = function ($c) {
 };
 
 $container['Authenticator'] = function ($c) {
-    return new Authenticator(
-        new \Lcobucci\JWT\Builder()
+    return new JwtAuthenticator(
+        new \Lcobucci\JWT\Builder(),
+        $c->get('logger')
     );
 };
 

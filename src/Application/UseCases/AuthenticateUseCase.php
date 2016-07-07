@@ -35,7 +35,7 @@ class AuthenticateUseCase
         }
 
         /** @var AuthUserData $authUserData */
-        $authUserData = $this->authenticator->userFromToken($jwt);
+        $authUserData = $this->authenticator->authUserDataFromToken($jwt);
         
         $response = new AuthenticateResponse($authUserData);
         

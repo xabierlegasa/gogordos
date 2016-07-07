@@ -37,7 +37,7 @@ class AuthenticateUseCaseTest extends TestCase
     public function test_when_jwt_parameter_is_invalid_should_throw_an_exception()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->authenticator->userFromToken('invalid_jwt_parameter')
+        $this->authenticator->authUserDataFromToken('invalid_jwt_parameter')
             ->shouldBeCalled()
             ->willThrow(new \InvalidArgumentException('Error validating logged in user'));
 
