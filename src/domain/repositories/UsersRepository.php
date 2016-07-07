@@ -18,6 +18,12 @@ interface UsersRepository
      * @return User|null
      */
     public function findByEmailOrUsername($email, $username);
+
+    /**
+     * @param string $usernameOrEmail
+     * @return User|null
+     */
+    public function findByEmailOrUsernameSingleParameter($usernameOrEmail);
     
     /**
      * Insert a user in the DB. Returns true if successful, or false otherwise

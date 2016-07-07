@@ -29,12 +29,18 @@ angular.module('myapp.accountBox', [
                     }).catch(function (user) {
                         console.log('yuuuups error');
                     });
-                }
+                }   
 
-                $scope.$on('user-registered', function (event, args) {
-                    console.log('user-registered event listened');
+                $scope.$on('user-signed-up', function (event, args) {
+                    console.log('user-signed-up event listened');
                     $scope.loggedIn = true;
                     $scope.account.username = args.user.username;
+                });
+
+                $scope.$on('user-logged-in', function (event, args) {
+                    console.log('user-logged-in event listened');
+                    $scope.loggedIn = true;
+                    $scope.account.username = args.username;
                 });
 
             }

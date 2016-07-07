@@ -5,6 +5,7 @@ use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Services\JwtAuthenticator;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
+use Gogordos\Application\UseCases\Login\LoginUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Services\Authenticator;
 use Gogordos\Framework\Config\CurrentVersion;
@@ -81,12 +82,15 @@ $container['AuthenticateUseCase'] = function ($c) {
     );
 };
 
+
 $container['AuthenticationController'] = function ($c) {
     return new AuthenticationController(
         $c->get('AuthenticateUseCase')
     );
 };
 
-
-
-
+$container['LoginUseCase'] = function ($c) {
+    return new LoginUseCase(
+        $c->get('UsersRepository')
+    );
+};

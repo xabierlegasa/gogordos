@@ -1,6 +1,7 @@
 <?php
 
 use Gogordos\Application\Controllers\AuthenticationController;
+use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
@@ -39,3 +40,17 @@ $app->get('/api/auth', function ($request, ResponseInterface $response, $args) {
 
     return $response;
 })->setName('getUserFromJWT');
+
+$app->post('/api/login', function ($request, ResponseInterface $response, $args){
+    $loginController = new LoginController(
+        $this->get('LoginUseCase'),
+        $this->get('Authenticator')
+    );
+    $data = $loginController->login($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($data, 200);
+
+    return $response;
+});

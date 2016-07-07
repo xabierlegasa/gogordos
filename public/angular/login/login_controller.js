@@ -1,9 +1,11 @@
-angular.module('myapp.signUp', [
+
+
+angular.module('myapp.login', [
     'ui.router',
     'ngStorage'
 ])
 
-    .controller('SignUpController',
+    .controller('LoginController',
         [
             '$http',
             '$state',
@@ -13,24 +15,25 @@ angular.module('myapp.signUp', [
             function ($http, $state, $scope, $rootScope, $localStorage) {
 
                 var controller = this;
-                this.user = {};
+                this.credentials = {};
 
-                this.signUp = function (user) {
+                this.login = function (credentials) {
                     controller.errors = null;
 
                     $http({
                         method: 'POST',
-                        url: '/api/users',
-                        data: user,
+                        url: '/api/login',
+                        data: credentials,
                     }).success(function (data) {
                         controller.response = data;
 
                         if (data.status == 'success') {
                             $localStorage.jwt = data.jwt;
-                            $rootScope.$broadcast('user-signed-up', {user: user});
+                            $rootScope.$broadcast('user-logged-in', {username: data.username});
+
                             $state.go('home');
                         } else {
-                            console.log('data status is not success. Show the erro.r message');
+                            console.log('data status is not success. Show the error message');
                         }
                     }).catch(function (user) {
                         controller.errors = user.data.error;

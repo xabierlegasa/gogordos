@@ -3,7 +3,8 @@
 angular.module('myapp', [
     'ui.router',
     'myapp.signUp',
-    'myapp.accountBox'
+    'myapp.accountBox',
+    'myapp.login'
 ])
 
     .config(function ($stateProvider) {
@@ -33,10 +34,20 @@ angular.module('myapp', [
                 templateUrl: 'templates/places/list.item.html',
                 controller: 'ItemController',
             })
+            .state('login', {
+                views: {
+                    'main': {
+                        url: '/login',
+                        templateUrl: 'templates/users/login.html',
+                        controller: 'LoginController',
+                        controllerAs: 'loginCtrl'
+                    }
+                }
+            })
         ;
     })
 
-// TODO, move all this to its own file, so we only have routes here
+    // TODO, move all this to its own file, so we only have routes here
     .controller('ListController',
         [
             '$scope',

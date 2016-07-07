@@ -98,4 +98,32 @@ class UsersRepositoryMysql extends BaseRepository implements UsersRepository
             $row->password_hash
         );
     }
+
+    /**
+     * @param string $usernameOrEmail
+     * @return User|null
+     */
+    public function findByEmailOrUsernameSingleParameter($usernameOrEmail)
+    {
+        /** @var PDOStatement $statement */
+        $statement = $this->getConnection()->prepare('SELECT * FROM users WHERE email = :usernameOrEmail OR username = :usernameOrEmail');
+
+        $statement->execute([
+            ':usernameOrEmail' => $usernameOrEmail
+        ]);
+
+        $row = $statement->fetch(PDO::FETCH_OBJ);
+
+        if ($row === false) {
+            return null;
+        }
+
+        /** User was found */
+        return User::register(
+            UserId::fromString($row->id),
+            $row->email,
+            $row->username,
+            $row->password_hash
+        );
+    }
 }

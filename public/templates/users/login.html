@@ -1,0 +1,48 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+
+
+            <form name="loginForm"
+                  ng-submit="loginForm.$valid && loginCtrl.login(loginCtrl.credentials)"
+                  novalidate>
+
+                <div>
+                    <label for="emailOrUsername"
+                           class="required">Email o nombre de usuario</label>
+                    <input
+                            ng-model="loginCtrl.credentials.emailOrUsername"
+                            required
+                            type="text"
+                            name="emailOrUsername"
+                            id="emailOrUsername"
+                            required="required"
+                            maxlength="255"
+                            pattern=".{2,}"
+                            class="form-control">
+                </div>
+
+                <br>
+
+                <div>
+                    <label for="password" class="required">Contraseña</label>
+                    <input
+                            ng-model="loginCtrl.credentials.password"
+                            required
+                            type="password"
+                            name="password"
+                            id="password"
+                            required="required"
+                            class="form-control"></div>
+                <br>
+                <div>
+                    <input type="submit" class="btn btn-default" value="Login">
+                </div>
+            </form>
+
+            <p ng-if="loginCtrl.errors">{{loginCtrl.errors}}</p>
+
+        </div>
+    </div>
+</div>
