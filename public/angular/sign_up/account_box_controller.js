@@ -8,7 +8,8 @@ angular.module('myapp.accountBox', [
             '$scope',
             '$http',
             '$localStorage',
-            function ($scope, $http, $localStorage) {
+            '$rootScope',
+            function ($scope, $http, $localStorage, $rootScope) {
                 var jwt = $localStorage.jwt;
                 $scope.loggedIn = false;
                 $scope.account = {};
@@ -25,7 +26,7 @@ angular.module('myapp.accountBox', [
                     }).success(function (data) {
                         $scope.loggedIn = true;
                         $scope.account.username = data.user.username;
-
+                        $rootScope.loggedIn = true;
                     }).catch(function (user) {
                         console.log('yuuuups error');
                     });
@@ -35,6 +36,7 @@ angular.module('myapp.accountBox', [
                     console.log('user-signed-up event listened');
                     $scope.loggedIn = true;
                     $scope.account.username = args.user.username;
+                    $rootScope.loggedIn = true;
                 });
 
                 $scope.$on('user-logged-in', function (event, args) {

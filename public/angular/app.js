@@ -7,13 +7,17 @@ angular.module('myapp', [
     'myapp.login'
 ])
 
-    .config(function ($stateProvider) {
+    .config(function ($stateProvider, $urlRouterProvider) {
+
+        $urlRouterProvider
+            .otherwise('/');
+
         $stateProvider
             .state('home', {
                 views: {
                     'main': {
-                        url: '/home',
-                        templateUrl: 'templates/places/list.html',
+                        url: '/',
+                        templateUrl: 'templates/home.html',
                         controller: 'ListController',
                         controllerAs: 'listCtrl'
                     }
@@ -54,8 +58,15 @@ angular.module('myapp', [
             '$http',
             '$localStorage',
             '$sessionStorage',
-            function ($scope, $http, $localStorage, $sessionStorage) {
-                $scope.foo = 'bar';
+            '$rootScope',
+            function ($scope, $http, $localStorage, $sessionStorage, $rootScope) {
+                console.log($rootScope);
+                // $scope.loggedIn = $rootScope.loggedIn;
+                // if ("loggedIn" in $rootScope) {
+                //     console.log('the variable is defined');
+                // } else {
+                //     console.log('the variable is NOT defined');
+                // }
 
 
                 $scope.placeList = [
@@ -75,7 +86,5 @@ angular.module('myapp', [
         console.log('Go get this item from the server: ' + $stateParams.item);
         $scope.item = $stateParams.item;
     }])
-
-
-;
+    ;
 ;

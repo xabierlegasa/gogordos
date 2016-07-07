@@ -30,6 +30,7 @@ angular.module('myapp.login', [
                         if (data.status == 'success') {
                             $localStorage.jwt = data.jwt;
                             $rootScope.$broadcast('user-logged-in', {username: data.username});
+                            $rootScope.loggedIn = true;
 
                             $state.go('home');
                         } else {
