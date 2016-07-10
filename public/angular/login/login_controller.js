@@ -32,7 +32,7 @@ angular.module('myapp.login', [
                             $localStorage.jwt = data.jwt;
                             $rootScope.$broadcast('user-logged-in', {username: data.username});
                             $rootScope.loggedIn = true;
-
+                            $rootScope.username = data.username;
                             $state.go('home');
                         } else {
                             console.log('data status is not success. Show the error message');

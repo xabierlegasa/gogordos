@@ -5,7 +5,8 @@ angular.module('myapp', [
     'myapp.signUp',
     'myapp.accountBox',
     'myapp.login',
-    'myapp.focus'
+    'myapp.focus',
+    'myapp.account'
 ])
 
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -46,6 +47,16 @@ angular.module('myapp', [
                         templateUrl: 'templates/users/login.html',
                         controller: 'LoginController',
                         controllerAs: 'loginCtrl'
+                    }
+                }
+            })
+            .state('account', {
+                views: {
+                    'main': {
+                        url: '/account',
+                        templateUrl: 'templates/users/account.html',
+                        controller: 'AccountController',
+                        controllerAs: 'accountCtrl'
                     }
                 }
             })

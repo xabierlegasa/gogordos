@@ -1,5 +1,6 @@
 <?php
 
+use Gogordos\Application\Controllers\AccountController;
 use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\RegisterController;
@@ -51,6 +52,16 @@ $app->post('/api/login', function ($request, ResponseInterface $response, $args)
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($data, 200);
+
+    return $response;
+});
+
+$app->get('/api/account', function ($request, ResponseInterface $response, $args){
+    $accountController = new AccountController(
+        $this->get('AuthenticateUseCase'),
+        $this->get('UsersRepository')
+    );
+    $response = $accountController->getAccount($request, $response);
 
     return $response;
 });

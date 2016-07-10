@@ -39,6 +39,7 @@
     <script type="text/javascript" src="/angular/sign_up/account_box_controller.js"></script>
     <script type="text/javascript" src="/angular/login/login_controller.js"></script>
     <script type="text/javascript" src="/angular/services/focus.js"></script>
+    <script type="text/javascript" src="/angular/account/account_controller.js"></script>
 </head>
 <body>
 
@@ -51,7 +52,7 @@
             <div ng-controller="AccountBoxController" class="header clearfix">
                 <nav style="margin-top: 11px;">
                     <ul ng-if="loggedIn == true" class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="">{{ account.username }}</a></li>
+                        <li role="presentation"><a ui-sref="account()">{{ username }}</a></li>
                     </ul>
 
                     <ul ng-if="loggedIn == false" class="nav nav-pills pull-right">

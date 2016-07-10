@@ -1,0 +1,17 @@
+<div ng-if="!errorMessage">
+    <h4>
+        <span class="text-muted">username:</span> @{{user.username}}
+    </h4>
+    <h4>
+        <span class="text-muted">email:</span> {{user.email}}
+    </h4>
+
+    <br>
+    <br>
+
+    <a ng-click="accountCtrl.logout()">Logout</a>
+</div>
+
+<div ng-if="errorMessage" class="alert alert-danger">
+    <strong>Error</strong> {{errorMessage}}
+</div>

@@ -31,4 +31,10 @@ interface UsersRepository
      * @return bool
      */
     public function save(User $user);
+
+    /**
+     * @param $username
+     * @return User|null
+     */
+    public function findByUsername($username);
 }

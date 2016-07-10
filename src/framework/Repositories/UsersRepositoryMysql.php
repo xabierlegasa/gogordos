@@ -2,19 +2,12 @@
 
 namespace Gogordos\Framework\Repositories;
 
-
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
 use PDO;
 use PDOStatement;
 
-
-/**
- * Implementation done via PDO.
- * Class UsersRepositoryMysql
- * @package Gogordos\framework\Repositories
- */
 class UsersRepositoryMysql extends BaseRepository implements UsersRepository
 {
     /**
@@ -112,6 +105,33 @@ class UsersRepositoryMysql extends BaseRepository implements UsersRepository
             ':usernameOrEmail' => $usernameOrEmail
         ]);
 
+        $row = $statement->fetch(PDO::FETCH_OBJ);
+
+        if ($row === false) {
+            return null;
+        }
+
+        /** User was found */
+        return User::register(
+            UserId::fromString($row->id),
+            $row->email,
+            $row->username,
+            $row->password_hash
+        );
+    }
+
+    /**
+     * @param $username
+     * @return User|null
+     */
+    public function findByUsername($username)
+    {
+        /** @var PDOStatement $statement */
+        $statement = $this->getConnection()->prepare('SELECT * FROM users WHERE username = :username');
+
+        $statement->execute([
+            ':username' => $username
+        ]);
         $row = $statement->fetch(PDO::FETCH_OBJ);
 
         if ($row === false) {

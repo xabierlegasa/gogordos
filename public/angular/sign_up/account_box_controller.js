@@ -25,24 +25,30 @@ angular.module('myapp.accountBox', [
                         params: {jwt: jwt}
                     }).success(function (data) {
                         $scope.loggedIn = true;
-                        $scope.account.username = data.user.username;
+                        $scope.username = data.user.username;
                         $rootScope.loggedIn = true;
-                    }).catch(function (user) {
-                        console.log('yuuuups error');
+                    }).error(function (data, status, headers, config) {
+                        console.log('Auth error.');
                     });
                 }   
 
                 $scope.$on('user-signed-up', function (event, args) {
                     console.log('user-signed-up event listened');
                     $scope.loggedIn = true;
-                    $scope.account.username = args.user.username;
+                    $scope.username = args.user.username;
                     $rootScope.loggedIn = true;
                 });
 
                 $scope.$on('user-logged-in', function (event, args) {
-                    console.log('user-logged-in event listened');
+                    console.log('user-logged-in event listened. Args:');
                     $scope.loggedIn = true;
-                    $scope.account.username = args.username;
+                    $scope.username = args.username;
+                });
+                
+                $scope.$on('user-logged-out', function () {
+                    console.log('user-logged-out event linstened');
+                    $scope.loggedIn = false;
+                    $scope.account = null;
                 });
 
             }
