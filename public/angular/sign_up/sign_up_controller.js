@@ -10,10 +10,12 @@ angular.module('myapp.signUp', [
             '$scope',
             '$rootScope',
             '$localStorage',
-            function ($http, $state, $scope, $rootScope, $localStorage) {
+            'focus',
+            function ($http, $state, $scope, $rootScope, $localStorage, focus) {
 
                 var controller = this;
                 this.user = {};
+                focus('username');
 
                 this.signUp = function (user) {
                     controller.errors = null;

@@ -12,11 +12,12 @@ angular.module('myapp.login', [
             '$scope',
             '$rootScope',
             '$localStorage',
-            function ($http, $state, $scope, $rootScope, $localStorage) {
+            'focus',
+            function ($http, $state, $scope, $rootScope, $localStorage, focus) {
 
                 var controller = this;
                 this.credentials = {};
-
+                focus('emailOrUsername');
                 this.login = function (credentials) {
                     controller.errors = null;
 

@@ -4,7 +4,8 @@ angular.module('myapp', [
     'ui.router',
     'myapp.signUp',
     'myapp.accountBox',
-    'myapp.login'
+    'myapp.login',
+    'myapp.focus'
 ])
 
     .config(function ($stateProvider, $urlRouterProvider) {
