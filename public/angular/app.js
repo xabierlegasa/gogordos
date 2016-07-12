@@ -6,7 +6,8 @@ angular.module('myapp', [
     'myapp.accountBox',
     'myapp.login',
     'myapp.focus',
-    'myapp.account'
+    'myapp.account',
+    'myapp.newRestaurant'
 ])
 
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -16,24 +17,16 @@ angular.module('myapp', [
 
         $stateProvider
             .state('home', {
-                views: {
-                    'main': {
-                        url: '/',
-                        templateUrl: 'templates/home.html',
-                        controller: 'ListController',
-                        controllerAs: 'listCtrl'
-                    }
-                }
+                url: '/',
+                templateUrl: 'templates/home.html',
+                controller: 'ListController',
+                controllerAs: 'listCtrl'
             })
             .state('signup', {
-                views: {
-                    'main': {
-                        url: '/signup',
-                        templateUrl: 'templates/users/signUp.html',
-                        controller: 'SignUpController',
-                        controllerAs: 'signUpCtrl'
-                    }
-                }
+                url: '/signup',
+                templateUrl: 'templates/users/signUp.html',
+                controller: 'SignUpController',
+                controllerAs: 'signUpCtrl'
             })
             .state('home.item', {
                 url: '/:item',
@@ -41,24 +34,22 @@ angular.module('myapp', [
                 controller: 'ItemController',
             })
             .state('login', {
-                views: {
-                    'main': {
-                        url: '/login',
-                        templateUrl: 'templates/users/login.html',
-                        controller: 'LoginController',
-                        controllerAs: 'loginCtrl'
-                    }
-                }
+                url: '/login',
+                templateUrl: 'templates/users/login.html',
+                controller: 'LoginController',
+                controllerAs: 'loginCtrl'
             })
             .state('account', {
-                views: {
-                    'main': {
-                        url: '/account',
-                        templateUrl: 'templates/users/account.html',
-                        controller: 'AccountController',
-                        controllerAs: 'accountCtrl'
-                    }
-                }
+                url: '/account',
+                templateUrl: 'templates/users/account.html',
+                controller: 'AccountController',
+                controllerAs: 'accountCtrl'
+            })
+            .state('newRestaurant', {
+                url: '/newRestaurant',
+                templateUrl: 'templates/restaurants/newRestaurant.html',
+                controller: 'NewRestaurantController',
+                controllerAs: 'newRestaurantCtrl'
             })
         ;
     })
@@ -72,15 +63,6 @@ angular.module('myapp', [
             '$sessionStorage',
             '$rootScope',
             function ($scope, $http, $localStorage, $sessionStorage, $rootScope) {
-                console.log($rootScope);
-                // $scope.loggedIn = $rootScope.loggedIn;
-                // if ("loggedIn" in $rootScope) {
-                //     console.log('the variable is defined');
-                // } else {
-                //     console.log('the variable is NOT defined');
-                // }
-
-
                 $scope.placeList = [
                     {name: 'Chino chino', city: 'Barcelona'},
                     {name: 'Vega', city: 'Madrid'}
@@ -98,5 +80,5 @@ angular.module('myapp', [
         console.log('Go get this item from the server: ' + $stateParams.item);
         $scope.item = $stateParams.item;
     }])
-    ;
+;
 ;
