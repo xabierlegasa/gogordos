@@ -2,13 +2,18 @@
 // DIC configuration
 
 use Gogordos\Application\Controllers\AuthenticationController;
+use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\RegisterController;
+use Gogordos\Application\Controllers\RestaurantController;
 use Gogordos\Application\Services\JwtAuthenticator;
+use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
 use Gogordos\Application\UseCases\Login\LoginUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Services\Authenticator;
 use Gogordos\Framework\Config\CurrentVersion;
+use Gogordos\Framework\Repositories\CategoryRepositoryMysql;
+use Gogordos\Framework\Repositories\RestaurantRepositoryMysql;
 use Gogordos\Framework\Repositories\UsersRepositoryMysql;
 use Gogordos\Framework\Slim\Config;
 
@@ -94,3 +99,35 @@ $container['LoginUseCase'] = function ($c) {
         $c->get('UsersRepository')
     );
 };
+
+$container['CategoryRepository'] = function ($c) {
+    return new CategoryRepositoryMysql(
+        $c->get('Config')
+    );
+};
+
+$container['CategoryController'] = function ($c) {
+    return new CategoryController(
+        $c->get('CategoryRepository')
+    );
+};
+
+$container['RestaurantRepository'] = function ($c) {
+    return new RestaurantRepositoryMysql(
+        $c->get('Config')
+    );
+};
+
+$container['AddRestaurantUseCase'] = function ($c) {
+    return new AddRestaurantUseCase(
+        $c->get('CategoryRepository'),
+        $c->get('RestaurantRepository')
+    );
+};
+
+$container['RestaurantController'] = function ($c) {
+    return new RestaurantController(
+        $c->get('AddRestaurantUseCase')
+    );
+};
+

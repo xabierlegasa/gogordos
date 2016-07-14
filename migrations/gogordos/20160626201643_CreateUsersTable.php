@@ -24,8 +24,6 @@ class CreateUsersTable extends Ruckusing_Migration_Base
         $this->add_index("users", "id", ["unique" => true]);
         $this->add_index("users", "email", ["unique" => true]);
         $this->add_index("users", "username", ["unique" => true]);
-        $this->add_index("users", "created_at", ["unique" => false]);
-
     }
 
     public function down()

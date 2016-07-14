@@ -2,8 +2,10 @@
 
 use Gogordos\Application\Controllers\AccountController;
 use Gogordos\Application\Controllers\AuthenticationController;
+use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\RegisterController;
+use Gogordos\Application\Controllers\RestaurantController;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
 
@@ -63,5 +65,33 @@ $app->get('/api/account', function ($request, ResponseInterface $response, $args
     );
     $response = $accountController->getAccount($request, $response);
 
+    return $response;
+});
+
+$app->get('/api/restaurants', function ($request, ResponseInterface $response, $args){
+    $restaurantController = new RestaurantController(
+        $this->get('RestaurantsRepository')
+    );
+    
+    /** @var JsonResponse $response */
+    $jsonResponse = $restaurantController->addRestaurant($request, $response);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
+    
+    return $response;
+});
+
+$app->get('/api/categories', function ($request, ResponseInterface $response, $args){
+    $categoryController = new CategoryController(
+        $this->get('CategoryRepository')
+    );
+    
+    $ctrlResponse = $categoryController->getAllCategories();
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+    
     return $response;
 });
