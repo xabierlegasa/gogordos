@@ -21,7 +21,7 @@ class Category implements \JsonSerializable
      */
     public function __construct($id, $name, $nameEs)
     {
-        $this->canonicalName = $id;
+        $this->id = $id;
         $this->name = $name;
         $this->nameEs = $nameEs;
     }

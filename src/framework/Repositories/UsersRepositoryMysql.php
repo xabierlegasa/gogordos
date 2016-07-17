@@ -17,7 +17,7 @@ class UsersRepositoryMysql extends BaseRepository implements UsersRepository
      */
     public function save(User $user)
     {
-        $userId = $user->id();
+        $userId = $user->id()->value();
         $email = $user->email();
         $username = $user->username();;
         $passwordHash = $user->password();

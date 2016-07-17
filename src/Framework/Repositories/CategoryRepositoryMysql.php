@@ -16,7 +16,7 @@ class CategoryRepositoryMysql extends BaseRepository implements CategoryReposito
     public function findByName($name)
     {
         /** @var PDOStatement $statement */
-        $statement = $this->getConnection()->prepare('SELECT * FROM category WHERE name = :name');
+        $statement = $this->getConnection()->prepare('SELECT * FROM categories WHERE name = :name');
 
         $statement->execute([
             ':name' => $name
@@ -38,7 +38,7 @@ class CategoryRepositoryMysql extends BaseRepository implements CategoryReposito
     public function findAll()
     {
         /** @var PDOStatement $statement */
-        $statement = $this->getConnection()->prepare('SELECT * FROM category');
+        $statement = $this->getConnection()->prepare('SELECT * FROM categories');
 
         $statement->execute();
         $rows = $statement->fetchAll(PDO::FETCH_OBJ);
