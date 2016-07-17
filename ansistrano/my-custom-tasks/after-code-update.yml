@@ -21,7 +21,7 @@
     chdir: "{{ ansistrano_release_path.stdout }}"
 
 - name: Gogordos | Run migrations
-  command: ./vendor/bin/ruckus.php db:migrate ENV=production
+  command: ./vendor/bin/phinx migrate -e production
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
 

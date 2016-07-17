@@ -1,3 +1,6 @@
+# phinx migrations
+phinx.yml
+
 # Config file specific for each ENV
 src/Framework/Slim/config_env.php
 ruckusing.conf.php
