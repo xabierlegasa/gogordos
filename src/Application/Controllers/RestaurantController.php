@@ -27,17 +27,19 @@ class RestaurantController
 
     public function addRestaurant(Request $request)
     {
-        $name = $request->getParam('name');
-        $city = $request->getParam('city');
-        $restaurant = $request->getParam('category');
-
         try {
+            $name = $request->getParam('restaurant')['name'];
+            $city = $request->getParam('restaurant')['city'];
+            $category = $request->getParam('restaurant')['category'];
+            $jwt = $request->getParam('jwt');
+            
             /** @var AddRestaurantResponse $addRestaurantUseCaseResponse */
             $addRestaurantResponse = $this->addRestaurantUseCase->execute(
                 new AddRestaurantRequest(
                     $name,
                     $city,
-                    $restaurant
+                    $category,
+                    $jwt
                 )
             );
 
@@ -50,4 +52,6 @@ class RestaurantController
             return new JsonBadRequest(['message' => $e->getMessage()]);
         }
     }
+    
+    
 }

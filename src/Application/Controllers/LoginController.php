@@ -3,6 +3,8 @@
 namespace Gogordos\Application\Controllers;
 
 
+use Gogordos\Application\Controllers\Response\JsonBadRequest;
+use Gogordos\Application\Controllers\Response\JsonOk;
 use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\Login\LoginRequest;
 use Gogordos\Application\UseCases\Login\LoginResponse;
@@ -42,16 +44,16 @@ class LoginController
 
             $jwt = $this->authenticator->authTokenFromUser($response->user());
 
-            return [
-                'status' => StatusCode::STATUS_SUCCESS,
-                'username' => $response->user()->username(),
-                'jwt' => $jwt
-            ];
-        } catch(\Exception $e){
-            return [
-                'status' => StatusCode::STATUS_ERROR,
-                'message' => 'Invalid password, or user does not exits.'
-            ];
+            return new JsonOk(
+                [
+                    'username' => $response->user()->username(),
+                    'jwt' => $jwt
+                ]
+            );
+        } catch (\Exception $e) {
+            return new JsonBadRequest(
+                ['message' => 'Los datos no coinciden con ninguna cuenta']
+            );
         }
     }
 }

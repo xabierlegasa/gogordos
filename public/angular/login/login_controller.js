@@ -24,11 +24,15 @@ angular.module('myapp.login', [
                         url: '/api/login',
                         data: credentials,
                     }).success(function (data) {
-                        console.log('success!');
+                        console.log('success! Store jwt and broadcast logged in');
+                        $localStorage.jwt = data.jwt;
+                        $rootScope.$broadcast('user-logged-in', {username: data.username});
+                        $rootScope.loggedIn = true;
+                        $rootScope.username = data.username;
                         $state.go('home');
-
-                    }).catch(function (user) {
-                        controller.errors = user.data.error;
+                    }).error(function (data, status, headers, config) {
+                        console.log(data);
+                        controller.errorMessage = data.message;
                     });
                 };
 

@@ -6,9 +6,14 @@ use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantRequest;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Gogordos\Domain\Entities\Category;
 use Gogordos\Domain\Entities\Restaurant;
+use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\CategoryRepository;
 use Gogordos\Domain\Repositories\RestaurantRepository;
+use Gogordos\Domain\Services\Authenticator;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Ramsey\Uuid\Uuid;
 
 class AddRestaurantUseCaseTest extends TestCase
 {
@@ -21,14 +26,21 @@ class AddRestaurantUseCaseTest extends TestCase
     /** @var RestaurantRepository */
     private $restaurantRepositoryMock;
 
+    /**
+     * @var Authenticator
+     */
+    private $authenticatorMock;
+
     protected function setUp()
     {
         $this->categoryRepositoryMock = $this->prophesize(CategoryRepository::class);
         $this->restaurantRepositoryMock = $this->prophesize(RestaurantRepository::class);
+        $this->authenticatorMock = $this->prophesize(Authenticator::class);
 
         $this->sut = new AddRestaurantUseCase(
             $this->categoryRepositoryMock->reveal(),
-            $this->restaurantRepositoryMock->reveal()
+            $this->restaurantRepositoryMock->reveal(),
+            $this->authenticatorMock->reveal()
         );
     }
 
@@ -36,7 +48,7 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $name = '';
-        $addRestaurantRequest = new AddRestaurantRequest($name, 'city', 'indian');
+        $addRestaurantRequest = new AddRestaurantRequest($name, 'city', 'indian', 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -44,7 +56,7 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $city = '';
-        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', $city, 'indian');
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', $city, 'indian', 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -52,7 +64,7 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $category = '';
-        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $category);
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $category, 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -65,7 +77,7 @@ class AddRestaurantUseCaseTest extends TestCase
             ->shouldBeCalled()
             ->willReturn(null);
 
-        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $invalidCategory);
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $invalidCategory, 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -73,17 +85,18 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $categoryName = 'chinese';
 
-        $category = new Category('chinese', 'China');
+        $category = new Category(1, 'chinese', 'China');
         $this->categoryRepositoryMock->findByName($categoryName)
             ->shouldBeCalled()
             ->willReturn($category);
 
-        $restaurant = new Restaurant('La masía', 'Barcelona', $category);
+        $user = User::register(new UserId(Uuid::fromString('user_id')), 'hello@example.com', 'username', 'password');
+        $restaurant = new Restaurant(null, 'La masía', 'Barcelona', $user, $category, null);
         $this->restaurantRepositoryMock->save($restaurant)
             ->shouldBeCalled()
-            ->willReturn(true);
+            ->willReturn($restaurant);
 
-        $addRestaurantRequest = new AddRestaurantRequest('La masía', 'Barcelona', $categoryName);
+        $addRestaurantRequest = new AddRestaurantRequest('La masía', 'Barcelona', $categoryName, 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 }

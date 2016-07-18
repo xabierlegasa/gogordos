@@ -121,7 +121,8 @@ $container['RestaurantRepository'] = function ($c) {
 $container['AddRestaurantUseCase'] = function ($c) {
     return new AddRestaurantUseCase(
         $c->get('CategoryRepository'),
-        $c->get('RestaurantRepository')
+        $c->get('RestaurantRepository'),
+        $c->get('Authenticator')
     );
 };
 

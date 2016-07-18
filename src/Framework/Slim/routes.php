@@ -49,11 +49,11 @@ $app->post('/api/login', function ($request, ResponseInterface $response, $args)
         $this->get('LoginUseCase'),
         $this->get('Authenticator')
     );
-    $data = $loginController->login($request);
+    $jsonResponse = $loginController->login($request);
 
     $response = $response
         ->withHeader('Content-Type', 'application/json')
-        ->withJson($data, 200);
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
 
     return $response;
 });
@@ -63,8 +63,12 @@ $app->get('/api/account', function ($request, ResponseInterface $response, $args
         $this->get('AuthenticateUseCase'),
         $this->get('UsersRepository')
     );
-    $response = $accountController->getAccount($request, $response);
+    $jsonResponse = $accountController->getAccount($request);
 
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
+    
     return $response;
 });
 
@@ -83,15 +87,19 @@ $app->post('/api/restaurants', function ($request, ResponseInterface $response, 
     return $response;
 });
 
-$app->get('/api/categories', function ($request, ResponseInterface $response, $args){
-    $categoryController = new CategoryController(
-        $this->get('CategoryRepository')
-    );
-    
-    $ctrlResponse = $categoryController->getAllCategories();
+$app->get('/api/categories', function ($request, ResponseInterface $response, $args) {
+    $ctrlResponse = $this->get('CategoryController')->getAllCategories();
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
     
+    return $response;
+});
+
+$app->get('/api/users/restaurants', function ($request, ResponseInterface $response, $args) {
+    
+
+    die('gooooo');
+
     return $response;
 });

@@ -7,7 +7,8 @@ angular.module('myapp', [
     'myapp.login',
     'myapp.focus',
     'myapp.account',
-    'myapp.newRestaurant'
+    'myapp.newRestaurant',
+    'myapp.userPage'
 ])
 
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -23,33 +24,39 @@ angular.module('myapp', [
                 controllerAs: 'listCtrl'
             })
             .state('signup', {
-                url: '/signup',
+                url: '/g/signup',
                 templateUrl: 'templates/users/signUp.html',
                 controller: 'SignUpController',
                 controllerAs: 'signUpCtrl'
             })
-            .state('home.item', {
-                url: '/:item',
-                templateUrl: 'templates/places/list.item.html',
-                controller: 'ItemController',
-            })
+            // .state('home.item', {
+            //     url: '/:item',
+            //     templateUrl: 'templates/places/list.item.html',
+            //     controller: 'ItemController',
+            // })
             .state('login', {
-                url: '/login',
+                url: '/g/login',
                 templateUrl: 'templates/users/login.html',
                 controller: 'LoginController',
                 controllerAs: 'loginCtrl'
             })
             .state('account', {
-                url: '/account',
+                url: '/g/account',
                 templateUrl: 'templates/users/account.html',
                 controller: 'AccountController',
                 controllerAs: 'accountCtrl'
             })
             .state('newRestaurant', {
-                url: '/newRestaurant',
+                url: '/g/newRestaurant',
                 templateUrl: 'templates/restaurants/newRestaurant.html',
                 controller: 'NewRestaurantController',
                 controllerAs: 'newRestaurantCtrl'
+            })
+            .state('userPage', {
+                url: '/:username',
+                templateUrl: 'templates/users/userPage.html',
+                controller: 'UserPageController',
+                controllerAs: 'userPagesCtrl'
             })
         ;
     })

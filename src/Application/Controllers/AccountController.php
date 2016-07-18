@@ -3,6 +3,8 @@
 namespace Gogordos\Application\Controllers;
 
 
+use Gogordos\Application\Controllers\Response\JsonBadRequest;
+use Gogordos\Application\Controllers\Response\JsonOk;
 use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\AuthenticateRequest;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
@@ -35,41 +37,33 @@ class AccountController
 
     /**
      * @param Request $request
-     * @param Response $response
      * @return Response
      */
-    public function getAccount(Request $request, Response $response)
+    public function getAccount(Request $request)
     {
         try {
             $jwt = $request->getParam('jwt');
             $res = $this->authenticateUseCase->execute(new AuthenticateRequest($jwt));
             $authUserData = $res->authUserData();
             $username = $authUserData->username();
-            
+
             /** @var User $user */
             $user = $this->usersRepository->findByUsername($username);
-            $data = [
-                'user' => [
-                    'username' => $user->username(),
-                    'email' => $user->email()
+
+            return new JsonOk(
+                [
+                    'user' => [
+                        'username' => $user->username(),
+                        'email' => $user->email()
+                    ]
                 ]
-            ];
-
-            $response = $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withJson($data, 200);
-
-            return $response;
+            );
         } catch (\Exception $e) {
-            $data = [
-                'status' => StatusCode::STATUS_ERROR,
-                'errorMessage' => $e->getMessage()
-            ];
-            $response = $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withJson($data, 500);
-
-            return $response;
+            return new JsonBadRequest(
+                [
+                    'messages' => $e->getMessage()
+                ]
+            );
         }
     }
 }

@@ -40,7 +40,11 @@
                 </div>
             </form>
 
-            <p ng-if="loginCtrl.errors">{{loginCtrl.errors}}</p>
+            <br>
+
+            <div ng-if="loginCtrl.errorMessage" class="alert alert-danger">
+                <p>{{loginCtrl.errorMessage}}</p>
+            </div>
 
         </div>
     </div>

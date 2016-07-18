@@ -28,7 +28,7 @@ class AuthUserData
      */
     public function userId()
     {
-        return $this->userId();
+        return $this->userId;
     }
 
     public function username()

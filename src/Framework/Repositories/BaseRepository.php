@@ -16,12 +16,12 @@ class BaseRepository
         $this->config = $config;
     }
 
+    /**
+     * @return PDO
+     * @throws \Exception
+     */
     protected function getConnection()
     {
-
-
-        // See PDO prepared statements
-//        $connection = new PDO('mysql:host=localhost;dbname=gogordos;charset=utf8', 'root', 'xxxxx');
         $connection = new PDO(
             'mysql:host=localhost;dbname=' . $this->config->get('mysql_database_name') . ';charset=utf8',
             $this->config->get('mysql_username'),
