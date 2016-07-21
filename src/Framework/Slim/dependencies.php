@@ -5,9 +5,11 @@ use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\RestaurantController;
+use Gogordos\Application\Controllers\UserController;
 use Gogordos\Application\Services\JwtAuthenticator;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
+use Gogordos\Application\UseCases\GetUserRestaurants\GetUserRestaurantsUseCase;
 use Gogordos\Application\UseCases\Login\LoginUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
 use Gogordos\Domain\Services\Authenticator;
@@ -131,4 +133,19 @@ $container['RestaurantController'] = function ($c) {
         $c->get('AddRestaurantUseCase')
     );
 };
+
+$container['GetUserRestaurantsUseCase'] = function ($c) {
+    return new GetUserRestaurantsUseCase(
+        $c->get('UsersRepository'),
+        $c->get('RestaurantRepository')
+    );
+};
+
+$container['UserController'] = function ($c) {
+    return new UserController(
+        $c->get('GetUserRestaurantsUseCase')
+    );
+};
+
+
 

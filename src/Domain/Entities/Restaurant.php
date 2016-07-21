@@ -88,7 +88,7 @@ class Restaurant implements \JsonSerializable
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'city' => $this->city,
+            'city' => ucfirst($this->city),
             'categoryId' => $this->category()->id()
         ];
     }

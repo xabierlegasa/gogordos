@@ -4,6 +4,7 @@ namespace Gogordos\Application\UseCases\GetUserRestaurants;
 
 
 use Gogordos\Application\Exceptions\UserDoesNotExistException;
+use Gogordos\Domain\Repositories\RestaurantRepository;
 use Gogordos\Domain\Repositories\UsersRepository;
 
 class GetUserRestaurantsUseCase
@@ -12,14 +13,23 @@ class GetUserRestaurantsUseCase
      * @var UsersRepository
      */
     private $usersRepository;
+    /**
+     * @var RestaurantRepository
+     */
+    private $restaurantRepository;
 
     /**
      * GetUserRestaurantsUseCase constructor.
      * @param UsersRepository $usersRepository
+     * @param RestaurantRepository $restaurantRepository
      */
-    public function __construct(UsersRepository $usersRepository)
+    public function __construct(
+        UsersRepository $usersRepository,
+        RestaurantRepository $restaurantRepository
+    )
     {
         $this->usersRepository = $usersRepository;
+        $this->restaurantRepository = $restaurantRepository;
     }
 
     /**
@@ -35,7 +45,7 @@ class GetUserRestaurantsUseCase
             throw new UserDoesNotExistException('El usuario no existe');
         }
         
-        $restaurants = $this->restaurantsRepository->findByUserId($user->id());
+        $restaurants = $this->restaurantRepository->findByUser($user);
         
         return new GetUserRestaurantsResponse($user, $restaurants);
     }

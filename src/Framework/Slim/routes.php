@@ -6,6 +6,7 @@ use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\RestaurantController;
+use Gogordos\Application\Controllers\UserController;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
 
@@ -97,9 +98,10 @@ $app->get('/api/categories', function ($request, ResponseInterface $response, $a
 });
 
 $app->get('/api/users/restaurants', function ($request, ResponseInterface $response, $args) {
-    
-
-    die('gooooo');
+    $ctrlResponse = $this->get('UserController')->getRestaurantsOfUser($request);
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
 
     return $response;
 });

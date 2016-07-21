@@ -4,6 +4,7 @@ namespace Gogordos\Framework\Repositories;
 
 use Gogordos\Domain\Entities\Category;
 use Gogordos\Domain\Entities\Restaurant;
+use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Repositories\RestaurantRepository;
 use PDO;
 use PDOStatement;
@@ -41,7 +42,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
             if (!$result) {
                 throw new \Exception('Error creating a new restaurant');
             }
-            $restaurantId = (int) $pdo->lastInsertId();
+            $restaurantId = (int)$pdo->lastInsertId();
             return new Restaurant(
                 $restaurantId,
                 $name,
@@ -58,15 +59,46 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         return $restaurant;
     }
 
-    public function findByUserId($userId)
+    /**
+     * @param User $user
+     * @return Restaurant[]
+     */
+    public function findByUser(User $user)
     {
+        $userId = $user->id()->value();
+
         /** @var PDO $pdo */
         $pdo = $this->getConnection();
         /** @var PDOStatement $statement */
-        $statement = $pdo->prepare('SELECT *  FROM restaurants WHERE ');
+        $statement = $pdo->prepare(
+            'SELECT r.user_id as user_id,
+                r.id as restaurant_id, c.id as category_id,
+                r.name as restaurant_name, r.city as restaurant_city,
+                c.name as category_name, c.name_es as category_es,
+                r.created_at as created_at
+            FROM restaurants AS `r` 
+              LEFT JOIN CATEGORIES AS `c` 
+              ON r.category_id=c.id 
+            WHERE user_id = :user_id');
         $statement->bindParam(1, $name, PDO::PARAM_STR);
 
+        $statement->execute([
+            ':user_id' => $userId
+        ]);
+        $rows = $statement->fetchAll(PDO::FETCH_OBJ);
 
+        $restaurants = [];
+        foreach ($rows as $row) {
+            $restaurants[] = new Restaurant(
+                $row->restaurant_id,
+                $row->restaurant_name,
+                $row->restaurant_city,
+                new Category((int)$row->category_id, $row->category_name, $row->category_es),
+                $row->user_id,
+                $row->created_at
+            );
+        }
 
+        return $restaurants;
     }
 }

@@ -5,17 +5,13 @@
     <br>
 
     <div>
-        <p>
-            <a href="">Chino chino</a> en Barcelona. Comida china.
-        </p>
-        <p>
-            <a href="">Centre civic</a> en Barcelona. Español.
-        </p>
-        <p>
-            <a href="">Kiosko burguer</a> en Barcelona. Hamburguesas.
-        </p>
-
+        <div ng-repeat="res in restaurants">
+            <p>
+                <a href="">{{res.name}}</a> en {{res.city}}. {{res.category_es}}
+            </p>
+        </div>
     </div>
+
 
 
 </div>

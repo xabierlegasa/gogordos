@@ -1,17 +1,14 @@
-Todo list
+Todo list:
 
-- Create categories with a migration.
-- Category object will have id (from database) plus name (chich will be the standard canonical name).
-- Correr la migration.
-- Finalizar restaurant Repositorie
-- Enganchar el categories repository con la BBDD.
+Use case: I want to see al the recommendations of a person. e.g. http://localhost:8080/#/xabi
+
+
 
 
 Commands
 
 
-vendor/bin/ruckus.php db:generate create_categories_table
-vendor/bin/ruckus.php db:migrate
+./vendor/bin/phinx migrate
 
 
 Urls

@@ -28,11 +28,10 @@ class RestaurantController
     public function addRestaurant(Request $request)
     {
         try {
-            $name = $request->getParam('restaurant')['name'];
-            $city = $request->getParam('restaurant')['city'];
+            $name = ucwords(strtolower($request->getParam('restaurant')['name']));
+            $city = strtolower($request->getParam('restaurant')['city']);
             $category = $request->getParam('restaurant')['category'];
             $jwt = $request->getParam('jwt');
-            
             /** @var AddRestaurantResponse $addRestaurantUseCaseResponse */
             $addRestaurantResponse = $this->addRestaurantUseCase->execute(
                 new AddRestaurantRequest(

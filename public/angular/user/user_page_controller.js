@@ -11,19 +11,15 @@ angular.module('myapp.userPage', [
             function ($http, $state, $scope, $stateParams) {
                 var username = $stateParams.username;
 
-
                 $http({
                     method: 'GET',
                     url: '/api/users/restaurants',
                     params: {username: username}
                 }).success(function (data) {
-
-
+                    $scope.restaurants = data.restaurants;
                 }).error(function (data, status, headers, config) {
                     console.log('Userpage error.');
                 });
-
-                console.log('user page controller');
             }
         ]
     );
