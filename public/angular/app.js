@@ -8,7 +8,8 @@ angular.module('myapp', [
     'myapp.focus',
     'myapp.account',
     'myapp.newRestaurant',
-    'myapp.userPage'
+    'myapp.userPage',
+    'myapp.home'
 ])
 
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -20,8 +21,8 @@ angular.module('myapp', [
             .state('home', {
                 url: '/',
                 templateUrl: 'templates/home.html',
-                controller: 'ListController',
-                controllerAs: 'listCtrl'
+                controller: 'HomeController',
+                controllerAs: 'homeCtrl'
             })
             .state('signup', {
                 url: '/g/signup',
@@ -29,11 +30,6 @@ angular.module('myapp', [
                 controller: 'SignUpController',
                 controllerAs: 'signUpCtrl'
             })
-            // .state('home.item', {
-            //     url: '/:item',
-            //     templateUrl: 'templates/places/list.item.html',
-            //     controller: 'ItemController',
-            // })
             .state('login', {
                 url: '/g/login',
                 templateUrl: 'templates/users/login.html',
@@ -61,31 +57,4 @@ angular.module('myapp', [
         ;
     })
 
-    // TODO, move all this to its own file, so we only have routes here
-    .controller('ListController',
-        [
-            '$scope',
-            '$http',
-            '$localStorage',
-            '$sessionStorage',
-            '$rootScope',
-            function ($scope, $http, $localStorage, $sessionStorage, $rootScope) {
-                $scope.placeList = [
-                    {name: 'Chino chino', city: 'Barcelona'},
-                    {name: 'Vega', city: 'Madrid'}
-                ];
-
-                $scope.selectItem = function (item) {
-                    console.log('item clicked: ' + item.name);
-                };
-            }
-        ]
-    )
-
-
-    .controller('ItemController', ['$scope', '$stateParams', function ($scope, $stateParams) {
-        console.log('Go get this item from the server: ' + $stateParams.item);
-        $scope.item = $stateParams.item;
-    }])
-;
 ;

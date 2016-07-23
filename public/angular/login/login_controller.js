@@ -31,7 +31,6 @@ angular.module('myapp.login', [
                         $rootScope.username = data.username;
                         $state.go('home');
                     }).error(function (data, status, headers, config) {
-                        console.log(data);
                         controller.errorMessage = data.message;
                     });
                 };

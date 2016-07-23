@@ -3,9 +3,10 @@
 use Gogordos\Application\Controllers\AccountController;
 use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\CategoryController;
+use Gogordos\Application\Controllers\GetAllRestaurantsController;
 use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\RegisterController;
-use Gogordos\Application\Controllers\RestaurantController;
+use Gogordos\Application\Controllers\AddRestaurantController;
 use Gogordos\Application\Controllers\UserController;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
@@ -69,22 +70,36 @@ $app->get('/api/account', function ($request, ResponseInterface $response, $args
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
-    
+
     return $response;
 });
 
 $app->post('/api/restaurants', function ($request, ResponseInterface $response, $args){
-    $restaurantController = new RestaurantController(
+    $addRestaurantController = new AddRestaurantController(
         $this->get('AddRestaurantUseCase')
     );
-    
+
     /** @var JsonResponse $response */
-    $jsonResponse = $restaurantController->addRestaurant($request, $response);
+    $jsonResponse = $addRestaurantController->addRestaurant($request);
 
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
-    
+
+    return $response;
+});
+
+$app->get('/api/restaurants', function ($request, ResponseInterface $response, $args){
+    /** @var GetAllRestaurantsController $getAllRestaurantsController */
+    $getAllRestaurantsController = $this->get('GetAllRestaurantsController');
+
+    /** @var JsonResponse $response */
+    $jsonResponse = $getAllRestaurantsController->getRestaurants($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
+
     return $response;
 });
 
@@ -93,7 +108,7 @@ $app->get('/api/categories', function ($request, ResponseInterface $response, $a
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
-    
+
     return $response;
 });
 

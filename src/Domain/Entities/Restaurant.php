@@ -6,7 +6,7 @@ class Restaurant implements \JsonSerializable
 {
     /** @var int */
     private $id;
-    
+
     /**
      * @var string
      */
@@ -19,10 +19,10 @@ class Restaurant implements \JsonSerializable
      * @var Category
      */
     private $category;
-    
+
     /** @var string */
     private $userId;
-    
+
     /**
      * @var
      */
@@ -54,7 +54,7 @@ class Restaurant implements \JsonSerializable
     {
         return $this->id;
     }
-    
+
     /**
      * @return string
      */
@@ -78,7 +78,7 @@ class Restaurant implements \JsonSerializable
     {
         return $this->category;
     }
-    
+
     public function userId()
     {
         return $this->userId;
@@ -89,7 +89,9 @@ class Restaurant implements \JsonSerializable
             'id' => $this->id,
             'name' => $this->name,
             'city' => ucfirst($this->city),
-            'categoryId' => $this->category()->id()
+            'categoryId' => $this->category()->id(),
+            'categoryName' => $this->category()->name(),
+            'categoryNameEs' => $this->category()->nameEs()
         ];
     }
 }

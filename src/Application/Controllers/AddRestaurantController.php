@@ -9,7 +9,7 @@ use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantResponse;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Slim\Http\Request;
 
-class RestaurantController
+class AddRestaurantController
 {
     /**
      * @var AddRestaurantUseCase
@@ -17,7 +17,7 @@ class RestaurantController
     private $addRestaurantUseCase;
 
     /**
-     * RestaurantController constructor.
+     * AddRestaurantController constructor.
      * @param AddRestaurantUseCase $addRestaurantUseCase
      */
     public function __construct(AddRestaurantUseCase $addRestaurantUseCase)
@@ -42,15 +42,11 @@ class RestaurantController
                 )
             );
 
-            return new JsonOk(
-                [
-                    'restaurant' => $addRestaurantResponse->restaurant()
-                ]
-            );
+            return new JsonOk([
+                'restaurant' => $addRestaurantResponse->restaurant()
+            ]);
         } catch (\InvalidArgumentException $e) {
             return new JsonBadRequest(['message' => $e->getMessage()]);
         }
     }
-    
-    
 }

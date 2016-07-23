@@ -23,11 +23,21 @@ abstract class JsonResponseAdapter implements JsonResponse
     public function data()
     {
         if ($this->httpCode === 200) {
-            $this->data['status'] = StatusCode::STATUS_SUCCESS;
+            /** array_unshift_assoc will make that status is the first thing in the array **/
+            $this->array_unshift_assoc($this->data, 'status', StatusCode::STATUS_SUCCESS);
         } else {
-            $this->data['status'] = StatusCode::STATUS_ERROR;
+            $this->array_unshift_assoc($this->data, 'status', StatusCode::STATUS_ERROR);
         }
 
         return $this->data;
+    }
+
+    private function array_unshift_assoc(&$arr, $key, $val)
+    {
+        $arr = array_reverse($arr, true);
+        $arr[$key] = $val;
+        $arr = array_reverse($arr, true);
+
+        return $arr;
     }
 }

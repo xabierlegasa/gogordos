@@ -48,6 +48,7 @@
     <script type="text/javascript" src="/angular/account/account_controller.js"></script>
     <script type="text/javascript" src="/angular/restaurants/new_restaurant_controller.js"></script>
     <script type="text/javascript" src="/angular/user/user_page_controller.js"></script>
+    <script type="text/javascript" src="/angular/home/home_controller.js"></script>
 
 <!--    <base href="/">-->
 </head>
@@ -69,7 +70,7 @@
                         <li role="presentation" class="active"><a ui-sref="signup({})">Regístrate</a></li>
                         <li role="presentation"><a ui-sref="login({})">Iniciar sesión</a></li>
                     </ul>
-                    
+
                 </nav>
                 <h3 class="text-muted"><a href="/">Gogordos</a> <span class="beta">Beta</span></h3>
             </div>
@@ -86,20 +87,12 @@
     </div>
 </div> <!-- /container -->
 
-<footer class="footer">
+
+<div id="footer">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p class="text-muted">
-                    Gogordos 2016 Barcelona. <a href="https://twitter.com/xabierlegasa">Contact</a>
-
-                    <span class="right"><?= "Version " . $version ?></span>
-                <p>
-
-            </div>
-        </div>
+        <p class="text-muted">Gogordos 2016 Barcelona. <a href="https://twitter.com/xabierlegasa">Contact</a>. Version <?= $version?>.</p>
     </div>
-</footer>
+</div>
 
 </body>
 </html>

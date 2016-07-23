@@ -18,4 +18,16 @@ interface RestaurantRepository
      * @return Restaurant[]
      */
     public function findByUser(User $user);
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     * @return Restaurant[]
+     */
+    public function findAllPaginated($offset, $limit);
+
+    /**
+     * @return int
+     */
+    public function countAll();
 }

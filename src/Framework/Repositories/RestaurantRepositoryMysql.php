@@ -80,7 +80,6 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
               LEFT JOIN CATEGORIES AS `c` 
               ON r.category_id=c.id 
             WHERE user_id = :user_id');
-        $statement->bindParam(1, $name, PDO::PARAM_STR);
 
         $statement->execute([
             ':user_id' => $userId
@@ -100,5 +99,65 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         }
 
         return $restaurants;
+    }
+
+    /**
+     * @param int $offset
+     * @param int $limit
+     * @return Restaurant[]
+     */
+    public function findAllPaginated($offset, $limit)
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getConnection();
+        /** @var PDOStatement $statement */
+        $statement = $pdo->prepare(
+            "select r.user_id,
+            r.id as restaurant_id, c.id as category_id,
+            r.name as restaurant_name, r.city as restaurant_city,
+            c.name as category_name, c.name_es as category_es,
+            r.created_at as created_at
+            from restaurants as `r`
+            left join categories as `c`
+            on r.category_id=c.id
+            limit :limit
+            OFFSET :offset"
+        );
+
+        $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $statement->execute();
+        $rows = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        $restaurants = [];
+        foreach ($rows as $row) {
+            $restaurants[] = new Restaurant(
+                $row->restaurant_id,
+                $row->restaurant_name,
+                $row->restaurant_city,
+                new Category((int)$row->category_id, $row->category_name, $row->category_es),
+                $row->user_id,
+                $row->created_at
+            );
+        }
+
+        return $restaurants;
+    }
+
+    /**
+     * Returns the total number of rows on the table
+     * @return int
+     */
+    public function countAll()
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getConnection();
+
+        $sql = "SELECT count(*) FROM `restaurants`";
+        $result = $pdo->prepare($sql);
+        $result->execute();
+        $numberOfRows = (int) $result->fetchColumn();
+
+        return $numberOfRows;
     }
 }
