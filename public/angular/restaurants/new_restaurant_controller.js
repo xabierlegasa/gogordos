@@ -13,7 +13,7 @@ angular.module('myapp.newRestaurant', [
             'focus',
             function ($http, $state, $scope, $rootScope, $localStorage, focus) {
                 $scope.categories = {};
-                
+
                 $http({
                     method: 'GET',
                     url: '/api/categories',
@@ -28,7 +28,12 @@ angular.module('myapp.newRestaurant', [
                     $http({
                         method: 'POST',
                         url: '/api/restaurants',
-                        data: {'restaurant': restaurant, 'jwt': $localStorage.jwt}
+                        data: {
+                            'restaurant_name': restaurant.name,
+                            'restaurant_city': restaurant.city,
+                            'restaurant_category': restaurant.category,
+                            'jwt': $localStorage.jwt
+                        }
                     }).success(function (data) {
 
                         // TODO: Go to recommendation page

@@ -32,14 +32,16 @@ class AddRestaurantControllerTest extends TestCase
     public function test_when_use_case_throws_an_invalid_argument_exception_should_return_json_with_error_code()
     {
         $requestMock = $this->prophesize(Request::class);
-        $requestMock->getParam('name')->shouldBeCalled()
-            ->willReturn('La tratoria');
-        $requestMock->getParam('city')->shouldBeCalled()
+        $requestMock->getParam('restaurant_name')->shouldBeCalled()
+            ->willReturn('La Tratoria');
+        $requestMock->getParam('restaurant_city')->shouldBeCalled()
             ->willReturn('Roma');
-        $requestMock->getParam('category')->shouldBeCalled()
+        $requestMock->getParam('restaurant_category')->shouldBeCalled()
             ->willReturn('invalid category');
+        $requestMock->getParam('jwt')->shouldBeCalled()
+            ->willReturn('jwt');
 
-        $this->addRestaurantUseCaseMock->execute(new AddRestaurantRequest('La tratoria', 'Roma', 'invalid category', 'jwt'))
+        $this->addRestaurantUseCaseMock->execute(new AddRestaurantRequest('La Tratoria', 'roma', 'invalid category', 'jwt'))
             ->shouldBeCalled()
             ->willThrow(new \InvalidArgumentException('La categoría no es válida'));
 
