@@ -9,7 +9,8 @@ angular.module('myapp.addFriend', [
             '$scope',
             '$location',
             'appConstants',
-            function ($http, $state, $scope, $location, appConstants) {
+            '$localStorage',
+            function ($http, $state, $scope, $location, appConstants, $localStorage) {
                 console.log('appConstants.ApiBaseUrl: ' + appConstants.ApiBaseUrl);
                 $scope.ApiBaseUrl = appConstants.ApiBaseUrl;
                 $scope.itemArray = [];
@@ -36,15 +37,20 @@ angular.module('myapp.addFriend', [
                 };
 
                 $scope.itemSelected = function (selectedItem) {
-
-                    console.log('item selecteeed');
-                    console.log(selectedItem.id);
                     $scope.selectedItem = selectedItem.id;
                 };
 
                 $scope.addFriend = function (item) {
-                    console.log('add friend');
-                    console.log(item);
+                    $http({
+                        method: 'POST',
+                        url: '/api/users/addFriend',
+                        data: {'username': item.id, 'jwt': $localStorage.jwt}
+                    }).success(function (data) {
+                        $scope.errorMessage = '';
+                        $scope.successMessage = 'Añadido como amigo.';
+                    }).error(function (data, status, headers, config) {
+                        $scope.errorMessage = data.message;
+                    });
                 };
             }
         ]

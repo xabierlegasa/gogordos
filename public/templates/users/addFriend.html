@@ -1,12 +1,10 @@
 
 
 <p>
-    Busca un amigo por su nombre de usuario y añadelo a tu lista de amigos gogordos.
+    Busca a un amigo y añadelo a tu lista de amigos gogordos.
 </p>
 
 <br>
-
-<h4>Nombre de tu amig@</h4>
 
 <ui-select ng-model="selected.value" on-select="itemSelected($item)">
     <ui-select-match placeholder="Introduce un nombre...">
@@ -22,3 +20,14 @@
 <br>
 
 <button type="button" class="btn btn-default" ng-disabled="selected.value == undefined" ng-click="addFriend(selected.value)">+ Añadir como amig@</button>
+
+<br>
+<br>
+
+
+<div ng-if="errorMessage" class="alert alert-danger">
+    <strong>Error</strong> {{errorMessage}}
+</div>
+<div ng-if="successMessage" class="alert alert-success">
+    <strong>Bien!</strong> {{successMessage}}
+</div>

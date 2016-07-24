@@ -1,6 +1,7 @@
 <?php
 // DIC configuration
 
+use Gogordos\Application\Controllers\AddFriendController;
 use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\FindUserController;
@@ -14,9 +15,9 @@ use Gogordos\Application\UseCases\AuthenticateUseCase;
 use Gogordos\Application\UseCases\GetUserRestaurants\GetUserRestaurantsUseCase;
 use Gogordos\Application\UseCases\Login\LoginUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
-use Gogordos\Domain\Services\Authenticator;
 use Gogordos\Framework\Config\CurrentVersion;
 use Gogordos\Framework\Repositories\CategoryRepositoryMysql;
+use Gogordos\Framework\Repositories\FriendRepositoryMysql;
 use Gogordos\Framework\Repositories\RestaurantRepositoryMysql;
 use Gogordos\Framework\Repositories\UsersRepositoryMysql;
 use Gogordos\Framework\Slim\Config;
@@ -160,4 +161,22 @@ $container['FindUserController'] = function ($c) {
         $c->get('UsersRepository')
     );
 };
+
+$container['FriendRepository'] = function ($c) {
+    return new FriendRepositoryMysql(
+        $c->get('Config')
+    );
+};
+
+$container['AddFriendController'] = function ($c) {
+    return new AddFriendController(
+        $c->get('UsersRepository'),
+        $c->get('FriendRepository'),
+        $c->get('Authenticator')
+    );
+};
+
+
+
+
 

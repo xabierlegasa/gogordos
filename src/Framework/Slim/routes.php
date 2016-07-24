@@ -134,3 +134,19 @@ $app->get('/api/users/restaurants', function ($request, ResponseInterface $respo
 
     return $response;
 });
+
+
+$app->post('/api/users/addFriend', function ($request, ResponseInterface $response, $args){
+    /** @var AddFriendController $addFriendController */
+    $addFriendController = $this->get('AddFriendController');
+
+    /** @var JsonResponse $response */
+    $jsonResponse = $addFriendController->addFriend($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
+
+    return $response;
+});
+
