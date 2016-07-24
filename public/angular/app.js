@@ -9,8 +9,12 @@ angular.module('myapp', [
     'myapp.account',
     'myapp.newRestaurant',
     'myapp.userPage',
-    'myapp.home'
+    'myapp.home',
+    'myapp.addFriend',
+    'ui.select', 'ngSanitize'
 ])
+
+    .constant('appConstants', {ApiBaseUrl: 'http://localhost:8080/api'})
 
     .config(function ($stateProvider, $urlRouterProvider) {
 
@@ -53,6 +57,12 @@ angular.module('myapp', [
                 templateUrl: 'templates/users/userPage.html',
                 controller: 'UserPageController',
                 controllerAs: 'userPagesCtrl'
+            })
+            .state('addFriend', {
+                url: '/g/addFriend',
+                templateUrl: 'templates/users/addFriend.html',
+                controller: 'AddFriendController',
+                controllerAs: 'addFriendCtrl'
             })
         ;
     })

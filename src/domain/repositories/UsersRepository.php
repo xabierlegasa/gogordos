@@ -24,7 +24,7 @@ interface UsersRepository
      * @return User|null
      */
     public function findByEmailOrUsernameSingleParameter($usernameOrEmail);
-    
+
     /**
      * Insert a user in the DB. Returns true if successful, or false otherwise
      * @param User $user
@@ -37,4 +37,10 @@ interface UsersRepository
      * @return User|null
      */
     public function findByUsername($username);
+
+    /**
+     * @param string $term
+     * @return User[]|null
+     */
+    public function findUsersWithUsernameSimilarTo($term);
 }

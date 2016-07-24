@@ -42,9 +42,9 @@ class CategoryRepositoryMysql extends BaseRepository implements CategoryReposito
 
         $statement->execute();
         $rows = $statement->fetchAll(PDO::FETCH_OBJ);
-        
+
         if ($rows === false) {
-            return null;
+            return [];
         }
 
         $categories = [];
@@ -55,7 +55,7 @@ class CategoryRepositoryMysql extends BaseRepository implements CategoryReposito
                 $row->name_es
             );
         }
-        
+
         return $categories;
     }
 }

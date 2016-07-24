@@ -1,0 +1,23 @@
+<!--<script src="/assets/angular-select2/angular-select2.min.js"></script>-->
+
+Value <br>
+<pre>{{selected.value}}</pre>
+<br>
+<br>
+
+<h4>Nombre de tu amig@ gogord@</h4>
+
+<ui-select ng-model="selected.value" on-select="itemSelected($item)">
+    <ui-select-match placeholder="Introduce un nombre...">
+        <span ng-bind="$select.selected.name"></span>
+    </ui-select-match>
+    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id"
+                       refresh="refreshUsers($select.search)"
+                       refresh-delay="0">
+        <span ng-bind="item.name"></span>
+    </ui-select-choices>
+</ui-select>
+
+<br>
+
+<button type="button" class="btn btn-default" ng-disabled="selected.value == undefined" ng-click="addFriend(selected.value)">+ Añadir como amig@</button>

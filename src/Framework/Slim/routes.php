@@ -2,12 +2,10 @@
 
 use Gogordos\Application\Controllers\AccountController;
 use Gogordos\Application\Controllers\AuthenticationController;
-use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\GetAllRestaurantsController;
 use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
-use Gogordos\Application\Controllers\UserController;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
 
@@ -34,6 +32,22 @@ $app->post('/api/users', function ($request, ResponseInterface $response, $args)
 
     return $response;
 })->setName('signUp');
+
+
+
+$app->get('/api/users', function ($request, ResponseInterface $response, $args) {
+    /** @var FindUserController $findUserController */
+    $findUserController = $this->get('FindUserController');
+
+    /** @var JsonResponse $response */
+    $jsonResponse = $findUserController->findUsersByTerm($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
+
+    return $response;
+})->setName('findUserByTerm');
 
 $app->get('/api/auth', function ($request, ResponseInterface $response, $args) {
     $authenticationController = new AuthenticationController($this->get('AuthenticateUseCase'));

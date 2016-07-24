@@ -3,6 +3,7 @@
 
 use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\CategoryController;
+use Gogordos\Application\Controllers\FindUserController;
 use Gogordos\Application\Controllers\GetAllRestaurantsController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
@@ -153,3 +154,10 @@ $container['GetAllRestaurantsController'] = function ($c) {
         $c->get('RestaurantRepository')
     );
 };
+
+$container['FindUserController'] = function ($c) {
+    return new FindUserController(
+        $c->get('UsersRepository')
+    );
+};
+

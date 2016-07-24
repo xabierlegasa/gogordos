@@ -16,7 +16,6 @@
     <script type="text/javascript" src="/assets/select2/js/select2.min.js"></script>
     <link rel="stylesheet" href="/assets/select2/css/select2.min.css">
 
-
     <!--  favicon-->
     <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-icon-60x60.png">
@@ -49,6 +48,27 @@
     <script type="text/javascript" src="/angular/restaurants/new_restaurant_controller.js"></script>
     <script type="text/javascript" src="/angular/user/user_page_controller.js"></script>
     <script type="text/javascript" src="/angular/home/home_controller.js"></script>
+    <script type="text/javascript" src="/angular/user/add_friend_controller.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.18.1/select.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.18.1/select.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <!--
+        IE8 support, see AngularJS Internet Explorer Compatibility http://docs.angularjs.org/guide/ie
+        For Firefox 3.6, you will also need to include jQuery and ECMAScript 5 shim
+      -->
+    <!--[if lt IE 9]>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.2.0/es5-shim.js"></script>
+    <script>
+        document.createElement('ui-select');
+        document.createElement('ui-select-match');
+        document.createElement('ui-select-choices');
+    </script>
+    <![endif]-->
+
+
 
 <!--    <base href="/">-->
 </head>
@@ -90,7 +110,7 @@
 
 <div id="footer">
     <div class="container">
-        <p class="text-muted">Gogordos 2016 Barcelona. <a href="https://twitter.com/xabierlegasa">Contact</a>. Version <?= $version?>.</p>
+        <p class="text-muted">Gogordos 2016 Barcelona. <a href="https://twitter.com/xabierlegasa">Contact</a>. Version <?= $version?></p>
     </div>
 </div>
 

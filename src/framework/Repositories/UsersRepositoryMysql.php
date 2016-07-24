@@ -146,4 +146,35 @@ class UsersRepositoryMysql extends BaseRepository implements UsersRepository
             $row->password_hash
         );
     }
+
+    /**
+     * @param string $term
+     * @return User[]|null
+     */
+    public function findUsersWithUsernameSimilarTo($term)
+    {
+        /** @var PDOStatement $statement */
+        $statement = $this->getConnection()->prepare('SELECT * FROM users WHERE username LIKE :term');
+
+        $statement->execute([
+            ':term' => '%' . $term . '%'
+        ]);
+        $rows = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        if ($rows === false) {
+            return [];
+        }
+
+        $users = [];
+        foreach ($rows as $row) {
+            $users[] = User::register(
+                UserId::fromString($row->id),
+                $row->email,
+                $row->username,
+                $row->password_hash
+            );
+        }
+
+        return $users;
+    }
 }

@@ -1,13 +1,23 @@
-<div ng-if="!loggedIn" class="jumbotron">
-    <h1>Bienvenid@ gogord@!</h1>
-    <p class="lead">Un sitio donde recomendar restaurantes entre amigos.</p>
-    <p><a class="btn btn-lg btn-success" href="x" role="button">Sí, quiero ser un gogordo</a></p>
-</div>
-<div ng-if="loggedIn" class="jumbotron">
-    <h1>Tip:</h1>
-    <p class="lead">Un gogordo de verdad, metería un par de recomendaciones. Ahí lo dejo...</p>
-    <p><a class="btn btn-lg btn-success" ui-sref="newRestaurant({})" role="button">Añadir un restaurante favorito</a></p>
 
+<div ng-if="!loggedIn">
+    <div class="jumbotron">
+        <h1>Bienvenid@ gogord@!</h1>
+        <p class="lead">Un sitio donde recomendar restaurantes entre amigos.</p>
+        <p><a class="btn btn-lg btn-success" href="x" role="button">Sí, quiero ser un gogordo</a></p>
+    </div>
+</div>
+
+<div>
+    <div ng-if="loggedIn" class="jumbotron">
+        <h1>Tip:</h1>
+        <p class="lead">Un gogordo de verdad, metería un par de recomendaciones. Ahí lo dejo...</p>
+        <p><a class="btn btn-lg btn-success" ui-sref="newRestaurant({})" role="button">Añadir un restaurante favorito</a></p>
+    </div>
+
+    <p><a class="btn btn-lg btn-info" ui-sref="addFriend({})" role="button">+ Añadir un amigo gogordo</a></p>
+
+    <br>
+    <br>
 </div>
 
 <div class="row">
