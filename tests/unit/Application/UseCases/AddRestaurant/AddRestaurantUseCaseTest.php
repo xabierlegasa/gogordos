@@ -45,42 +45,42 @@ class AddRestaurantUseCaseTest extends TestCase
         );
     }
 
-//    public function test_when_restaurant_name_is_empty_should_throw_an_exception()
-//    {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $restaurantName = '';
-//        $addRestaurantRequest = new AddRestaurantRequest($restaurantName, 'city', 'indian', 'jwt');
-//        $this->sut->execute($addRestaurantRequest);
-//    }
-//
-//    public function test_when_city_is_empty_should_throw_an_exception()
-//    {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $city = '';
-//        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', $city, 'indian', 'jwt');
-//        $this->sut->execute($addRestaurantRequest);
-//    }
-//
-//    public function test_when_category_is_empty_should_throw_an_exception()
-//    {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $category = '';
-//        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $category, 'jwt');
-//        $this->sut->execute($addRestaurantRequest);
-//    }
-//
-//    public function test_when_category_is_invalid_should_throw_an_exception()
-//    {
-//        $this->expectException(\InvalidArgumentException::class);
-//
-//        $invalidCategory = 'invalid category';
-//        $this->categoryRepositoryMock->findByName($invalidCategory)
-//            ->shouldBeCalled()
-//            ->willReturn(null);
-//
-//        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $invalidCategory, 'jwt');
-//        $this->sut->execute($addRestaurantRequest);
-//    }
+    public function test_when_restaurant_name_is_empty_should_throw_an_exception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $restaurantName = '';
+        $addRestaurantRequest = new AddRestaurantRequest($restaurantName, 'city', 'indian', 'jwt');
+        $this->sut->execute($addRestaurantRequest);
+    }
+
+    public function test_when_city_is_empty_should_throw_an_exception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $city = '';
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', $city, 'indian', 'jwt');
+        $this->sut->execute($addRestaurantRequest);
+    }
+
+    public function test_when_category_is_empty_should_throw_an_exception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $category = '';
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $category, 'jwt');
+        $this->sut->execute($addRestaurantRequest);
+    }
+
+    public function test_when_category_is_invalid_should_throw_an_exception()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $invalidCategory = 'invalid category';
+        $this->categoryRepositoryMock->findByName($invalidCategory)
+            ->shouldBeCalled()
+            ->willReturn(null);
+
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $invalidCategory, 'jwt');
+        $this->sut->execute($addRestaurantRequest);
+    }
 
     public function test_when_all_the_data_is_valid_should_create_the_new_restaurant()
     {
