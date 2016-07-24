@@ -7,13 +7,11 @@ use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Gogordos\Domain\Entities\AuthUserData;
 use Gogordos\Domain\Entities\Category;
 use Gogordos\Domain\Entities\Restaurant;
-use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\CategoryRepository;
 use Gogordos\Domain\Repositories\RestaurantRepository;
 use Gogordos\Domain\Services\Authenticator;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Ramsey\Uuid\Uuid;
 
 class AddRestaurantUseCaseTest extends TestCase
