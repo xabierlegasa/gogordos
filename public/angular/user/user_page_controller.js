@@ -11,6 +11,8 @@ angular.module('myapp.userPage', [
             function ($http, $state, $scope, $stateParams) {
                 var username = $stateParams.username;
 
+                $scope.username = username;
+
                 $http({
                     method: 'GET',
                     url: '/api/users/restaurants',

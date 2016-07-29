@@ -36,6 +36,8 @@ angular.module('myapp.newRestaurant', [
                         }
                     }).success(function (data) {
 
+                        $scope.successMessage = 'Ya tienes otro sitio favofito en tu lista!';
+
                         // TODO: Go to recommendation page
 
                         // if (data.status == 'success') {

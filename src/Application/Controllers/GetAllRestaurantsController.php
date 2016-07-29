@@ -5,6 +5,7 @@ namespace Gogordos\Application\Controllers;
 
 use Gogordos\Application\Controllers\Response\JsonBadRequest;
 use Gogordos\Application\Controllers\Response\JsonOk;
+use Gogordos\Application\Presenters\RestaurantPresenter;
 use Gogordos\Domain\AppConstants;
 use Gogordos\Domain\Repositories\RestaurantRepository;
 use Slim\Http\Request;
@@ -15,10 +16,20 @@ class GetAllRestaurantsController
      * @var RestaurantRepository
      */
     private $restaurantRepository;
+    /**
+     * @var RestaurantPresenter
+     */
+    private $restaurantPresenter;
 
-    public function __construct(RestaurantRepository $restaurantRepository)
+    /**
+     * GetAllRestaurantsController constructor.
+     * @param RestaurantRepository $restaurantRepository
+     * @param RestaurantPresenter $restaurantPresenter
+     */
+    public function __construct(RestaurantRepository $restaurantRepository, RestaurantPresenter $restaurantPresenter)
     {
         $this->restaurantRepository = $restaurantRepository;
+        $this->restaurantPresenter = $restaurantPresenter;
     }
 
     public function getRestaurants(Request $request)
@@ -29,16 +40,18 @@ class GetAllRestaurantsController
             $limit = AppConstants::NUM_RESTAURANTS_PER_PAGE;
             $offset = ($page - 1) * $limit;
             $total = $this->restaurantRepository->countAll();
-            $restaurants = $this->restaurantRepository->findAllPaginated($offset, AppConstants::NUM_RESTAURANTS_PER_PAGE);
             // How many pages will there be
             $pages = ceil($total / $limit);
+
+            $restaurants = $this->restaurantRepository->findAllPaginated($offset, AppConstants::NUM_RESTAURANTS_PER_PAGE);
+            $restaurantsPresented = $this->restaurantPresenter->presentRestaurantsWithUserData($restaurants);
 
             return new JsonOk([
                 'pagination' => [
                     'currentPage' => $page,
                     'totalPages' => $pages
                 ],
-                'restaurants' => $restaurants
+                'restaurants' => $restaurantsPresented
             ]);
         } catch (\InvalidArgumentException $e) {
             return new JsonBadRequest(['message' => $e->getMessage()]);

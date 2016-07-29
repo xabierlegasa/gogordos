@@ -24,6 +24,11 @@ class Restaurant implements \JsonSerializable
     private $userId;
 
     /**
+     * @var User
+     */
+    private $user;
+
+    /**
      * @var
      */
     private $createdAt;
@@ -93,5 +98,21 @@ class Restaurant implements \JsonSerializable
             'categoryName' => $this->category()->name(),
             'categoryNameEs' => $this->category()->nameEs()
         ];
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function user()
+    {
+        return $this->user;
     }
 }

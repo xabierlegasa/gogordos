@@ -5,9 +5,11 @@ namespace Gogordos\Framework\Repositories;
 use Gogordos\Domain\Entities\Category;
 use Gogordos\Domain\Entities\Restaurant;
 use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\RestaurantRepository;
 use PDO;
 use PDOStatement;
+use Ramsey\Uuid\Uuid;
 
 class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepository
 {
@@ -116,10 +118,13 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
             r.id as restaurant_id, c.id as category_id,
             r.name as restaurant_name, r.city as restaurant_city,
             c.name as category_name, c.name_es as category_es,
-            r.created_at as created_at
+            r.created_at as created_at,
+            u.id as user_id, u.email as user_email, u.username as user_username
             from restaurants as `r`
             left join categories as `c`
             on r.category_id=c.id
+            left join users as `u`
+            on r.user_id=u.id
             limit :limit
             OFFSET :offset"
         );
@@ -131,7 +136,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
 
         $restaurants = [];
         foreach ($rows as $row) {
-            $restaurants[] = new Restaurant(
+            $restaurant = new Restaurant(
                 $row->restaurant_id,
                 $row->restaurant_name,
                 $row->restaurant_city,
@@ -139,6 +144,9 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $row->user_id,
                 $row->created_at
             );
+            $user = User::register(new UserId(Uuid::fromString($row->user_id)), $row->user_email, $row->user_username, null);
+            $restaurant->setUser($user);
+            $restaurants[] = $restaurant;
         }
 
         return $restaurants;

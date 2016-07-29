@@ -9,6 +9,7 @@ use Gogordos\Application\Controllers\GetAllRestaurantsController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
 use Gogordos\Application\Controllers\UserController;
+use Gogordos\Application\Presenters\RestaurantPresenter;
 use Gogordos\Application\Services\JwtAuthenticator;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
@@ -152,7 +153,8 @@ $container['UserController'] = function ($c) {
 
 $container['GetAllRestaurantsController'] = function ($c) {
     return new GetAllRestaurantsController(
-        $c->get('RestaurantRepository')
+        $c->get('RestaurantRepository'),
+        $c->get('RestaurantPresenter')
     );
 };
 
@@ -176,7 +178,6 @@ $container['AddFriendController'] = function ($c) {
     );
 };
 
-
-
-
-
+$container['RestaurantPresenter'] = function ($c) {
+    return new RestaurantPresenter();
+};
