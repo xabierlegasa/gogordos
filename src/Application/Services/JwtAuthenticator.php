@@ -2,6 +2,7 @@
 
 namespace Gogordos\Application\Services;
 
+use Gogordos\Application\Exceptions\AuthenticationException;
 use Gogordos\Domain\Entities\AuthUserData;
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
@@ -108,7 +109,7 @@ class JwtAuthenticator implements Authenticator
                 ]
             );
             // TODO log the error
-            throw new \InvalidArgumentException('Error validating logged in user');
+            throw new AuthenticationException();
         }
 
         return false;

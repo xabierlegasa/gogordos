@@ -6,6 +6,7 @@ use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\FindUserController;
 use Gogordos\Application\Controllers\GetAllRestaurantsController;
+use Gogordos\Application\Controllers\GetRestaurantsOfFriendsController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
 use Gogordos\Application\Controllers\UserController;
@@ -13,6 +14,7 @@ use Gogordos\Application\Presenters\RestaurantPresenter;
 use Gogordos\Application\Services\JwtAuthenticator;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
 use Gogordos\Application\UseCases\AuthenticateUseCase;
+use Gogordos\Application\UseCases\GetRestaurantsOfFriends\GetRestaurantsOfFriendsUseCase;
 use Gogordos\Application\UseCases\GetUserRestaurants\GetUserRestaurantsUseCase;
 use Gogordos\Application\UseCases\Login\LoginUseCase;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
@@ -180,4 +182,17 @@ $container['AddFriendController'] = function ($c) {
 
 $container['RestaurantPresenter'] = function ($c) {
     return new RestaurantPresenter();
+};
+
+$container['GetRestaurantsOfFriendsUseCase'] = function ($c) {
+    return new GetRestaurantsOfFriendsUseCase(
+        $c->get('Authenticator'),
+        $c->get('RestaurantRepository')
+    );
+};
+
+$container['GetRestaurantsOfFriendsController'] = function ($c) {
+    return new GetRestaurantsOfFriendsController(
+        $c->get('GetRestaurantsOfFriendsUseCase')
+    );
 };

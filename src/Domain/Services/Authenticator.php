@@ -2,6 +2,7 @@
 
 namespace Gogordos\Domain\Services;
 
+use Gogordos\Domain\Entities\AuthUserData;
 use Gogordos\Domain\Entities\User;
 
 interface Authenticator

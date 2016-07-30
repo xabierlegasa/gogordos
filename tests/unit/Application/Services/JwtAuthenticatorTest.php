@@ -2,6 +2,7 @@
 
 namespace Tests\Application\Services;
 
+use Gogordos\Application\Exceptions\AuthenticationException;
 use Gogordos\Application\Services\JwtAuthenticator;
 use Gogordos\Domain\Entities\AuthUserData;
 use Gogordos\Domain\Entities\User;
@@ -30,7 +31,7 @@ class JwtAuthenticatorTest extends TestCase
             $this->logger->reveal()
         );
     }
-    
+
     public function test_when_we_provide_a_valid_token_should_return_an_authUserData_with_users_data()
     {
         $user = User::register(
@@ -52,7 +53,7 @@ class JwtAuthenticatorTest extends TestCase
 
     public function test_when_token_is_invalid_should_log_the_error_and_throw_correct_exception()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(AuthenticationException::class);
         $this->logger->error('Error trying to get authUserData from a token', Argument::any())
             ->shouldBeCalled();
         /** @var AuthUserData $authUserData */

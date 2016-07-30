@@ -168,4 +168,84 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
 
         return $numberOfRows;
     }
+
+    /**
+     * @param UserId $userId
+     * @param int $offset
+     * @param int $limit
+     * @return \Gogordos\Domain\Entities\Restaurant[]
+     */
+    public function findByUserFriends(UserId $userId, $offset, $limit)
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getConnection();
+
+        $statement = $pdo->prepare(
+            "select f.user_id_following as user_id, u.username as user_username, r.id as restaurant_id, r.name as restaurant_name,
+    r.city as restaurant_city, c.id as category_id, c.name as category_name,
+    c.name_es as category_name_es
+    from friends as `f`
+	left join restaurants as `r`
+	on f.user_id_following=r.user_id
+	left join categories as `c`
+	on c.id=r.category_id
+	left join users as `u`
+	on u.id=f.user_id_following
+	where f.user_id_follower= :user_id
+	and r.id is not null
+	limit :limit
+    OFFSET :offset"
+        );
+
+        $statement->bindValue(":user_id", $userId->value(), PDO::PARAM_INT);
+        $statement->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $statement->bindValue(":offset", $offset, PDO::PARAM_INT);
+
+        $statement->execute();
+        $rows = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        $restaurants = [];
+        foreach ($rows as $row) {
+            $restaurant = new Restaurant(
+                $row->restaurant_id,
+                $row->restaurant_name,
+                $row->restaurant_city,
+                new Category((int)$row->category_id, $row->category_name, $row->category_name_es),
+                $row->user_id,
+                null
+            );
+            $user = User::register(new UserId(Uuid::fromString($row->user_id)), null, $row->user_username,
+                null);
+            $restaurant->setUser($user);
+            $restaurants[] = $restaurant;
+        }
+
+        return $restaurants;
+    }
+
+    public function findByUserFriendsTotal(UserId $userId)
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getConnection();
+
+        $statement = $pdo->prepare(
+            "select count(r.id) as total
+	from friends as `f`
+	left join restaurants as `r`
+	on f.user_id_following=r.user_id
+	left join categories as `c`
+	on c.id=r.category_id
+	left join users as `u`
+	on u.id=f.user_id_following
+	where f.user_id_follower= :user_id
+	and r.id is not null"
+        );
+
+        $statement->bindValue(":user_id", $userId->value(), PDO::PARAM_INT);
+
+        $statement->execute();
+        $rows = $statement->fetch(PDO::FETCH_OBJ);
+
+        return (int) $rows->total;
+    }
 }

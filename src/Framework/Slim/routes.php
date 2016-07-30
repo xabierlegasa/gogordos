@@ -150,3 +150,11 @@ $app->post('/api/users/addFriend', function ($request, ResponseInterface $respon
     return $response;
 });
 
+$app->get('/api/friends/restaurants', function ($request, ResponseInterface $response, $args) {
+    $ctrlResponse = $this->get('GetRestaurantsOfFriendsController')->getRestaurantsOfFriends($request);
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+
+    return $response;
+});

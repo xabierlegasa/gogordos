@@ -40,13 +40,30 @@
         <nav>
             <ul class="pager">
                 <li class="js-all-restaurants-previous"><a ng-click="previousPage()">Menos</a></li>
-                <li class="js-all-restaurants-next"><a ng-click="nextPage()">Más</a></li>
+                <li class="js-all-restaurants-next"><a ng-click="nextPage()">Ver más</a></li>
             </ul>
         </nav>
     </div>
 
     <div class="col-md-6">
         <h4>Recomendaciones de mis amigos gogordos</h4>
+
+        <br>
+        <div>
+            <div ng-repeat="res in friendRestaurants">
+                <p>
+                    <a ui-sref="userPage({username: res.username})">{{res.username}}</a> recomienda <span
+                        class="bg-info lead">"{{res.name}}"</span> en {{res.city}}, {{res.categoryNameEs}}.
+                </p>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="pager">
+                <li class="js-friend-restaurants-previous"><a ng-click="friendsRestaurantsPreviousPage()">Menos</a></li>
+                <li class="js-friend-restaurants-next"><a ng-click="friendsRestaurantsNextPage()">Ver más</a></li>
+            </ul>
+        </nav>
 
     </div>
 </div>

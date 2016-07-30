@@ -4,6 +4,7 @@ namespace Gogordos\Domain\Repositories;
 
 use Gogordos\Domain\Entities\Restaurant;
 use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 
 interface RestaurantRepository
 {
@@ -30,4 +31,19 @@ interface RestaurantRepository
      * @return int
      */
     public function countAll();
+
+    /**
+     * @param UserId $userId
+     * @param int $offset
+     * @param int $limit
+     * @return \Gogordos\Domain\Entities\Restaurant[]
+     */
+    public function findByUserFriends(UserId $userId, $offset, $limit);
+
+
+    /**
+     * @param UserId $userId
+     * @return int
+     */
+    public function findByUserFriendsTotal(UserId $userId);
 }
