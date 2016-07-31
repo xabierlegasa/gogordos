@@ -19,7 +19,7 @@
                             id="username"
                             required="required"
                             maxlength="255"
-                            pattern=".{2,}"
+                            pattern="[a-zA-Z0-9_]{3,25}"
                             class="form-control">
                 </div>
 
@@ -49,7 +49,7 @@
                             class="form-control"></div>
                 <br>
                 <div>
-                    <input type="submit" class="btn btn-default" value="Register">
+                    <input ng-disabled="signUpForm.$invalid" type="submit" class="btn btn-default" value="Register">
                 </div>
             </form>
 
