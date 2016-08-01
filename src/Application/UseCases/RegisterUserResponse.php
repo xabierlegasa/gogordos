@@ -13,9 +13,6 @@ use Gogordos\Domain\Entities\User;
 
 class RegisterUserResponse
 {
-    /** @var string */
-    private $code;
-
     /** @var User */
     private $user;
 
@@ -24,20 +21,13 @@ class RegisterUserResponse
 
     /**
      * RegisterUserResponse constructor.
-     * @param $code
      * @param User $user
      * @param string $jwt
      */
-    public function __construct($code, User $user = null, $jwt = null)
+    public function __construct(User $user = null, $jwt = null)
     {
-        $this->code = $code;
         $this->user = $user;
         $this->jwt = $jwt;
-    }
-    
-    public function code()
-    {
-        return $this->code;
     }
 
     /**

@@ -24,11 +24,12 @@ $app->get('/', function ($request, $response, $args) {
 
 $app->post('/api/users', function ($request, ResponseInterface $response, $args) {
     $registerController = new RegisterController($this->get('RegisterUserUseCase'));
-    $data = $registerController->register($request);
+
+    $jsonResponse = $registerController->register($request);
 
     $response = $response
         ->withHeader('Content-Type', 'application/json')
-        ->withJson($data, 200);
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
 
     return $response;
 })->setName('signUp');

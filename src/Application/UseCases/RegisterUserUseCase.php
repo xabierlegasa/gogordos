@@ -21,7 +21,7 @@ class RegisterUserUseCase
 
     /** @var  UsersRepository */
     private $usersRepository;
-    
+
     /**
      * @var Authenticator
      */
@@ -60,14 +60,13 @@ class RegisterUserUseCase
         }
 
         $jwt = $this->authenticator->authTokenFromUser($user);
-        
+
         return new RegisterUserResponse(
-            StatusCode::STATUS_SUCCESS,
             $user,
             $jwt
         );
     }
-    
+
     /**
      * @param $email
      * @throws \InvalidArgumentException
@@ -95,7 +94,7 @@ class RegisterUserUseCase
             if ($user->email() === $request->email()) {
                 throw new EmailAlreadyExistsException('A user with that email already exists');
             }
-            
+
             throw new UsernameAlreadyExistsException('A user with that username already exists');
         }
     }
@@ -116,9 +115,11 @@ class RegisterUserUseCase
 
         if (!$usernameValidator->validate($username)) {
             throw new \InvalidArgumentException(
-                'Invalid username. Must be between ' .
-                static::USERNAME_LENGTH_MIN . ' and ' . static::USERNAME_LENGTH_MAX .
-                ' characters long'
+                'Solo letras, números o barra baja. Entre '
+                . static::USERNAME_LENGTH_MIN
+                . ' y '
+                . static::USERNAME_LENGTH_MAX
+                . ' caracteres.'
             );
         }
     }

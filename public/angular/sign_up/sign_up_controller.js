@@ -34,8 +34,8 @@ angular.module('myapp.signUp', [
                         } else {
                             console.log('data status is not success. Show the erro.r message');
                         }
-                    }).catch(function (user) {
-                        controller.errors = user.data.error;
+                    }).error(function (data, status, headers, config) {
+                        $scope.errorMessage = data.errorMessage;
                     });
                 };
 

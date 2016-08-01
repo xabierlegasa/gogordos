@@ -3,7 +3,7 @@
     <div class="jumbotron">
         <h1>Bienvenid@ gogord@!</h1>
         <p class="lead">Un sitio donde recomendar restaurantes entre amigos.</p>
-        <p><a class="btn btn-lg btn-success" href="x" role="button">Sí, quiero ser un gogordo</a></p>
+        <p><a class="btn btn-lg btn-success" ui-sref="signup({})" role="button">Sí, quiero ser un gogordo</a></p>
     </div>
 </div>
 
@@ -45,7 +45,7 @@
         </nav>
     </div>
 
-    <div class="col-md-6">
+    <div ng-if="friendRestaurants" class="col-md-6">
         <h4>Recomendaciones de mis amigos gogordos</h4>
 
         <br>

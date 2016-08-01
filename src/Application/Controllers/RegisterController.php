@@ -2,6 +2,9 @@
 
 namespace Gogordos\Application\Controllers;
 
+use Gogordos\Application\Controllers\Response\JsonBadRequest;
+use Gogordos\Application\Controllers\Response\JsonInternalServerError;
+use Gogordos\Application\Controllers\Response\JsonOk;
 use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\Exceptions\UserAlreadyExistsException;
 use Gogordos\Application\Exceptions\UsernameAlreadyExistsException;
@@ -35,24 +38,25 @@ class RegisterController
             $registerUserRequest = new RegisterUserRequest($email, $username, $password);
             /** @var RegisterUserResponse $response */
             $response = $this->registerUserUseCase->execute($registerUserRequest);
+
+            $data = [
+                'jwt' => $response->jwt()
+            ];
+
+            return new JsonOk($data);
         } catch (\Exception $e) {
             if ($e instanceof \InvalidArgumentException
                 || $e instanceof EmailAlreadyExistsException
                 || $e instanceof UsernameAlreadyExistsException
             ) {
-                return ['status' => StatusCode::STATUS_ERROR, 'message' => $e->getMessage()];
+                return new JsonBadRequest([
+                    'errorMessage' => $e->getMessage()
+                ]);
             }
-            return [
-                'status' => StatusCode::STATUS_ERROR,
-                'message' => 'Yuuups something went wrong. Message:' . $e->getMessage()
-            ];
-        }
 
-        $data = [
-            'status' => $response->code(),
-            'jwt' => $response->jwt()
-        ];
-        
-        return $data;
+            return new JsonInternalServerError([
+                'errorMessage' => 'Yuuups something went wrong. Message:' . $e->getMessage()
+            ]);
+        }
     }
 }
