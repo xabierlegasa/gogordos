@@ -25,4 +25,4 @@ logs/
 .DS_Store
 
 # config file
-src/Framework/Slim/config_env.php.dist
+src/Framework/Slim/config_env.php

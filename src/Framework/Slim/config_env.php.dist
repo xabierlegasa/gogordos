@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'config' => [
+        'display_error_details'=> true,
+        'mysql_database_name' => 'database_name_here',
+        'mysql_username' => 'username_here',
+        'mysql_password' => 'password_here'
+    ]
+];
+
