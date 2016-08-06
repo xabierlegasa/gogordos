@@ -9,13 +9,42 @@ You will need PHP 5.6+ and Composer.
 
 
 ```
+cd /var/www
 git clone git@github.com:xabierlegasa/gogordos.git
 cd gogordos
 composer install
+```
+
+## Run the server
+
+From project root folder:
+
+```
 php -S localhost:8080 -t public/
 ```
 
-Project should be here: http://localhost:8080
+The site should be available here: http://localhost:8080
+
+
+## Database
+
+Enter mysql and create the database:
+
+```
+CREATE DATABASE gogordos CHARACTER SET utf8 COLLATE utf8_general_ci;
+```
+
+Create the phinx config file and fill it in:
+
+```
+cp phinx.yml.dist phinx.yml
+```
+
+And now run the migrations:
+
+```
+./vendor/bin/phinx migrate
+```
 
 
 ## Run tests
@@ -39,11 +68,6 @@ Deploy to prod:
 ansible-playbook -i ./ansistrano/hosts_prod -e "ansistrano_release_version=`date -u +%Y%m%d%H%M%SZ`" ./ansistrano/deploy.yml
 ```
 
-
-## Run the server
-
-
-php -S localhost:8080 -t public/
 
 
 

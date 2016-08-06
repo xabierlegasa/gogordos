@@ -23,6 +23,7 @@ $app->get('/', function ($request, $response, $args) {
 })->setName("home");;
 
 $app->post('/api/users', function ($request, ResponseInterface $response, $args) {
+   try {
     $registerController = new RegisterController($this->get('RegisterUserUseCase'));
 
     $jsonResponse = $registerController->register($request);
@@ -32,6 +33,11 @@ $app->post('/api/users', function ($request, ResponseInterface $response, $args)
         ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
 
     return $response;
+   } catch (\Exception $e) {
+        var_dump($e->getMessage());
+        die;
+   }
+   
 })->setName('signUp');
 
 
