@@ -1,6 +1,9 @@
 <?php
 
+use Gogordos\Domain\Entities\User;
+use Gogordos\Domain\Entities\UserId;
 use Phinx\Seed\AbstractSeed;
+use Ramsey\Uuid\Uuid;
 
 class UsersSeeder extends AbstractSeed
 {
@@ -14,39 +17,43 @@ class UsersSeeder extends AbstractSeed
      */
     public function run()
     {
-        $xabiId = '67d207e9-d004-41bc-b330-16ca75daeabc';
-        $xabiId2 = '67d207e9-d004-41bc-b330-16ca75daedef';
-
+        $password = password_hash('1111', PASSWORD_DEFAULT);
+        
         /*  USERS ---------------------------------------------- */
         $faker = Faker\Factory::create();
 
-        $users = [
-            [
-              'id' => $xabiId,
-              'email' => 'xabierlegasa@example.com',
-              'username' => 'xabi',
-              'password_hash' => '$2y$10$GTce4F/RAbttqQu9RtVt0.qT4pbGz6qfarktRPAPFMtlOsTNr7XlK', // psw: 1111
-              'created_at' => date('Y-m-d H:i:s'),
-              'updated_at' => 'null'
-           ],
-           [
-              'id' => $xabiId2,
-              'email' => 'xabierlegasa+2@example.com',
-              'username' => 'xabi2',
-              'password_hash' => '$2y$10$GTce4F/RAbttqQu9RtVt0.qT4pbGz6qfarktRPAPFMtlOsTNr7XlK', // psw: 1111
-              'created_at' => date('Y-m-d H:i:s'),
-              'updated_at' => 'null'
-           ]
+        $userId = new UserId(Uuid::uuid4());
+        $users[] = [
+            'id' => $userId->value(),
+            'email' => 'xabierlegasa@example.com',
+            'username' => 'xabi',
+            'password_hash' => $password,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => 'null'
         ];
 
+        $userId = new UserId(Uuid::uuid4());
+        $users[] = [
+            'id' => $userId->value(),
+            'email' => 'xabierlegasa+2@example.com',
+            'username' => 'xabi2',
+            'password_hash' => $password,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => 'null'
+        ];
 
         // Dummy users
         for( $i = 0; $i < 100; $i++) {
+
+            $email = $faker->email;
+            $username = $faker->username;
+            $userId = new UserId(Uuid::uuid4());
+
             $user = [
-                'id' => '67d207e9-d004-41bc-b330-16ca75dae' . $i,
-                'email' => $faker->email,
-                'username' => $faker->username,
-                'password_hash' => '$2y$10$GTce4F/RAbttqQu9RtVt0.qT4pbGz6qfarktRPAPFMtlOsTNr7XlK', // psw: 1111
+                'id' => $userId->value(),
+                'email' => $email,
+                'username' => $username,
+                'password_hash' => $password, // psw: 1111
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => 'null'
             ];
@@ -94,8 +101,13 @@ class UsersSeeder extends AbstractSeed
 
         $friends = [
             [
+                'user_id_follower' => $users[0]['id'],
+                'user_id_following' => $users[1]['id'],
+                'created_at' => date('Y-m-d H:i:s')
+            ],
+            [
                 'user_id_follower' => $users[1]['id'],
-                'user_id_following' => $xabiId,
+                'user_id_following' => $users[0]['id'],
                 'created_at' => date('Y-m-d H:i:s')
             ]
         ];
