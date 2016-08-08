@@ -31,8 +31,12 @@ class CreateFriendsTable extends AbstractMigration
         $users->addColumn('user_id_follower', 'string', ['limit' => 36])
             ->addColumn('user_id_following', 'string', ['limit' => 36])
             ->addColumn('created_at', 'datetime')
-            ->addForeignKey('user_id_follower', 'users', ['id'], ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
-            ->addForeignKey('user_id_following', 'users', ['id'], ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
+            ->addForeignKey(
+                ['user_id_follower', 'user_id_following'],
+                'friends',
+                ['user_id_follower', 'user_id_following'],
+                ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
+            //->addForeignKey('user_id_following', 'users', ['id'], ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
             ->addIndex(['user_id_follower', 'user_id_following'], ['unique' => true])
             ->save();
     }
