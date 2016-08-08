@@ -51,18 +51,18 @@ class UsersSeeder extends AbstractSeed
                 'updated_at' => 'null'
             ];
 
-            $users[] = $user;           
+            $users[] = $user;
         }
 
         $posts = $this->table('users');
             $posts->insert($users)
               ->save();
-        
+
 
 
 
         /*  RESTAURANTS ---------------------------------------------- */
-        
+
         $restaurants = [];
         foreach ($users as $user) {
             $numRestaurants = rand(0, 7);
@@ -87,7 +87,7 @@ class UsersSeeder extends AbstractSeed
         $posts = $this->table('restaurants');
         $posts->insert($restaurants)
             ->save();
-    
+
 
 
         /*  FRIENDS---------------------------------------------- */
@@ -105,12 +105,12 @@ class UsersSeeder extends AbstractSeed
 
             for ($i = 0; $i < $numFriends; $i++) {
 
-                $followingId = $users[rand(0, count($users))]['id'];
+                $followingId = $users[rand(0, count($users) -1)]['id'];
 
                 if (!$this->friendshipExist($friends, $followerId, $followingId)) {
                     $friends[] = [
-                        'user_id_follower' => $users[1]['id'],
-                        'user_id_following' => $xabiId,
+                        'user_id_follower' => $followerId,
+                        'user_id_following' => $followingId,
                         'created_at' => date('Y-m-d H:i:s')
                     ];
                 }

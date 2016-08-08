@@ -27,17 +27,17 @@ class CreateFriendsTable extends AbstractMigration
      */
     public function change()
     {
-        $users = $this->table('friends', ['id' => false]);
+        $users = $this->table('friends');
         $users->addColumn('user_id_follower', 'string', ['limit' => 36])
             ->addColumn('user_id_following', 'string', ['limit' => 36])
             ->addColumn('created_at', 'datetime')
-            ->addForeignKey(
-                ['user_id_follower', 'user_id_following'],
-                'friends',
-                ['user_id_follower', 'user_id_following'],
-                ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
-            //->addForeignKey('user_id_following', 'users', ['id'], ['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
-            ->addIndex(['user_id_follower', 'user_id_following'], ['unique' => true])
+            ->addForeignKey('user_id_follower', 'users', ['id'], ['delete' => 'CASCADE', 'update' => 'CASCADE'])
+            ->addForeignKey('user_id_following', 'users', ['id'], ['delete' => 'CASCADE', 'update' => 'CASCADE'])
             ->save();
+
+        $this->execute(
+            'ALTER TABLE `friends` ADD UNIQUE INDEX `inx_friends_follower_following` (`user_id_follower`, `user_id_following`)
+            '
+        );
     }
 }
