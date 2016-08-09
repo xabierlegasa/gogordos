@@ -18,7 +18,7 @@ class UsersSeeder extends AbstractSeed
     public function run()
     {
         $password = password_hash('1111', PASSWORD_DEFAULT);
-        
+
         /*  USERS ---------------------------------------------- */
         $faker = Faker\Factory::create();
 

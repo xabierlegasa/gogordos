@@ -193,6 +193,7 @@ $container['GetRestaurantsOfFriendsUseCase'] = function ($c) {
 
 $container['GetRestaurantsOfFriendsController'] = function ($c) {
     return new GetRestaurantsOfFriendsController(
-        $c->get('GetRestaurantsOfFriendsUseCase')
+        $c->get('GetRestaurantsOfFriendsUseCase'),
+        $c->get('RestaurantPresenter')
     );
 };
