@@ -2,7 +2,7 @@
 <div ng-if="!loggedIn">
     <div class="jumbotron">
         <h1>Bienvenid@ gogord@!</h1>
-        <p class="lead">Un sitio donde recomendar restaurantes entre amigos.</p>
+        <p class="lead">Recomendación de restaurantes favoritos entre amigos.</p>
         <p><a class="btn btn-lg btn-success" ui-sref="signup({})" role="button">Sí, quiero ser un gogordo</a></p>
     </div>
 </div>
@@ -24,13 +24,21 @@
 </div>
 
 
-
+<p>
+    <span class="lead">Sitios gogordos en...</span>
+    &nbsp;
+    <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>
+    &nbsp;
+    <a class="lead" ui-sref="cityRestaurants({city: 'madrid'})">Madrid</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="lead">Ver más ciudades</a>
+</p>
 
 <div class="row">
 
     <div class="col-md-6">
         <div ng-if="friendRestaurants">
-            <h4>Recomendaciones de mis amigos gogordos</h4>
+            <h3>Recomendaciones de mis amigos gogordos</h3>
 
             <br>
             <div>
@@ -60,7 +68,7 @@
 
 
     <div class="col-md-6">
-        <h4>Todas las recomendaciones gogordas</h4>
+        <h3>Todas las recomendaciones gogordas</h3>
 
         <br>
 
@@ -90,7 +98,7 @@
 
 <br>
 <p>
-    Sitios recomendados en...
+    Sitios gogordos en...
     &nbsp;
     <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>
     &nbsp;

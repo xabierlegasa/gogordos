@@ -107,7 +107,7 @@ class RegisterUserUseCaseTest extends TestCase
         /** @var RegisterUserResponse $response */
         $response = $this->sut->execute(new RegisterUserRequest($email, $username, $password));
 
-        $this->assertEquals('success', $response->code());
+        $this->assertInstanceOf(User::class, $response->user());
         $this->assertEquals($jwt, $response->jwt());
     }
 }

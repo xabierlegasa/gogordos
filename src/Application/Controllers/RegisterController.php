@@ -5,10 +5,9 @@ namespace Gogordos\Application\Controllers;
 use Gogordos\Application\Controllers\Response\JsonBadRequest;
 use Gogordos\Application\Controllers\Response\JsonInternalServerError;
 use Gogordos\Application\Controllers\Response\JsonOk;
+use Gogordos\Application\Controllers\Response\JsonResponse;
 use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
-use Gogordos\Application\Exceptions\UserAlreadyExistsException;
 use Gogordos\Application\Exceptions\UsernameAlreadyExistsException;
-use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\RegisterUserRequest;
 use Gogordos\Application\UseCases\RegisterUserResponse;
 use Gogordos\Application\UseCases\RegisterUserUseCase;
@@ -26,7 +25,7 @@ class RegisterController
 
     /**
      * @param Request $request
-     * @return array
+     * @return JsonResponse
      */
     public function register(Request $request)
     {

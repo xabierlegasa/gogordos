@@ -3,6 +3,8 @@
 namespace Tests\Application\Controllers;
 
 use Gogordos\Application\Controllers\RegisterController;
+use Gogordos\Application\Controllers\Response\JsonOk;
+use Gogordos\Application\Controllers\Response\JsonResponse;
 use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\StatusCode;
 use Gogordos\Application\UseCases\RegisterUserResponse;
@@ -46,15 +48,15 @@ class RegisterControllerTest extends TestCase
             ->shouldBeCalled()
             ->willReturn(
                 new RegisterUserResponse(
-                    StatusCode::STATUS_SUCCESS,
                     $userMock->reveal(),
                     'headerB64.payloadB64.signatureB64'
                 )
             );
 
-        $data = $this->sut->register($this->requestMock->reveal());
-        
-        $this->assertEquals(StatusCode::STATUS_SUCCESS, $data['status']);
+        /** @var JsonOk $jsonOk */
+        $jsonOk = $this->sut->register($this->requestMock->reveal());
+        $this->assertEquals(200, $jsonOk->httpCode());
+        $data = $jsonOk->data();
         $this->assertEquals('headerB64.payloadB64.signatureB64', $data['jwt']);
     }
 
@@ -67,9 +69,10 @@ class RegisterControllerTest extends TestCase
         $this->registerUserUseCase->execute(Argument::any())
             ->shouldBeCalled()
             ->willThrow(new EmailAlreadyExistsException('Exception message here'));
-        $json = $this->sut->register($this->requestMock->reveal());
-
-        $this->assertEquals(['status' => StatusCode::STATUS_ERROR, 'message' => 'Exception message here'], $json);
+        /** @var JsonResponse $jsonResponse */
+        $jsonResponse = $this->sut->register($this->requestMock->reveal());
+        $this->assertEquals(400, $jsonResponse->httpCode());
+        $this->assertEquals(['status' => StatusCode::STATUS_ERROR, 'errorMessage' => 'Exception message here'], $jsonResponse->data());
     }
 
     public function test_when_infrastructure_throws_an_exception_controller_should_return_correct_error_response()
@@ -81,8 +84,17 @@ class RegisterControllerTest extends TestCase
         $this->registerUserUseCase->execute(Argument::any())
             ->shouldBeCalled()
             ->willThrow(new \Exception('Exception message'));
-        $json = $this->sut->register($this->requestMock->reveal());
 
-        $this->assertEquals(['status' => StatusCode::STATUS_ERROR, 'message' => 'Yuuups something went wrong. Message:' . 'Exception message'], $json);
+        /** @var JsonResponse $jsonResponse */
+        $jsonResponse = $this->sut->register($this->requestMock->reveal());
+        $data = $jsonResponse->data();
+        $this->assertEquals(500, $jsonResponse->httpCode());
+        $this->assertEquals(
+            [
+                'status' => StatusCode::STATUS_ERROR,
+                'errorMessage' => 'Yuuups something went wrong. Message:Exception message'
+            ],
+            $data
+        );
     }
 }
