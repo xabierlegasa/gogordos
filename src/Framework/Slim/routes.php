@@ -179,3 +179,9 @@ $app->get('/api/city/restaurants', function ($request, ResponseInterface $respon
 
     return $response;
 });
+
+$container['notFoundHandler'] = function (\Slim\Container $container) {
+    return function (\Slim\Http\Request $request, \Slim\Http\Response $response) use ($container) {
+        return $container->router->getNamedRoute('home')->run($request, $response);
+    };
+};

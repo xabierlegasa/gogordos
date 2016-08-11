@@ -15,6 +15,10 @@ angular.module('myapp', [
     'myapp.cityRestaurants'
 ])
 
+    .config(["$locationProvider", function ($locationProvider) {
+        $locationProvider.html5Mode(true);
+    }])
+
     .constant('appConstants', {ApiBaseUrl: 'http://localhost:8080/api'})
 
     .config(function ($stateProvider, $urlRouterProvider) {
