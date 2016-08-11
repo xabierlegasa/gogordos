@@ -40,13 +40,17 @@ angular.module('myapp.home', [
 
                         if ($scope.allRestaurantsCurrentPage === 1) {
                             $( ".js-all-restaurants-previous" ).addClass( "disabled" );
+                            $scope.isAllPreviousEnabled = false;
                         } else {
-                            $( ".js-all-restaurants-previous" ).removeClass( "disabled" );
+                            $( ".js-all-restaurants-previous" ).removeClass( "disabled");
+                            $scope.isAllPreviousEnabled = true;
                         }
                         if ($scope.allRestaurantsCurrentPage === $scope.totalPages) {
                             $( ".js-all-restaurants-next" ).addClass( "disabled" );
+                            $scope.isAllNextEnabled = false;
                         } else {
                             $( ".js-all-restaurants-next" ).removeClass( "disabled" );
+                            $scope.isAllNextEnabled = true;
 
                         }
 
@@ -77,29 +81,37 @@ angular.module('myapp.home', [
                 var loadFriendRestaurants = function (pageNumber) {
                     var jwt = $localStorage.jwt;
 
-                    $http({
-                        method: 'GET',
-                        url: '/api/friends/restaurants',
-                        params: {page: pageNumber, jwt: jwt}
-                    }).success(function (data) {
-                        $scope.friendRestaurants = data.restaurants;
-                        $scope.friendcurrentPage = data.pagination.currentPage;
-                        $scope.friendTotalPages = data.pagination.totalPages;
+                    if (jwt) {
+                        $http({
+                            method: 'GET',
+                            url: '/api/friends/restaurants',
+                            params: {page: pageNumber, jwt: jwt}
+                        }).success(function (data) {
+                            $scope.friendRestaurants = data.restaurants;
+                            $scope.friendcurrentPage = data.pagination.currentPage;
+                            $scope.friendTotalPages = data.pagination.totalPages;
 
-                        if ($scope.friendcurrentPage === 1) {
-                            $(".js-friend-restaurants-previous").addClass("disabled");
-                        } else {
-                            $(".js-friend-restaurants-previous").removeClass("disabled");
-                        }
-                        if ($scope.friendcurrentPage === $scope.friendTotalPages) {
-                            $(".js-friend-restaurants-next").addClass("disabled");
-                        } else {
-                            $(".js-friend-restaurants-next").removeClass("disabled");
+                            if ($scope.friendcurrentPage === 1) {
+                                $(".js-friend-restaurants-previous").addClass("disabled");
+                                $scope.isFriendsPreviousEnabled = false;
+                            } else {
+                                $(".js-friend-restaurants-previous").removeClass("disabled");
+                                $scope.isFriendsPreviousEnabled = true;
+                            }
 
-                        }
-                    }).error(function (data, status, headers, config) {
-                        console.log('Userpage error.');
-                    });
+                            if ($scope.friendcurrentPage === $scope.friendTotalPages) {
+                                $(".js-friend-restaurants-next").addClass("disabled");
+                                $scope.isFriendsNextEnabled = false;
+                            } else {
+                                $(".js-friend-restaurants-next").removeClass("disabled");
+                                $scope.isFriendsNextEnabled = true;
+                            }
+                        }).error(function (data, status, headers, config) {
+                            console.log('Userpage error.');
+                        });
+                    }
+
+
                 };
                 //  end MY FRIENDS RESTAURANTS --------------------------------------------------------
 

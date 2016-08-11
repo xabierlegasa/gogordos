@@ -79,7 +79,7 @@ class UsersSeeder extends AbstractSeed
                 $categoryId = rand(1, 50);
                  $restaurant = [
                      'name' => $faker->firstname . ' Restaurant',
-                     'city' => $faker->city,
+                     'city' => strtolower($faker->city),
                      'category_id' => $categoryId,
                      'user_id' => $user['id'],
                      'created_at' => date('Y-m-d H:i:s'),

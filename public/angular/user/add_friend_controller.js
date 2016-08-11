@@ -19,7 +19,7 @@ angular.module('myapp.addFriend', [
                 $scope.selectedItem = {};
 
                 $scope.refreshUsers = function(term) {
-                    if (term.length > 2) {
+                    if (term.length >= 2) {
                         $http({
                             method: 'GET',
                             url: $scope.ApiBaseUrl + '/users',

@@ -6,6 +6,7 @@ use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\CategoryController;
 use Gogordos\Application\Controllers\FindUserController;
 use Gogordos\Application\Controllers\GetAllRestaurantsController;
+use Gogordos\Application\Controllers\GetCityRestaurantsController;
 use Gogordos\Application\Controllers\GetRestaurantsOfFriendsController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
@@ -194,6 +195,13 @@ $container['GetRestaurantsOfFriendsUseCase'] = function ($c) {
 $container['GetRestaurantsOfFriendsController'] = function ($c) {
     return new GetRestaurantsOfFriendsController(
         $c->get('GetRestaurantsOfFriendsUseCase'),
+        $c->get('RestaurantPresenter')
+    );
+};
+
+$container['GetCityRestaurantsController'] = function ($c) {
+    return new GetCityRestaurantsController(
+        $c->get('RestaurantRepository'),
         $c->get('RestaurantPresenter')
     );
 };

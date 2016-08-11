@@ -11,10 +11,13 @@
     <div ng-if="loggedIn" class="jumbotron">
         <h1>Tip:</h1>
         <p class="lead">Un gogordo de verdad, metería un par de recomendaciones. Ahí lo dejo...</p>
-        <p><a class="btn btn-lg btn-success" ui-sref="newRestaurant({})" role="button">Añadir un restaurante favorito</a></p>
+        <p><a class="btn btn-lg btn-success" ui-sref="newRestaurant({})" role="button">+ Añadir un restaurante favorito</a></p>
     </div>
 
-    <p><a class="btn btn-lg btn-info" ui-sref="addFriend({})" role="button">+ Añadir un amigo gogordo</a></p>
+    <p>
+        <a class="btn btn-lg btn-info" ui-sref="addFriend({})" role="button">Seguir a un amigo gogordo</a>
+
+    </p>
 
     <br>
     <br>
@@ -25,23 +28,31 @@
 
 <div class="row">
 
-    <div ng-if="friendRestaurants" class="col-md-6">
-        <h4>Recomendaciones de mis amigos gogordos</h4>
+    <div class="col-md-6">
+        <div ng-if="friendRestaurants">
+            <h4>Recomendaciones de mis amigos gogordos</h4>
 
-        <br>
-        <div>
-            <div ng-repeat="res in friendRestaurants">
-                <p>
-                    <a ui-sref="userPage({username: res.username})">{{res.username}}</a> recomienda <span
-                        class="bg-info lead">"{{res.name}}"</span> en {{res.city}}, {{res.categoryNameEs}}.
-                </p>
+            <br>
+            <div>
+                <div ng-repeat="res in friendRestaurants">
+                    <p>
+                        <a ui-sref="userPage({username: res.username})">{{res.username}}</a>
+                        recomienda
+                        <span class="bg-info lead">"{{res.name}}"</span>
+                        en
+                        <a ui-sref="cityRestaurants({city: res.city})">{{res.city}}</a>
+                        , {{res.categoryNameEs}}.
+                    </p>
+                </div>
             </div>
+
         </div>
+
 
         <nav>
             <ul class="pager">
-                <li class="js-friend-restaurants-previous"><a ng-click="friendsRestaurantsPreviousPage()">Menos</a></li>
-                <li class="js-friend-restaurants-next"><a ng-click="friendsRestaurantsNextPage()">Ver más</a></li>
+                <li class="js-friend-restaurants-previous"><a class="js-friend-restaurants-previous-a" ng-click="isFriendsPreviousEnabled&&friendsRestaurantsPreviousPage()">Menos</a></li>
+                <li class="js-friend-restaurants-next"><a class="js-friend-restaurants-next-a" ng-click="isFriendsNextEnabled&&friendsRestaurantsNextPage()">Ver más</a></li>
             </ul>
         </nav>
 
@@ -56,18 +67,34 @@
         <div>
             <div ng-repeat="res in restaurants">
                 <p>
-                    <a ui-sref="userPage({username: res.username})">{{res.username}}</a> recomienda <span
-                        class="bg-info lead">"{{res.name}}"</span> en {{res.city}}, {{res.categoryNameEs}}.
+                    <a ui-sref="userPage({username: res.username})">{{res.username}}</a>
+                    recomienda
+                    <span class="bg-info lead">"{{res.name}}"</span>
+                    en
+                    <a ui-sref="cityRestaurants({city: res.city})">{{res.city}}</a>
+                    , {{res.categoryNameEs}}.
                 </p>
             </div>
         </div>
 
         <nav>
             <ul class="pager">
-                <li class="js-all-restaurants-previous"><a ng-click="previousPage()">Menos</a></li>
-                <li class="js-all-restaurants-next"><a ng-click="nextPage()">Ver más</a></li>
+                <li class="js-all-restaurants-previous"><a ng-click="isAllPreviousEnabled&&previousPage()">Menos</a></li>
+                <li class="js-all-restaurants-next"><a ng-click="isAllNextEnabled&&nextPage()">Ver más</a></li>
             </ul>
         </nav>
     </div>
 
 </div>
+
+
+<br>
+<p>
+    Sitios recomendados en...
+    &nbsp;
+    <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>
+    &nbsp;
+    <a class="lead" ui-sref="cityRestaurants({city: 'madrid'})">Madrid</a>
+    &nbsp;&nbsp;&nbsp;
+    <a class="lead">Ver más ciudades</a>
+</p>

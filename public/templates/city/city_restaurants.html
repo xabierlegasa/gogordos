@@ -1,0 +1,30 @@
+
+<h3>Sitios gogordos en {{cityTitle}}</h3>
+
+
+<div class="row">
+
+    <div class="col-md-6">
+        <br>
+        <div ng-if="restaurants">
+            <div ng-repeat="res in restaurants">
+                <p>
+                <p>
+                    <a ui-sref="userPage({username: res.username})">{{res.username}}</a>
+                    recomienda
+                    <span class="bg-info lead">"{{res.name}}"</span>
+                    en {{res.city}}
+                    , {{res.categoryNameEs}}.
+                </p>
+            </div>
+        </div>
+
+        <nav>
+            <ul class="pager">
+                <li class="js-city-restaurants-previous foo"><a ng-click="previousPage()">Menos</a></li>
+                <li class="js-city-restaurants-next bar"><a ng-click="nextPage()">Ver más</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</div>

@@ -11,7 +11,8 @@ angular.module('myapp', [
     'myapp.userPage',
     'myapp.home',
     'myapp.addFriend',
-    'ui.select', 'ngSanitize'
+    'ui.select', 'ngSanitize',
+    'myapp.cityRestaurants'
 ])
 
     .constant('appConstants', {ApiBaseUrl: 'http://localhost:8080/api'})
@@ -63,6 +64,12 @@ angular.module('myapp', [
                 templateUrl: 'templates/users/addFriend.html',
                 controller: 'AddFriendController',
                 controllerAs: 'addFriendCtrl'
+            })
+            .state('cityRestaurants', {
+                url: '/g/city/:city',
+                templateUrl: 'templates/city/city_restaurants.html',
+                controller: 'CityRestaurantsController',
+                controllerAs: 'cityRestaurantsCtrl'
             })
         ;
     })

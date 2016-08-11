@@ -37,7 +37,7 @@ $app->post('/api/users', function ($request, ResponseInterface $response, $args)
         var_dump($e->getMessage());
         die;
    }
-   
+
 })->setName('signUp');
 
 
@@ -162,6 +162,20 @@ $app->get('/api/friends/restaurants', function ($request, ResponseInterface $res
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+
+    return $response;
+});
+
+$app->get('/api/city/restaurants', function ($request, ResponseInterface $response, $args) {
+    /** @var GetCityRestaurantsController $getCityRestaurantsController */
+    $controller = $this->get('GetCityRestaurantsController');
+
+    /** @var JsonResponse $response */
+    $jsonResponse = $controller->getRestaurants($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
 
     return $response;
 });

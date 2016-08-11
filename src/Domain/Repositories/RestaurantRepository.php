@@ -46,4 +46,18 @@ interface RestaurantRepository
      * @return int
      */
     public function findByUserFriendsTotal(UserId $userId);
+
+    /**
+     * @param $city
+     * @param $offset
+     * @param $limit
+     * @return Restaurant[]
+     */
+    public function findByCityPaginated($city, $offset, $limit);
+
+    /**
+     * @param $city
+     * @return int
+     */
+    public function countAllByCity($city);
 }

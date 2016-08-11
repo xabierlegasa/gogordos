@@ -27,8 +27,8 @@ class FindUserController
     {
         try {
             $terms = $request->getParam('terms');
-            if (strlen($terms) < 3) {
-                throw new \InvalidArgumentException('Terms must be 4 chars or more');
+            if (strlen($terms) < 2) {
+                throw new \InvalidArgumentException('Terms must be 2 chars or more');
             }
             $users = $this->usersRepository->findUsersWithUsernameSimilarTo($terms);
 
