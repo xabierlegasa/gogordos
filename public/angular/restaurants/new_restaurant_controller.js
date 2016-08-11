@@ -35,20 +35,10 @@ angular.module('myapp.newRestaurant', [
                             'jwt': $localStorage.jwt
                         }
                     }).success(function (data) {
-
-                        $scope.successMessage = 'Ya tienes otro sitio favofito en tu lista!';
-
-                        // TODO: Go to recommendation page
-
-                        // if (data.status == 'success') {
-                        //     $localStorage.jwt = data.jwt;
-                        //     $rootScope.$broadcast('user-signed-up', {user: user});
-                        //     $state.go('home');
-                        // } else {
-                        //     console.log('data status is not success. Show the erro.r message');
-                        // }
+                        $scope.errorMessage = '';
+                        $scope.successMessage = 'Tienes un nuevo sitio favorito!';
                     }).error(function (data, status, headers, config) {
-                        console.log('error. do something!');
+                        $scope.errorMessage = data.errorMessage;
                     });
                 };
             }

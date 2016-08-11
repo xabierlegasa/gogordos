@@ -8,6 +8,12 @@
                   novalidate>
 
                 <div>
+                    <div ng-if="errorMessage">
+                        <br>
+                        <strong><span class="text-danger">{{ errorMessage }}</span></strong>
+                        <br>
+                    </div>
+
                     <label for="username"
                            class="required">Nombre de usuario</label>
                     <input
@@ -19,10 +25,7 @@
                             required="required"
                             maxlength="255"
                             class="form-control">
-                    <div ng-if="errorMessage">
-                        <br>
-                        <strong><span class="text-danger">{{ errorMessage }}</span></strong>
-                    </div>
+
                 </div>
 
                 <br>

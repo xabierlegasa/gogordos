@@ -1,33 +1,43 @@
-
-
 <p>
     Busca a un amigo y añadelo a tu lista de amigos gogordos.
 </p>
 
 <br>
 
-<ui-select ng-model="selected.value" on-select="itemSelected($item)">
-    <ui-select-match placeholder="Introduce un nombre...">
-        <span ng-bind="$select.selected.name"></span>
-    </ui-select-match>
-    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id"
-                       refresh="refreshUsers($select.search)"
-                       refresh-delay="0">
-        <span ng-bind="item.name"></span>
-    </ui-select-choices>
-</ui-select>
 
-<br>
+<div class="container">
+    <div class="row">
 
-<button type="button" class="btn btn-default" ng-disabled="selected.value == undefined" ng-click="addFriend(selected.value)">+ Añadir como amig@</button>
-
-<br>
-<br>
+        <div class="col-md-4 col-sm-6 col-xs-10">
 
 
-<div ng-if="errorMessage" class="alert alert-danger">
-    <strong>Error</strong> {{errorMessage}}
-</div>
-<div ng-if="successMessage" class="alert alert-success">
-    <strong>Bien!</strong> {{successMessage}}
+            <ui-select ng-model="selected.value" on-select="itemSelected($item)">
+                <ui-select-match placeholder="Introduce un nombre...">
+                    <span ng-bind="$select.selected.name"></span>
+                </ui-select-match>
+                <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id"
+                                   refresh="refreshUsers($select.search)"
+                                   refresh-delay="0">
+                    <span ng-bind="item.name"></span>
+                </ui-select-choices>
+            </ui-select>
+
+            <br>
+
+            <button type="button" class="btn btn-default" ng-disabled="selected.value == undefined"
+                    ng-click="addFriend(selected.value)">+ Añadir como amig@
+            </button>
+
+            <br>
+            <br>
+
+
+            <div ng-if="errorMessage" class="alert alert-danger">
+                <strong>Error</strong> {{errorMessage}}
+            </div>
+            <div ng-if="successMessage" class="alert alert-success">
+                <strong>Bien!</strong> {{successMessage}}
+            </div>
+        </div>
+    </div>
 </div>

@@ -96,9 +96,8 @@ $app->get('/api/account', function ($request, ResponseInterface $response, $args
 });
 
 $app->post('/api/restaurants', function ($request, ResponseInterface $response, $args){
-    $addRestaurantController = new AddRestaurantController(
-        $this->get('AddRestaurantUseCase')
-    );
+    /** @var AddRestaurantController $addRestaurantController */
+    $addRestaurantController = $this->get('AddRestaurantController');
 
     /** @var JsonResponse $response */
     $jsonResponse = $addRestaurantController->addRestaurant($request);
