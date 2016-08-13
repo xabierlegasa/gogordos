@@ -49,6 +49,6 @@ class AddRestaurantControllerTest extends TestCase
         $response = $this->sut->addRestaurant($requestMock->reveal());
 
         $this->assertEquals(400, $response->httpCode());
-        $this->assertEquals('La categoría no es válida', $response->data()['message']);
+        $this->assertEquals('La categoría no es válida', $response->data()['errorMessage']);
     }
 }

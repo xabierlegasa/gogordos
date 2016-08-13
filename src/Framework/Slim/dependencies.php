@@ -150,7 +150,8 @@ $container['GetUserRestaurantsUseCase'] = function ($c) {
 
 $container['UserController'] = function ($c) {
     return new UserController(
-        $c->get('GetUserRestaurantsUseCase')
+        $c->get('GetUserRestaurantsUseCase'),
+        $c->get('RestaurantPresenter')
     );
 };
 

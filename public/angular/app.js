@@ -11,8 +11,10 @@ angular.module('myapp', [
     'myapp.userPage',
     'myapp.home',
     'myapp.addFriend',
-    'ui.select', 'ngSanitize',
-    'myapp.cityRestaurants'
+    'ui.select',
+    'ngSanitize',
+    'myapp.cityRestaurants',
+    'myapp.restaurantDirective'
 ])
 
     .config(["$locationProvider", function ($locationProvider) {
