@@ -32,6 +32,7 @@ class CreateRestaurantsTable extends AbstractMigration
             ->addColumn('city', 'string', array('limit' => 255))
             ->addColumn('category_id', 'integer')
             ->addColumn('user_id', 'string', ['limit' => 36])
+            ->addColumn('reason', 'string', array('limit' => 255))
             ->addColumn('created_at', 'datetime')
             ->addColumn('updated_at', 'datetime', array('null' => true))
             ->addForeignKey('category_id', 'categories', ['id'], array('delete'=> 'CASCADE', 'update'=> 'CASCADE'))

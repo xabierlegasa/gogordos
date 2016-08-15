@@ -9,7 +9,7 @@ class Category implements \JsonSerializable
 
     /** @var string */
     private $name;
-    
+
     /** @var string */
     private $nameEs;
 
@@ -31,7 +31,7 @@ class Category implements \JsonSerializable
      */
     public function id()
     {
-        return $this->id;
+        return (int) $this->id;
     }
 
     /**

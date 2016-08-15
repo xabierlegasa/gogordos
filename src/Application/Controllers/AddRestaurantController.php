@@ -43,6 +43,7 @@ class AddRestaurantController
 
 
             $category = $request->getParam('restaurant_category');
+            $reason = $request->getParam('restaurant_reason');
             $jwt = $request->getParam('jwt');
 
             /** @var AddRestaurantResponse $addRestaurantUseCaseResponse */
@@ -51,6 +52,7 @@ class AddRestaurantController
                     $name,
                     $city,
                     $category,
+                    $reason,
                     $jwt
                 )
             );

@@ -184,3 +184,12 @@ $container['notFoundHandler'] = function (\Slim\Container $container) {
         return $container->router->getNamedRoute('home')->run($request, $response);
     };
 };
+
+$app->get('/api/friends', function ($request, ResponseInterface $response, $args) {
+    $ctrlResponse = $this->get('GetFriendsController')->getFriends($request);
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+
+    return $response;
+});

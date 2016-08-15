@@ -32,13 +32,18 @@ angular.module('myapp.newRestaurant', [
                             'restaurant_name': restaurant.name,
                             'restaurant_city': restaurant.city,
                             'restaurant_category': restaurant.category,
+                            'restaurant_reason': restaurant.reason,
                             'jwt': $localStorage.jwt
                         }
-                    }).success(function (data) {
+                    }).then(function (data) {
+
+
+
+                        console.log('new restaurant controller responseeee');
                         $scope.errorMessage = '';
                         $scope.successMessage = 'Tienes un nuevo sitio favorito!';
-                    }).error(function (data, status, headers, config) {
-                        $scope.errorMessage = data.errorMessage;
+                    // }).error(function (data, status, headers, config) {
+                    //     $scope.errorMessage = data.errorMessage;
                     });
                 };
             }

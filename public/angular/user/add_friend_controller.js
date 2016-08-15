@@ -11,7 +11,6 @@ angular.module('myapp.addFriend', [
             'appConstants',
             '$localStorage',
             function ($http, $state, $scope, $location, appConstants, $localStorage) {
-                console.log('appConstants.ApiBaseUrl: ' + appConstants.ApiBaseUrl);
                 $scope.ApiBaseUrl = appConstants.ApiBaseUrl;
                 $scope.itemArray = [];
                 $scope.selected = {};
@@ -52,6 +51,25 @@ angular.module('myapp.addFriend', [
                         $scope.errorMessage = data.message;
                     });
                 };
+
+                var jwt = $localStorage.jwt;
+                    $http({
+                        method: 'GET',
+                        url: '/api/account',
+                        params: {jwt: jwt}
+                    }).then(function (data) {
+                        var username = data.data.user.username;
+
+                        $http({
+                            method: 'GET',
+                            url: '/api/friends',
+                            params: {'foo': 'bar', 'username': username}
+                        }).then(function (data) {
+                            console.log('gooo');
+                            console.log(data.data.users);
+                            $scope.users = data.data.users;
+                        });
+                    });
             }
         ]
     );

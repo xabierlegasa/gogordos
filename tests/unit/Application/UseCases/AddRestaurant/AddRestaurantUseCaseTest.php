@@ -47,7 +47,7 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $restaurantName = '';
-        $addRestaurantRequest = new AddRestaurantRequest($restaurantName, 'city', 'indian', 'jwt');
+        $addRestaurantRequest = new AddRestaurantRequest($restaurantName, 'city', 'indian', 'reason', 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -55,7 +55,7 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $city = '';
-        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', $city, 'indian', 'jwt');
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', $city, 'indian', 'reason', 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -63,7 +63,7 @@ class AddRestaurantUseCaseTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $category = '';
-        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $category, 'jwt');
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $category, 'reason', 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -76,7 +76,7 @@ class AddRestaurantUseCaseTest extends TestCase
             ->shouldBeCalled()
             ->willReturn(null);
 
-        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $invalidCategory, 'jwt');
+        $addRestaurantRequest = new AddRestaurantRequest('restaurant name', 'Barcelona', $invalidCategory, 'reason', 'jwt');
         $this->sut->execute($addRestaurantRequest);
     }
 
@@ -90,7 +90,7 @@ class AddRestaurantUseCaseTest extends TestCase
             ->willReturn($category);
 
         $userId = new UserId(Uuid::fromString('116c6634-8bb4-445d-957f-cb4b2c4a3e8f'));
-        $restaurant = new Restaurant(null, 'La masía', 'Barcelona', $category, $userId, null);
+        $restaurant = new Restaurant(null, 'La masía', 'Barcelona', $category, $userId, 'reason', null);
         $this->restaurantRepositoryMock->save($restaurant)
             ->shouldBeCalled()
             ->willReturn($restaurant);
@@ -105,10 +105,10 @@ class AddRestaurantUseCaseTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($category);
 
-        $addRestaurantRequest = new AddRestaurantRequest('La masía', 'Barcelona', $categoryName, 'jwt');
+        $addRestaurantRequest = new AddRestaurantRequest('La masía', 'Barcelona', $categoryName, 'reason', 'jwt');
 
         $this->restaurantRepositoryMock
-            ->save(new Restaurant(null, 'La masía', 'Barcelona', $category, $userId, null))
+            ->save(new Restaurant(null, 'La masía', 'Barcelona', $category, $userId, 'reason', null))
             ->shouldBeCalled();
 
         $this->sut->execute($addRestaurantRequest);

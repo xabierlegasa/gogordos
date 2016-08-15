@@ -54,8 +54,8 @@ class GetRestaurantsOfFriendsUseCaseTest extends TestCase
             ->willReturn(new AuthUserData($userId, 'xabi'));
 
         $restaurants = [
-            new Restaurant(1, 'Mediterrania', 'Barcelona', $this->buildCategory(), $userId, null),
-            new Restaurant(1, 'El Rancho', 'Donostia', $this->buildCategory(), $userId, null)
+            new Restaurant(1, 'Mediterrania', 'Barcelona', $this->buildCategory(), $userId, 'reason', null),
+            new Restaurant(1, 'El Rancho', 'Donostia', $this->buildCategory(), $userId, 'reason', null)
         ];
         $offset =
         $this->restaurantsRepositoryMock

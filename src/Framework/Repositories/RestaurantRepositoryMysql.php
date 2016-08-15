@@ -26,18 +26,22 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
             $city = $restaurant->city();
             $categoryId = $restaurant->category()->id();
             $userId = $restaurant->userId();
+            $reason = $restaurant->reason();
             $createdAt = date('Y-m-d H:i:s');
 
 
             /** @var PDO $pdo */
             $pdo = $this->getConnection();
             /** @var PDOStatement $statement */
-            $statement = $pdo->prepare('INSERT INTO restaurants (name, city, category_id, user_id, created_at) VALUES (?, ?, ?, ?, ?)');
+            $statement = $pdo->prepare('INSERT INTO restaurants (name, city, category_id, user_id, reason, created_at) VALUES (?, ?, ?, ?, ?, ?)');
             $statement->bindParam(1, $name, PDO::PARAM_STR);
             $statement->bindParam(2, $city, PDO::PARAM_STR);
             $statement->bindParam(3, $categoryId, PDO::PARAM_INT);
             $statement->bindParam(4, $userId, PDO::PARAM_STR);
-            $statement->bindParam(5, $createdAt, PDO::PARAM_STR);
+            $statement->bindParam(5, $reason, PDO::PARAM_STR);
+            $statement->bindParam(6, $createdAt, PDO::PARAM_STR);
+
+            $foo = $statement->queryString;
 
             $result = $statement->execute();
 
@@ -51,6 +55,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $city,
                 $restaurant->category(),
                 $userId,
+                $reason,
                 $createdAt
             );
         } else {
@@ -74,7 +79,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         $statement = $pdo->prepare(
             "select r.user_id,
             r.id as restaurant_id, c.id as category_id,
-            r.name as restaurant_name, r.city as restaurant_city,
+            r.name as restaurant_name, r.city as restaurant_city, r.reason as restaurant_reason,
             c.name as category_name, c.name_es as category_es,
             r.created_at as created_at,
             u.id as user_id, u.email as user_email, u.username as user_username
@@ -99,6 +104,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $row->restaurant_city,
                 new Category((int)$row->category_id, $row->category_name, $row->category_es),
                 $row->user_id,
+                $row->restaurant_reason,
                 $row->created_at
             );
 
@@ -129,7 +135,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         $statement = $pdo->prepare(
             "select r.user_id,
             r.id as restaurant_id, c.id as category_id,
-            r.name as restaurant_name, r.city as restaurant_city,
+            r.name as restaurant_name, r.city as restaurant_city, r.reason as restaurant_reason,
             c.name as category_name, c.name_es as category_es,
             r.created_at as created_at,
             u.id as user_id, u.email as user_email, u.username as user_username
@@ -155,10 +161,15 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $row->restaurant_city,
                 new Category((int)$row->category_id, $row->category_name, $row->category_es),
                 $row->user_id,
+                $row->restaurant_reason,
                 $row->created_at
             );
-            $user = User::register(new UserId(Uuid::fromString($row->user_id)), $row->user_email, $row->user_username,
-                null);
+            $user = User::register(
+                new UserId(Uuid::fromString($row->user_id)),
+                $row->user_email,
+                $row->user_username,
+                null
+            );
             $restaurant->setUser($user);
             $restaurants[] = $restaurant;
         }
@@ -196,7 +207,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
 
         $statement = $pdo->prepare(
             "select f.user_id_following as user_id, u.username as user_username, r.id as restaurant_id, r.name as restaurant_name,
-    r.city as restaurant_city, c.id as category_id, c.name as category_name,
+    r.city as restaurant_city, c.id as category_id, c.name as category_name, r.reason as restaurant_reason,
     c.name_es as category_name_es
     from friends as `f`
 	left join restaurants as `r`
@@ -225,11 +236,16 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $row->restaurant_name,
                 $row->restaurant_city,
                 new Category((int)$row->category_id, $row->category_name, $row->category_name_es),
+                $row->restaurant_reason,
                 $row->user_id,
                 null
             );
-            $user = User::register(new UserId(Uuid::fromString($row->user_id)), null, $row->user_username,
-                null);
+            $user = User::register(
+                new UserId(Uuid::fromString($row->user_id)),
+                null,
+                $row->user_username,
+                null
+            );
             $restaurant->setUser($user);
             $restaurants[] = $restaurant;
         }
@@ -277,7 +293,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         $statement = $pdo->prepare(
             "select r.user_id,
             r.id as restaurant_id, c.id as category_id,
-            r.name as restaurant_name, r.city as restaurant_city,
+            r.name as restaurant_name, r.city as restaurant_city, r.reason as restaurant_reason,
             c.name as category_name, c.name_es as category_es,
             r.created_at as created_at,
             u.id as user_id, u.email as user_email, u.username as user_username
@@ -306,10 +322,15 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $row->restaurant_city,
                 new Category((int)$row->category_id, $row->category_name, $row->category_es),
                 $row->user_id,
+                $row->restaurant_reason,
                 $row->created_at
             );
-            $user = User::register(new UserId(Uuid::fromString($row->user_id)), $row->user_email, $row->user_username,
-                null);
+            $user = User::register(
+                new UserId(Uuid::fromString($row->user_id)),
+                $row->user_email,
+                $row->user_username,
+                null
+            );
             $restaurant->setUser($user);
             $restaurants[] = $restaurant;
         }
@@ -335,5 +356,25 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         $numberOfRows = (int)$statement->fetchColumn();
 
         return $numberOfRows;
+    }
+
+    /**
+     * @param string $userId
+     * @return int
+     */
+    public function countByUserId($userId)
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getConnection();
+
+        $sql = "SELECT count(*) as total FROM `restaurants` where restaurants.user_id = :userId";
+        $statement = $pdo->prepare($sql);
+        $statement->bindValue(":userId", $userId, PDO::PARAM_STR);
+
+        $statement->execute();
+        $row = $statement->fetch();
+
+        $total = (int) $row['total'];
+        return $total;
     }
 }

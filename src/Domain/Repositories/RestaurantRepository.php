@@ -60,4 +60,10 @@ interface RestaurantRepository
      * @return int
      */
     public function countAllByCity($city);
+
+    /**
+     * @param string $userId
+     * @return int
+     */
+    public function countByUserId($userId);
 }

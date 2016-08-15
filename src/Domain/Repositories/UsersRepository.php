@@ -43,4 +43,11 @@ interface UsersRepository
      * @return User[]|null
      */
     public function findUsersWithUsernameSimilarTo($term);
+
+
+    /**
+     * @param $username
+     * @return array
+     */
+    public function getFriends($username);
 }

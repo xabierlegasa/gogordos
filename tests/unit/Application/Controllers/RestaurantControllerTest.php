@@ -38,10 +38,20 @@ class AddRestaurantControllerTest extends TestCase
             ->willReturn('Roma');
         $requestMock->getParam('restaurant_category')->shouldBeCalled()
             ->willReturn('invalid category');
+        $requestMock->getParam('restaurant_reason')->shouldBeCalled()
+            ->willReturn('reason');
         $requestMock->getParam('jwt')->shouldBeCalled()
             ->willReturn('jwt');
 
-        $this->addRestaurantUseCaseMock->execute(new AddRestaurantRequest('La Tratoria', 'roma', 'invalid category', 'jwt'))
+        $this->addRestaurantUseCaseMock->execute(
+            new AddRestaurantRequest(
+                'La Tratoria',
+                'roma',
+                'invalid category',
+                'reason',
+                'jwt'
+            )
+        )
             ->shouldBeCalled()
             ->willThrow(new \InvalidArgumentException('La categoría no es válida'));
 

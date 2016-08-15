@@ -34,21 +34,28 @@ class Restaurant implements \JsonSerializable
     private $createdAt;
 
     /**
+     * @var
+     */
+    private $reason;
+
+    /**
      * Restaurant constructor.
      * @param int $id
      * @param string $name
      * @param string $city
      * @param Category $category
      * @param string $userId
+     * @param string $reason
      * @param string $createdAt
      */
-    public function __construct($id, $name, $city, Category $category, $userId, $createdAt)
+    public function __construct($id, $name, $city, Category $category, $userId, $reason, $createdAt)
     {
         $this->id = $id;
         $this->name = $name;
         $this->city = $city;
         $this->category = $category;
         $this->userId = $userId;
+        $this->reason = $reason;
         $this->createdAt = $createdAt;
     }
 
@@ -84,6 +91,14 @@ class Restaurant implements \JsonSerializable
         return $this->category;
     }
 
+    /**
+     * @return string
+     */
+    public function reason()
+    {
+        return $this->reason;
+    }
+
     public function userId()
     {
         return $this->userId;
@@ -95,6 +110,7 @@ class Restaurant implements \JsonSerializable
             'name' => $this->name,
             'city' => ucfirst($this->city),
             'categoryId' => $this->category()->id(),
+            'reason' => $this->reason(),
             'categoryName' => $this->category()->name(),
             'categoryNameEs' => $this->category()->nameEs()
         ];

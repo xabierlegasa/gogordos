@@ -25,7 +25,7 @@
             <br>
 
             <button type="button" class="btn btn-default" ng-disabled="selected.value == undefined"
-                    ng-click="addFriend(selected.value)">+ Añadir como amig@
+                    ng-click="addFriend(selected.value)">Seguir
             </button>
 
             <br>
@@ -40,9 +40,25 @@
             </div>
 
             <br><br>
-            <div>Amigos gogordos</div>
+            <h4>Estás siguiendo a...</h4>
+
+            <br>
+            <div ng-if="users">
 
 
+                <table class="table">
+                    <tbody>
+
+                    <tr ng-repeat="user in users">
+                        <td><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
+                        <td><a ui-sref="userPage({username: user.username})">{{user.username}}</a></td>
+                        <td><a ui-sref="userPage({username: user.username})"><span
+                                class="">{{user.numRestaurants}}</span> sito(s) favorito(s)</a></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

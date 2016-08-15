@@ -20,6 +20,7 @@ class AddRestaurantUseCase
      * @var RestaurantRepository
      */
     private $restaurantRepository;
+
     /**
      * @var Authenticator
      */
@@ -46,6 +47,7 @@ class AddRestaurantUseCase
         $name = $addRestaurantRequest->name();
         $city = $addRestaurantRequest->city();
         $categoryName = $addRestaurantRequest->category();
+        $reason = $addRestaurantRequest->reason();
 
         if (empty($name)) {
             throw new \InvalidArgumentException('El nombre del restaurante no puede estar vacío');
@@ -57,6 +59,10 @@ class AddRestaurantUseCase
 
         if (empty($categoryName)) {
             throw new \InvalidArgumentException('La categoría del restaurante no puede estar vacío');
+        }
+
+        if (empty($reason)) {
+            throw new \InvalidArgumentException('Indica por qué te gusta el sitio');
         }
 
         /** @var Category $category */
@@ -73,7 +79,7 @@ class AddRestaurantUseCase
         $userId = $authUserData->userId()->value();
 
         /** @var Restaurant $restaurant */
-        $restaurant = new Restaurant(null, $name, $city, $category, $userId, null);
+        $restaurant = new Restaurant(null, $name, $city, $category, $userId, $reason, null);
         $restaurant = $this->restaurantRepository->save($restaurant);
 
         $response = new AddRestaurantResponse($restaurant);

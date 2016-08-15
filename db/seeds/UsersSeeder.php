@@ -82,6 +82,7 @@ class UsersSeeder extends AbstractSeed
                      'city' => strtolower($faker->city),
                      'category_id' => $categoryId,
                      'user_id' => $user['id'],
+                     'reason' => 'Lorem ipsum',
                      'created_at' => date('Y-m-d H:i:s'),
                      'updated_at' => 'null'
 
