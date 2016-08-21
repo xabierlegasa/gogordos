@@ -24,7 +24,7 @@ function validatePhpCodingStandardAndSniffs() {
     local valid=true
 
     for file in ${1}; do
-        if ! ${VENDOR_BIN_PATH}phpcs --colors ${file}; then
+        if ! ${VENDOR_BIN_PATH}phpcs --colors --standard=PSR2 ${file}; then
             echo -e "Coding standard check failed, but I can try to fix this:"
             if [ $(confirm "Would you like to fix this automatically?") = "Y" ]; then
                 $(${VENDOR_BIN_PATH}phpcbf --standard=PSR2 ${file})
