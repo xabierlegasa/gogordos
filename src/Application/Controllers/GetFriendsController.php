@@ -38,7 +38,7 @@ class GetFriendsController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getFriends(Request $request)
+    public function getFollowing(Request $request)
     {
         try {
             $username = $request->getParam('username');

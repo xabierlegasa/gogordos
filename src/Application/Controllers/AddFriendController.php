@@ -57,7 +57,7 @@ class AddFriendController
             /** @var AuthUserData $authUserData */
             $authUserData = $this->authenticator->authUserDataFromToken($token);
             if ($user->id()->value() === $authUserData->userId()->value()) {
-                throw new \InvalidArgumentException('No te puedes añadir a ti mismo como amigo');
+                throw new \InvalidArgumentException('No te puedes seguir a ti mismo.');
             }
             $friend = new Friend(
                 $authUserData->userId(),
@@ -65,7 +65,7 @@ class AddFriendController
             );
 
             if ($this->friendRepository->exists($friend)) {
-                throw new \InvalidArgumentException('Ya eres amigo de esa persona.');
+                throw new \InvalidArgumentException('Ya estás siguiendo a esa persona.');
             }
 
             $friend = $this->friendRepository->save($friend);

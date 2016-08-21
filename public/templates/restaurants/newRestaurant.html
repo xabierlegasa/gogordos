@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-6">
+        <div class="col-md-5 col-sm-6">
 
             <form name="newRestaurantForm"
                   ng-submit="newRestaurantForm.$valid && newRestaurantCtrl.create(newRestaurantCtrl.restaurant)"
@@ -71,7 +71,7 @@
                 <div>
                     <label for="name"
                            class="required">¿Por qué te gusta este sitio?</label>
-                    <br>
+
                     <input
                             ng-model="newRestaurantCtrl.restaurant.reason"
                             required
@@ -81,22 +81,18 @@
                             required="required"
                             maxlength="255"
                             class="form-control">
+                    <div style="color:grey">
+                        Ejemplos: <br>
+                        <i>"Mi restaurante Chino favorito de Barcelona. Barato y muy rico."</i>
+                        <br>
+                        <i>"Genial para el Vermú. Las croquetas caseras, de muerte!"</i>
+                    </div>
                     <br>
-                    <span>Algunos ejemplos:</span>
-                    <p>
-                        La mejor pizza de Barcelona
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet
-                    </p>
-
                 </div>
-
-                <br><br>
 
 
                 <div>
-                    <input type="submit" class="btn btn-default" value="Add">
+                    <input type="submit" class="btn btn-default" value="Guardar">
                 </div>
             </form>
 

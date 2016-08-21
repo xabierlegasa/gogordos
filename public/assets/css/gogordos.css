@@ -12,8 +12,24 @@
 
 #footer {
     height: 60px;
-    margin-top:50px;
-    padding-top:20px;
-    padding-bottom:20px;
+    margin-top: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.table-borderless tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border: none;
+}
+
+.following {
+    color: #46b8da;
+}
+
+.center-it {
+    display: table;
+    /*width: 250px;*/
+    /*height: 100px;*/
+    text-align: center;
+    border: 1px solid red;
 }
 

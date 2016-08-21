@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
 
-        <div class="col-md-4 col-sm-6 col-xs-10">
+        <div class="col-md-4 col-sm-6 col-xs-12">
 
 
             <ui-select ng-model="selected.value" on-select="itemSelected($item)">
@@ -40,20 +40,28 @@
             </div>
 
             <br><br>
-            <h4>Estás siguiendo a...</h4>
 
-            <br>
             <div ng-if="users">
 
-
-                <table class="table">
+                <h4>Estás siguiendo a...</h4>
+                <br>
+                <table class="table table-borderless">
                     <tbody>
 
                     <tr ng-repeat="user in users">
                         <td><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
                         <td><a ui-sref="userPage({username: user.username})">{{user.username}}</a></td>
-                        <td><a ui-sref="userPage({username: user.username})"><span
-                                class="">{{user.numRestaurants}}</span> sito(s) favorito(s)</a></td>
+                        <td>
+
+                            <div ng-if="user.numRestaurants==1">
+                                <a ui-sref="userPage({username: user.username})">
+                                    <span>{{user.numRestaurants}}</span> sito favorito</a>
+                            </div>
+                            <div ng-if="user.numRestaurants>1">
+                                <a ui-sref="userPage({username: user.username})">
+                                    <span>{{user.numRestaurants}}</span> sitos favoritos</a>
+                            </div>
+                        </td>
                     </tr>
 
                     </tbody>

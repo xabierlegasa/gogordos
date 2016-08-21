@@ -17,7 +17,7 @@ angular.module('myapp.addFriend', [
                 $scope.isValid = false;
                 $scope.selectedItem = {};
 
-                $scope.refreshUsers = function(term) {
+                $scope.refreshUsers = function (term) {
                     if (term.length >= 2) {
                         $http({
                             method: 'GET',
@@ -26,7 +26,7 @@ angular.module('myapp.addFriend', [
                         }).success(function (data) {
                             var items = [];
                             for (i = 0; i < data.users.length; i++) {
-                                items.push({id: data.users[i].username, name:data.users[i].username});
+                                items.push({id: data.users[i].username, name: data.users[i].username});
                             }
                             $scope.itemArray = items;
                         }).error(function (data, status, headers, config) {
@@ -53,23 +53,21 @@ angular.module('myapp.addFriend', [
                 };
 
                 var jwt = $localStorage.jwt;
+                $http({
+                    method: 'GET',
+                    url: '/api/account',
+                    params: {jwt: jwt}
+                }).then(function (data) {
+                    var username = data.data.user.username;
+
                     $http({
                         method: 'GET',
-                        url: '/api/account',
-                        params: {jwt: jwt}
+                        url: '/api/followers',
+                        params: {'foo': 'bar', 'username': username}
                     }).then(function (data) {
-                        var username = data.data.user.username;
-
-                        $http({
-                            method: 'GET',
-                            url: '/api/friends',
-                            params: {'foo': 'bar', 'username': username}
-                        }).then(function (data) {
-                            console.log('gooo');
-                            console.log(data.data.users);
-                            $scope.users = data.data.users;
-                        });
+                        $scope.users = data.data.users;
                     });
+                });
             }
         ]
     );

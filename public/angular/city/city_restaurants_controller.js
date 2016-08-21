@@ -44,7 +44,10 @@ angular.module('myapp.cityRestaurants', [
                         } else {
                             $("li.js-city-restaurants-previous").removeClass("disabled");
                         }
-                        if ($scope.restaurantsCurrentPage === $scope.totalPages) {
+
+                        if ($scope.restaurantsCurrentPage === $scope.totalPages
+                            || $scope.restaurantsCurrentPage > $scope.totalPages
+                        ) {
                             $(".js-city-restaurants-next").addClass("disabled");
                         } else {
                             $(".js-city-restaurants-next").removeClass("disabled");

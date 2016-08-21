@@ -7,6 +7,7 @@ use Gogordos\Application\Controllers\Response\JsonOk;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantRequest;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantResponse;
 use Gogordos\Application\UseCases\AddRestaurant\AddRestaurantUseCase;
+use Gogordos\Domain\AppConstants;
 use Respect\Validation\Validator;
 use Slim\Http\Request;
 
@@ -35,7 +36,7 @@ class AddRestaurantController
     {
         try {
             $restaurantName = $request->getParam('restaurant_name');
-            $name = ucwords(strtolower($restaurantName));
+            $name = mb_convert_case($restaurantName, MB_CASE_TITLE, "UTF-8");
             $this->checkRestaurantIsValid($restaurantName);
 
             $city = strtolower($request->getParam('restaurant_city'));
@@ -71,9 +72,7 @@ class AddRestaurantController
     private function checkRestaurantIsValid($restaurant)
     {
         $usernameValidator = Validator::stringType()
-            // put this to allow underscore also
-            //->alnum('_')
-            ->alnum()
+            ->alnum(AppConstants::ALLOWED_ADDITIONAL_CHARS)
             ->length(
                 static::RESTAURANT_LENGTH_MIN,
                 static::RESTAURANT_LENGTH_MAX
@@ -94,7 +93,7 @@ class AddRestaurantController
     private function checkCityIsValid($city)
     {
         $usernameValidator = Validator::stringType()
-            ->alpha()
+            ->alpha(AppConstants::ALLOWED_ADDITIONAL_CHARS)
             ->length(
                 static::CITY_LENGTH_MIN,
                 static::CITY_LENGTH_MAX

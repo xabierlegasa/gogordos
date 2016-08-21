@@ -1,10 +1,36 @@
 <div ng-if="!errorMessage">
+    <p>
+        <a class="btn btn-lg btn-info" ui-sref="addFriend({})" role="button">Seguir a un amigo gogordo</a>
+    </p>
+
+    <br>
+
+    <p class="lead">
+        Siguiendo &nbsp;
+        <span class=" following">
+            <strong>{{ following }}</strong>
+        </span>
+    </p>
+
+    <br>
+
+    <p class="lead">
+        Seguidores
+        <span class="following">
+            <strong>{{ followers }}</strong>
+        </span>
+    </p>
+
+
+    <br>
+
     <h4>
         <span class="text-muted">username:</span> @{{user.username}}
     </h4>
     <h4>
         <span class="text-muted">email:</span> {{user.email}}
     </h4>
+
 
     <br>
     <br>

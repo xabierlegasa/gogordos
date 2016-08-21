@@ -41,7 +41,6 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
             $statement->bindParam(5, $reason, PDO::PARAM_STR);
             $statement->bindParam(6, $createdAt, PDO::PARAM_STR);
 
-            $foo = $statement->queryString;
 
             $result = $statement->execute();
 
@@ -144,6 +143,7 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
             on r.category_id=c.id
             left join users as `u`
             on r.user_id=u.id
+            order by created_at DESC
             limit :limit
             OFFSET :offset"
         );

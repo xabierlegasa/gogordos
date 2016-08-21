@@ -11,10 +11,8 @@ angular.module('myapp.account', [
             '$rootScope',
             '$localStorage',
             function ($http, $state, $scope, $rootScope, $localStorage) {
-                console.log('account controller now!');
-                console.log($rootScope);
                 $scope.user = {};
-                
+
                 var jwt = $localStorage.jwt;
                 $http({
                     method: 'GET',
@@ -33,6 +31,24 @@ angular.module('myapp.account', [
                     $rootScope.$broadcast('user-logged-out');
                     $state.go('home');
                 };
+
+                var jwt = $localStorage.jwt;
+                $http({
+                    method: 'GET',
+                    url: '/api/account',
+                    params: {jwt: jwt}
+                }).then(function (data) {
+                    var username = data.data.user.username;
+                    $http({
+                        method: 'GET',
+                        url: '/api/following',
+                        params: {'username': username}
+                    }).then(function (data) {
+                        $scope.following = data.data.users.length;
+                        console.log($scope.following);
+                    });
+                });
+
             }
         ]
     );

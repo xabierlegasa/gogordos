@@ -5,6 +5,7 @@ namespace Gogordos\Application\UseCases;
 use Gogordos\Application\Exceptions\EmailAlreadyExistsException;
 use Gogordos\Application\Exceptions\UsernameAlreadyExistsException;
 use Gogordos\Application\StatusCode;
+use Gogordos\Domain\AppConstants;
 use Gogordos\Domain\Entities\User;
 use Gogordos\Domain\Entities\UserId;
 use Gogordos\Domain\Repositories\UsersRepository;
@@ -106,7 +107,7 @@ class RegisterUserUseCase
     private function checkUsernameIsValid($username)
     {
         $usernameValidator = Validator::stringType()
-            ->alnum('_')
+            ->alnum('_' . AppConstants::ALLOWED_ADDITIONAL_CHARS)
             ->noWhitespace()
             ->length(
                 static::USERNAME_LENGTH_MIN,
