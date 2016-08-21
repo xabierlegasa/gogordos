@@ -1,11 +1,11 @@
 ## Gogordos
 
-Restaurant recommendation between friends.
+Restaurant recommendations between friends.
 
 
 ## Install
 
-You will need PHP 5.6+ and Composer.
+You will need PHP 7.0+ and Composer.
 
 
 ```
@@ -33,6 +33,14 @@ Enter mysql and create the database:
 ```
 CREATE DATABASE gogordos CHARACTER SET utf8 COLLATE utf8_general_ci;
 ```
+
+
+Copy configuration file and setup DB info:
+
+```
+cp src/Frameworks/Slim/config_env.php.dist src/Frameworks/Slim/config_env.php
+```
+
 
 Create the phinx config file and fill it in:
 
