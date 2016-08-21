@@ -46,6 +46,7 @@ class FillInCategoriesTable extends AbstractMigration
         'mediterraneo' => 'Mediterraneo',
         'mexicano' => 'Mexicano',
         'navarro' => 'Navarro',
+        'otro' => 'Otros',
         'peruano' => 'Peruano',
         'portugues' => 'Portugués',
         'suizo' => 'Suizo',
