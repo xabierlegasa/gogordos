@@ -32,7 +32,6 @@ angular.module('myapp.account', [
                     $state.go('home');
                 };
 
-                var jwt = $localStorage.jwt;
                 $http({
                     method: 'GET',
                     url: '/api/account',
@@ -45,7 +44,13 @@ angular.module('myapp.account', [
                         params: {'username': username}
                     }).then(function (data) {
                         $scope.following = data.data.users.length;
-                        console.log($scope.following);
+                    });
+                    $http({
+                        method: 'GET',
+                        url: '/api/followers',
+                        params: {'username': username}
+                    }).then(function (data) {
+                        $scope.followers = data.data.users.length;
                     });
                 });
 

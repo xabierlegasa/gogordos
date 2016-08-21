@@ -49,5 +49,11 @@ interface UsersRepository
      * @param $username
      * @return array
      */
-    public function getFriends($username);
+    public function getFollowing($username);
+
+    /**
+     * @param $username
+     * @return mixed
+     */
+    public function getFollowers($username);
 }

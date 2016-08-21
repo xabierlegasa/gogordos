@@ -182,7 +182,7 @@ class UsersRepositoryMysql extends BaseRepository implements UsersRepository
      * @param string $userId
      * @return array
      */
-    public function getFriends($userId)
+    public function getFollowing($userId)
     {
         /** @var PDO $pdo */
         $pdo = $this->getConnection();
@@ -194,6 +194,45 @@ from friends
 left join users as `u`
 on friends.user_id_following=u.id
 where friends.user_id_follower = :userId
+"
+        );
+
+        $statement->execute([
+            ':userId' => $userId
+        ]);
+        $rows = $statement->fetchAll(PDO::FETCH_OBJ);
+
+        if ($rows === false) {
+            return [];
+        }
+
+        $items = [];
+        foreach ($rows as $row) {
+            $items[] = [
+                'userId' => $row->id,
+                'username' => $row->username,
+            ];
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param string $userId
+     * @return array
+     */
+    public function getFollowers($userId)
+    {
+        /** @var PDO $pdo */
+        $pdo = $this->getConnection();
+
+        $statement = $pdo->prepare(
+            "
+select u.username, u.id
+from friends
+left join users as `u`
+on friends.user_id_follower=u.id
+where friends.user_id_following = :userId
 "
         );
 

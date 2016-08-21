@@ -10,7 +10,7 @@ use Gogordos\Domain\Repositories\RestaurantRepository;
 use Gogordos\Domain\Repositories\UsersRepository;
 use Slim\Http\Request;
 
-class GetFriendsController
+class FriendsController
 {
     /**
      * @var UsersRepository
@@ -22,7 +22,7 @@ class GetFriendsController
     private $restaurantRepository;
 
     /**
-     * GetFriendsController constructor.
+     * FriendsController constructor.
      * @param UsersRepository $usersRepository
      * @param RestaurantRepository $restaurantRepository
      */
@@ -44,7 +44,39 @@ class GetFriendsController
             $username = $request->getParam('username');
             $user = $this->usersRepository->findByUsername($username);
             $userId = $user->id()->value();
-            $items = $this->usersRepository->getFriends($userId);
+            $items = $this->usersRepository->getFollowing($userId);
+
+            $i = [];
+            foreach ($items as $item) {
+                $numRestaurantsOfUser = $this->restaurantRepository->countByUserId($item['userId']);
+                $i[] = [
+                    'username' => $item['username'],
+                    'numRestaurants' => $numRestaurantsOfUser
+                ];
+            }
+
+            return new JsonOk([
+                'users' => $i
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            return new JsonBadRequest(['message' => $e->getMessage()]);
+        } catch (\Exception $e) {
+            return new JsonInternalServerError(['message' => 'Yuups, something is bad with the server.']);
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getFollowers(Request $request)
+    {
+        try {
+            $username = $request->getParam('username');
+            $user = $this->usersRepository->findByUsername($username);
+            $userId = $user->id()->value();
+            $items = $this->usersRepository->getFollowers($userId);
 
             $i = [];
             foreach ($items as $item) {

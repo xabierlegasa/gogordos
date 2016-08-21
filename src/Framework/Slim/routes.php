@@ -186,7 +186,16 @@ $container['notFoundHandler'] = function (\Slim\Container $container) {
 };
 
 $app->get('/api/following', function ($request, ResponseInterface $response, $args) {
-    $ctrlResponse = $this->get('GetFriendsController')->getFollowing($request);
+    $ctrlResponse = $this->get('FriendsController')->getFollowing($request);
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+
+    return $response;
+});
+
+$app->get('/api/followers', function ($request, ResponseInterface $response, $args) {
+    $ctrlResponse = $this->get('FriendsController')->getFollowers($request);
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
