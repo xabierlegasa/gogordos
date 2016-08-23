@@ -11,7 +11,6 @@ angular.module('myapp.addFriend', [
             'appConstants',
             '$localStorage',
             function ($http, $state, $scope, $location, appConstants, $localStorage) {
-                $scope.ApiBaseUrl = appConstants.ApiBaseUrl;
                 $scope.itemArray = [];
                 $scope.selected = {};
                 $scope.isValid = false;
@@ -21,7 +20,7 @@ angular.module('myapp.addFriend', [
                     if (term.length >= 2) {
                         $http({
                             method: 'GET',
-                            url: $scope.ApiBaseUrl + '/users',
+                            url: '/api/users',
                             params: {terms: term}
                         }).success(function (data) {
                             var items = [];

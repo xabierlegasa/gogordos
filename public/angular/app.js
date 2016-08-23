@@ -22,8 +22,6 @@ angular.module('myapp', [
         $locationProvider.html5Mode(true);
     }])
 
-    .constant('appConstants', {ApiBaseUrl: 'http://localhost:8080/api'})
-
     .config(function ($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider
