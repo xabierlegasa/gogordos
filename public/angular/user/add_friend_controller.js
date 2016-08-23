@@ -8,9 +8,8 @@ angular.module('myapp.addFriend', [
             '$state',
             '$scope',
             '$location',
-            'appConstants',
             '$localStorage',
-            function ($http, $state, $scope, $location, appConstants, $localStorage) {
+            function ($http, $state, $scope, $location, $localStorage) {
                 $scope.itemArray = [];
                 $scope.selected = {};
                 $scope.isValid = false;
