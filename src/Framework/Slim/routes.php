@@ -4,6 +4,7 @@ use Gogordos\Application\Controllers\AccountController;
 use Gogordos\Application\Controllers\AuthenticationController;
 use Gogordos\Application\Controllers\GetAllRestaurantsController;
 use Gogordos\Application\Controllers\LoginController;
+use Gogordos\Application\Controllers\MyRestaurantsController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
 use Gogordos\Framework\Config\CurrentVersion;
@@ -199,6 +200,20 @@ $app->get('/api/followers', function ($request, ResponseInterface $response, $ar
     $response = $response
         ->withHeader('Content-Type', 'application/json')
         ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+
+    return $response;
+});
+
+$app->get('/api/my-restaurants', function ($request, ResponseInterface $response, $args) {
+    /** @var MyRestaurantsController $myRestaurantsController */
+    $controller = $this->get('MyRestaurantsController');
+
+    /** @var JsonResponse $response */
+    $jsonResponse = $controller->getRestaurants($request);
+
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($jsonResponse->data(), $jsonResponse->httpCode());
 
     return $response;
 });

@@ -65,13 +65,11 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
     }
 
     /**
-     * @param User $user
+     * @param string $userId
      * @return Restaurant[]
      */
-    public function findByUser(User $user)
+    public function findByUserId($userId)
     {
-        $userId = $user->id()->value();
-
         /** @var PDO $pdo */
         $pdo = $this->getConnection();
         /** @var PDOStatement $statement */
@@ -119,6 +117,17 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
         }
 
         return $restaurants;
+    }
+
+    /**
+     * @param User $user
+     * @return Restaurant[]
+     */
+    public function findByUser(User $user)
+    {
+        $userId = $user->id()->value();
+
+        return $this->findByUserId($userId);
     }
 
     /**

@@ -15,6 +15,12 @@ interface RestaurantRepository
     public function save(Restaurant $restaurant);
 
     /**
+     * @param string $userId
+     * @return Restaurant[]
+     */
+    public function findByUserId($userId);
+
+    /**
      * @param User $user
      * @return Restaurant[]
      */

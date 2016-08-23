@@ -1,0 +1,30 @@
+<h3>Mis sitios favoritos</h3>
+
+<br>
+
+<div>
+    <div ng-repeat="res in restaurants">
+
+
+        <div class="bs-callout bs-callout-info" id="callout-inputgroup-dont-mix">
+            <h4>{{res.name}}</h4>
+            <p>
+                <a ui-sref="cityRestaurants({city: res.city})">{{res.city}}</a>
+                . {{res.categoryNameEs}}.
+
+                <br>
+                {{res.reason}}
+
+                <br>
+                <br>
+                <a href="" style="color:darkgrey">Editar</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>

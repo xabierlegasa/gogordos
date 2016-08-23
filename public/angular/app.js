@@ -14,7 +14,8 @@ angular.module('myapp', [
     'ui.select',
     'ngSanitize',
     'myapp.cityRestaurants',
-    'myapp.restaurantDirective'
+    'myapp.restaurantDirective',
+    'myapp.myRestaurants'
 ])
 
     .config(["$locationProvider", function ($locationProvider) {
@@ -76,6 +77,12 @@ angular.module('myapp', [
                 templateUrl: 'templates/city/city_restaurants.html',
                 controller: 'CityRestaurantsController',
                 controllerAs: 'cityRestaurantsCtrl'
+            })
+            .state('myRestaurants', {
+                url: '/g/my-places',
+                templateUrl: 'templates/users/my_restaurants.html',
+                controller: 'MyRestaurantsController',
+                controllerAs: 'myRestaurantsCtrl'
             })
         ;
     })
