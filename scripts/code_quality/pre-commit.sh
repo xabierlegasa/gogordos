@@ -74,3 +74,26 @@ if ! validatePhpCodingStandardAndSniffs ${PHPFILES}; then
         fail "Check PHP coding standard and code sniffs and try again."
     fi
 fi
+
+# PHPUnit tests start --------------------------------------------
+PHPUNIT_TESTS_PATH="tests/unit"
+PHPUNIT_CONFIG_FILE="phpunit.xml"
+
+# PHPUnit tests
+function validatePhpUnit() {
+
+    echo -e "\033[0;33mChecking unit tests...\033[0m"
+    local valid=true
+
+    if ! ${VENDOR_BIN_PATH}phpunit --configuration=${PHPUNIT_CONFIG_FILE} ${PHPUNIT_TESTS_PATH}; then
+        valid=false
+    fi
+
+    return $([ "$valid" = true ] && echo 0 || echo 1)
+}
+
+if ! validatePhpUnit; then
+    fail "PHP Unit tests failed"
+fi
+# PHPUnit tests start --------------------------------------------
+
