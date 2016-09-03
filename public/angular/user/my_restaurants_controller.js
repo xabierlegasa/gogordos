@@ -11,7 +11,6 @@ angular.module('myapp.myRestaurants', [
             function ($http, $state, $scope, $localStorage) {
 
                 var jwt = $localStorage.jwt;
-                console.log('fooooo');
                 $http({
                     method: 'GET',
                     url: '/api/my-restaurants',

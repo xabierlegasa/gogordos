@@ -79,7 +79,7 @@ class AddRestaurantUseCase
         $userId = $authUserData->userId()->value();
 
         /** @var Restaurant $restaurant */
-        $restaurant = new Restaurant(null, $name, $city, $category, $userId, $reason, null);
+        $restaurant = new Restaurant(null, $name, $city, '', $category, $userId, $reason, null);
         $restaurant = $this->restaurantRepository->save($restaurant);
 
         $response = new AddRestaurantResponse($restaurant);

@@ -20,6 +20,7 @@ class RestaurantPresenter
             $item = [
                 'name' => $restaurant->name(),
                 'city' => $restaurant->city(),
+                'address' => $restaurant->address(),
                 'reason' => $restaurant->reason(),
                 'categoryId' => $restaurant->category()->id(),
                 'categoryName' => $restaurant->category()->name(),

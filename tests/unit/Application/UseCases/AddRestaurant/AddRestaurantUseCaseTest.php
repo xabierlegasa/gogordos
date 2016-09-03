@@ -90,7 +90,7 @@ class AddRestaurantUseCaseTest extends TestCase
             ->willReturn($category);
 
         $userId = new UserId(Uuid::fromString('116c6634-8bb4-445d-957f-cb4b2c4a3e8f'));
-        $restaurant = new Restaurant(null, 'La masía', 'Barcelona', $category, $userId, 'reason', null);
+        $restaurant = new Restaurant(null, 'La masía', 'Barcelona', '', $category, $userId, 'reason', null);
         $this->restaurantRepositoryMock->save($restaurant)
             ->shouldBeCalled()
             ->willReturn($restaurant);
@@ -108,7 +108,7 @@ class AddRestaurantUseCaseTest extends TestCase
         $addRestaurantRequest = new AddRestaurantRequest('La masía', 'Barcelona', $categoryName, 'reason', 'jwt');
 
         $this->restaurantRepositoryMock
-            ->save(new Restaurant(null, 'La masía', 'Barcelona', $category, $userId, 'reason', null))
+            ->save(new Restaurant(null, 'La masía', 'Barcelona', '', $category, $userId, 'reason', null))
             ->shouldBeCalled();
 
         $this->sut->execute($addRestaurantRequest);

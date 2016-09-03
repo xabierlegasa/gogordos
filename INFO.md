@@ -1,6 +1,8 @@
 Todo-s:
 
-- Add address field to restaurants.
+- Show address of place.
+- Open map with address of the place
+- Create directive
 - Let edit a restaurant.
 - Let "trust" a user. This user is trusted by X gogordos.
 - Feature: show map with nearby gogordo places (show all by now)

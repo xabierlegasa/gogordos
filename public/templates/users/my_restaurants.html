@@ -5,18 +5,23 @@
 <div>
     <div ng-repeat="res in restaurants">
 
-
         <div class="bs-callout bs-callout-info" id="callout-inputgroup-dont-mix">
-            <h4>{{res.name}}</h4>
+            <h4>{{res.name}}, <a class="color-grey" ui-sref="cityRestaurants({city: res.city})">{{res.city}}</a></h4>
             <p>
-                <a ui-sref="cityRestaurants({city: res.city})">{{res.city}}</a>
-                . {{res.categoryNameEs}}.
 
-                <br>
-                {{res.reason}}
+                {{res.categoryNameEs}}.
 
-                <br>
-                <br>
+                <span>{{res.address}}</span>
+
+                <span ng-if="res.address">
+                    <a target="_target" href="http://maps.google.com/?q={{res.name}}, {{res.address}}">Ver en el mapa <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+                </span>
+
+                <blockquote>
+
+                "{{res.reason}}"
+                </blockquote>
+
                 <a href="" style="color:darkgrey">Editar</a>
             </p>
         </div>
@@ -24,7 +29,5 @@
 </div>
 
 
-<br>
-<br>
 <br>
 <br>

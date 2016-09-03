@@ -2,7 +2,6 @@
 
 namespace Gogordos\Application\Controllers;
 
-
 use Gogordos\Application\Controllers\Response\JsonBadRequest;
 use Gogordos\Application\Controllers\Response\JsonOk;
 use Gogordos\Application\Presenters\RestaurantPresenter;
@@ -50,7 +49,6 @@ class MyRestaurantsController
             $authUserData = $this->authenticator->authUserDataFromToken($request->getParam('jwt'));
             $restaurants = $this->restaurantRepository->findByUserId($authUserData->userId()->value());
             $restaurantsPresented = $this->restaurantPresenter->presentRestaurantsWithUserData($restaurants);
-
             return new JsonOk([
                 'restaurants' => $restaurantsPresented
             ]);

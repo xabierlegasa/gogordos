@@ -7,6 +7,7 @@ use Gogordos\Application\Controllers\LoginController;
 use Gogordos\Application\Controllers\MyRestaurantsController;
 use Gogordos\Application\Controllers\RegisterController;
 use Gogordos\Application\Controllers\AddRestaurantController;
+use Gogordos\Application\Controllers\Response\JsonResponse;
 use Gogordos\Framework\Config\CurrentVersion;
 use Psr\Http\Message\ResponseInterface;
 
