@@ -70,3 +70,13 @@
 .color-grey {
     color: grey;
 }
+
+.well {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    border: none;
+    border-bottom: 3px solid #eeeeee;
+    box-shadow: none;
+    margin-bottom: 30px;
+    padding: 20px;
+}

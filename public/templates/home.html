@@ -1,96 +1,150 @@
 <div ng-if="!loggedIn">
     <div class="jumbotron">
         <h1>Bienvenid@ gogord@!</h1>
-        <p class="">Recomendación de restaurantes favoritos entre amigos.</p>
+        <p class="">Los restaurantes favoritos de tus amigos.</p>
         <p><a class="btn btn-lg btn-success" ui-sref="signup({})" role="button">Sí, quiero ser un gogordo</a></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="well">
+                <h3>Sitios favoritos por ciudad</h3>
+                <p>
+                    <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>,
+                    <a class="lead" ui-sref="cityRestaurants({city: 'madrid'})">Madrid</a>,
+                    <a class="lead" ui-sref="cityRestaurants({city: 'pamplona'})">Pamplona</a>,
+                    ver más ciudades
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="well">
+                <p>
+                    7 usuarios gogordos.
+                </p>
+                <p>
+                    6 sitios favoritos.
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Todos los sitios favoritos</h3>
+
+            <br>
+
+            <div class="all-restaurants-item" ng-repeat="res in restaurants">
+                <gg-restaurant-snippet></gg-restaurant-snippet>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="js-all-restaurants-previous"><a ng-click="isAllPreviousEnabled&&previousPage()">Menos</a>
+                    </li>
+                    <li class="js-all-restaurants-next"><a ng-click="isAllNextEnabled&&nextPage()">Ver más</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 
-<div>
-    <div ng-if="loggedIn" class="jumbotron">
+
+
+
+
+
+
+
+<div ng-if="loggedIn">
+
+    <div class="jumbotron">
         <h1>Tip:</h1>
-        <p class="lead">Un gogordo de verdad, metería un par de recomendaciones. Ahí lo dejo...</p>
+        <p class="lead">Completa tus sitios favoritos para ser un auténtico Gogordo!</p>
         <p>
             <a class="btn btn-lg btn-success" ui-sref="newRestaurant({})" role="button">+ Añadir un sitio favorito</a>
         </p>
     </div>
 
 
-    <p>
-        <a class="lead" ui-sref="addFriend({})">Añadir un amigo</a>
-    </p>
-
-    <br>
-
-    <p class=>
-        <a class="lead" ui-sref="myRestaurants({})">Mis sitios favoritos</a>
-    </p>
-
-    <br>
-    <br>
-</div>
-
-
-<p>
-    <span class="lead">Sitios gogordos en...</span>
-    &nbsp;
-    <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>
-    &nbsp;
-    <a class="lead" ui-sref="cityRestaurants({city: 'madrid'})">Madrid</a>
-    &nbsp;&nbsp;&nbsp;
-    <a class="lead">Ver más ciudades</a>
-</p>
-
-<div class="row">
-
-    <div class="col-md-6">
-        <div ng-if="friendRestaurants">
-            <h3>Recomendaciones de mis amigos gogordos</h3>
-
-            <br>
-            <div ng-repeat="res in friendRestaurants">
-                <gg-restaurant-snippet></gg-restaurant-snippet>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="well">
+                <h3>Sitios favoritos por ciudad</h3>
+                <p>
+                    <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>,
+                    <a class="lead" ui-sref="cityRestaurants({city: 'madrid'})">Madrid</a>,
+                    <a class="lead" ui-sref="cityRestaurants({city: 'pamplona'})">Pamplona</a>,
+                    ver más ciudades
+                </p>
             </div>
         </div>
-
-        <nav>
-            <ul class="pager">
-                <li class="js-friend-restaurants-previous">
-                    <a class="js-friend-restaurants-previous-a"
-                       ng-click="isFriendsPreviousEnabled&&friendsRestaurantsPreviousPage()">
-                        Menos
-                    </a>
-                </li>
-                <li class="js-friend-restaurants-next">
-                    <a class="js-friend-restaurants-next-a"
-                       ng-click="isFriendsNextEnabled&&friendsRestaurantsNextPage()">
-                        Ver más
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-    </div>
-
-
-    <div class="col-md-6">
-        <h3>Todas las recomendaciones gogordas</h3>
-
-        <br>
-
-        <div class="all-restaurants-item" ng-repeat="res in restaurants">
-            <gg-restaurant-snippet></gg-restaurant-snippet>
+        <div class="col-md-4">
+            <div class="well">
+                <h3><a class="lead" ui-sref="addFriend({})">Seguir a un amigo</a></h3>
+            </div>
         </div>
+        <div class="col-md-4">
+            <div class="well">
+                <h3><a class="lead" ui-sref="myRestaurants({})">Mis sitios favoritos</a></h3>
 
-        <nav>
-            <ul class="pager">
-                <li class="js-all-restaurants-previous"><a ng-click="isAllPreviousEnabled&&previousPage()">Menos</a>
-                </li>
-                <li class="js-all-restaurants-next"><a ng-click="isAllNextEnabled&&nextPage()">Ver más</a></li>
-            </ul>
-        </nav>
+
+            </div>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Todos los sitios favoritos</h3>
+
+            <br>
+
+            <div class="all-restaurants-item" ng-repeat="res in restaurants">
+                <gg-restaurant-snippet></gg-restaurant-snippet>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="js-all-restaurants-previous"><a ng-click="isAllPreviousEnabled&&previousPage()">Menos</a>
+                    </li>
+                    <li class="js-all-restaurants-next"><a ng-click="isAllNextEnabled&&nextPage()">Ver más</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" ng-if="friendRestaurants">
+            <div>
+                <h3>Sitios favoritos de mis amig@s</h3>
+
+                <br>
+                <div ng-repeat="res in friendRestaurants">
+                    <gg-restaurant-snippet></gg-restaurant-snippet>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="js-friend-restaurants-previous">
+                        <a class="js-friend-restaurants-previous-a"
+                           ng-click="isFriendsPreviousEnabled&&friendsRestaurantsPreviousPage()">
+                            Menos
+                        </a>
+                    </li>
+                    <li class="js-friend-restaurants-next">
+                        <a class="js-friend-restaurants-next-a"
+                           ng-click="isFriendsNextEnabled&&friendsRestaurantsNextPage()">
+                            Ver más
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
 
 </div>
-
-<br>

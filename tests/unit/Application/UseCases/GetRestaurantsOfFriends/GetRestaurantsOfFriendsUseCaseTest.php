@@ -57,7 +57,7 @@ class GetRestaurantsOfFriendsUseCaseTest extends TestCase
             new Restaurant(1, 'Mediterrania', 'Barcelona', '', $this->buildCategory(), $userId, 'reason', null),
             new Restaurant(1, 'El Rancho', 'Donostia', '', $this->buildCategory(), $userId, 'reason', null)
         ];
-        $offset =
+
         $this->restaurantsRepositoryMock
             ->findByUserFriends($userId, 4, $rpp)
             ->shouldBeCalled()

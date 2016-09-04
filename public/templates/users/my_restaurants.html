@@ -11,7 +11,7 @@
 
                 {{res.categoryNameEs}}.
 
-                <span>{{res.address}}</span>
+                <span ng-if="res.address"><i>{{res.address}}.</i></span>
 
                 <span ng-if="res.address">
                     <a target="_target" href="http://maps.google.com/?q={{res.name}}, {{res.address}}">Ver en el mapa <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
