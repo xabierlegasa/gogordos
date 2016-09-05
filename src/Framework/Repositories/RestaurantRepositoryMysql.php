@@ -251,8 +251,8 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
                 $row->restaurant_city,
                 $row->restaurant_address,
                 new Category((int)$row->category_id, $row->category_name, $row->category_name_es),
-                $row->restaurant_reason,
                 $row->user_id,
+                $row->restaurant_reason,
                 null
             );
             $user = User::register(
