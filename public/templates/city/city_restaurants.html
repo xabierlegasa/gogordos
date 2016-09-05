@@ -1,16 +1,37 @@
 
-<h3>Sitios gogordos en {{cityTitle}}</h3>
 
 
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-12 fondo">
+
+        <h3>Sitios gogordos en {{cityTitle}}</h3>
+
         <br>
         <div ng-if="restaurants">
 
-            <div ng-repeat="res in restaurants">
-                <gg-restaurant-snippet></gg-restaurant-snippet>
-            </div>
+
+            <ul>
+                <li class="restaurant-block" ng-repeat="res in restaurants">
+                    <div class="restaurant-item">
+                        <a class="restaurant-name" ui-sref="restaurant({restaurant: res.id})">{{res.name}}</a>
+                        en
+                        <a class="city-name" ui-sref="cityRestaurants({city: res.city})">{{res.city | ucfirst}}</a>
+                        <br>
+                        <a ui-sref="userPage({username: res.username})">{{res.username}}</a>
+                        lo recomienda: "{{res.reason}}".
+                        <div ng-if="res.address">
+                            <span ng-if="res.address">
+                                <i>{{res.address}}</i>
+                                <a target="_target"
+                                   href="http://maps.google.com/?q={{res.name}}, {{res.address}}">
+                                    Ver en el mapa
+                                    <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
         </div>
 
