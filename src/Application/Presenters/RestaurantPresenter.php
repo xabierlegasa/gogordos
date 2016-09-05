@@ -18,6 +18,7 @@ class RestaurantPresenter
         /** @var Restaurant $restaurant */
         foreach ($restaurants as $restaurant) {
             $item = [
+                'id' => (int) $restaurant->id(),
                 'name' => $restaurant->name(),
                 'city' => $restaurant->city(),
                 'address' => $restaurant->address(),

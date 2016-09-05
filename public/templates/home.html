@@ -53,12 +53,6 @@
 </div>
 
 
-
-
-
-
-
-
 <div ng-if="loggedIn">
 
     <div class="jumbotron">
@@ -115,14 +109,24 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 fondo">
             <h3>Todos los sitios favoritos</h3>
 
             <br>
 
-            <div class="all-restaurants-item" ng-repeat="res in restaurants">
-                <gg-restaurant-snippet></gg-restaurant-snippet>
-            </div>
+            <ul>
+                <li class="restaurant-block" ng-repeat="res in restaurants">
+                    <div class="restaurant-item">
+                        <a class="restaurant-name" ui-sref="restaurant({restaurant: res.id})">{{res.name}}</a>
+                        en
+                        <a class="city-name" ui-sref="cityRestaurants({city: res.city})">{{res.city | ucfirst}}</a>
+                        <br>
+                        <a ui-sref="userPage({username: res.username})">{{res.username}}</a>
+                        lo recomienda: "{{res.reason}}".
+
+                    </div>
+                </li>
+            </ul>
 
             <nav>
                 <ul class="pager">
@@ -134,35 +138,46 @@
         </div>
     </div>
 
+    
     <div class="row">
-        <div class="col-md-12" ng-if="friendRestaurants">
+        <div class="col-md-12 fondo" ng-if="friendRestaurants">
             <div>
                 <h3>Sitios favoritos de mis amig@s</h3>
 
                 <br>
-                <div ng-repeat="res in friendRestaurants">
-                    <gg-restaurant-snippet></gg-restaurant-snippet>
-                </div>
-            </div>
 
-            <nav>
-                <ul class="pager">
-                    <li class="js-friend-restaurants-previous">
-                        <a class="js-friend-restaurants-previous-a"
-                           ng-click="isFriendsPreviousEnabled&&friendsRestaurantsPreviousPage()">
-                            Menos
-                        </a>
-                    </li>
-                    <li class="js-friend-restaurants-next">
-                        <a class="js-friend-restaurants-next-a"
-                           ng-click="isFriendsNextEnabled&&friendsRestaurantsNextPage()">
-                            Ver más
-                        </a>
+                <ul>
+                    <li class="restaurant-block" ng-repeat="res in friendRestaurants">
+                        <div class="restaurant-item">
+                            <a class="restaurant-name" ui-sref="restaurant({restaurant: res.id})">{{res.name}}</a>
+                            en
+                            <a class="city-name" ui-sref="cityRestaurants({city: res.city})">{{res.city | ucfirst}}</a>
+                            <br>
+                            <a ui-sref="userPage({username: res.username})">{{res.username}}</a>
+                            lo recomienda: "{{res.reason}}".
+
+                        </div>
                     </li>
                 </ul>
-            </nav>
+
+                <nav>
+                    <ul class="pager">
+                        <li class="js-friend-restaurants-previous">
+                            <a class="js-friend-restaurants-previous-a"
+                               ng-click="isFriendsPreviousEnabled&&friendsRestaurantsPreviousPage()">
+                                Menos
+                            </a>
+                        </li>
+                        <li class="js-friend-restaurants-next">
+                            <a class="js-friend-restaurants-next-a"
+                               ng-click="isFriendsNextEnabled&&friendsRestaurantsNextPage()">
+                                Ver más
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
+
+
     </div>
-
-
-</div>

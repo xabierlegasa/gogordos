@@ -18,6 +18,14 @@ angular.module('myapp', [
     'myapp.myRestaurants'
 ])
 
+    .filter('ucfirst', function () {
+        return function (input, arg) {
+            return input.replace(/(?:^|\s)\S/g, function (a) {
+                return a.toUpperCase();
+            });
+        };
+    })
+
     .config(["$locationProvider", function ($locationProvider) {
         $locationProvider.html5Mode(true);
     }])

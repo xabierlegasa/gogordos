@@ -80,3 +80,40 @@
     margin-bottom: 30px;
     padding: 20px;
 }
+
+.city-name {
+    color: #292f33;
+}
+
+.city-name:hover {
+    color: #292f33;
+    cursor: hand;
+}
+
+
+.fondo {
+    background: #F2F2F2;
+}
+.restaurant-block {
+    list-style: none;
+    background: #fff;
+    border-left: 1px solid #e1e8ed;
+    border-right: 1px solid #e1e8ed;
+    background-clip: padding-box;
+    margin-bottom: 9px;
+}
+
+.restaurant-item {
+    border-bottom: 1px solid #e1e8ed;
+    cursor: pointer;
+    position: relative;
+    min-height: 51px;
+    padding: 9px 12px;
+}
+
+a.restaurant-name {
+    color: #069;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.3em;
+}
