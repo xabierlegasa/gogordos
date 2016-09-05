@@ -84,14 +84,32 @@
         </div>
         <div class="col-md-4">
             <div class="well">
-                <h3><a class="lead" ui-sref="addFriend({})">Seguir a un amigo</a></h3>
+                <h3><a ui-sref="addFriend({})">Seguir a un amigo</a></h3>
+                <p>
+                    Siguiendo &nbsp;
+                    <span class="following">
+                        <strong>{{following_number}}</strong>
+                    </span>
+
+                    <br>
+                    Seguidores &nbsp;
+                    <span class="following">
+                        <strong>{{followers_number}}</strong>
+                    </span>
+                </p>
             </div>
         </div>
         <div class="col-md-4">
             <div class="well">
-                <h3><a class="lead" ui-sref="myRestaurants({})">Mis sitios favoritos</a></h3>
+                <h3>Mis sitios favoritos</h3>
 
-
+                <p ng-if="restaurants_number">
+                    Tienes {{restaurants_number}} sitios favoritos.
+                    <a ui-sref="myRestaurants({})">Ver mis sitios.</a>
+                </p>
+                <p ng-if="!restaurants_number">
+                    <a ui-sref="newRestaurant({})">Añade un sitio gogordo</a>
+                </p>
             </div>
         </div>
     </div>

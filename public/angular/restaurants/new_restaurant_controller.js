@@ -36,9 +36,11 @@ angular.module('myapp.newRestaurant', [
                             'jwt': $localStorage.jwt
                         }
                     }).then(function (data) {
-                        console.log('new restaurant controller responseeee');
                         $scope.errorMessage = '';
                         $scope.successMessage = 'Tienes un nuevo sitio favorito!';
+
+
+
                     });
                 };
             }

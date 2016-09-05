@@ -11,7 +11,6 @@ angular.module('myapp.home', [
             '$localStorage',
             function ($http, $state, $scope, $sce, $localStorage) {
 
-
                 //  start ALL RESTAURANTS --------------------------------------------------------
                 $scope.previousPage = function() {
                     if ($scope.allRestaurantsCurrentPage > 1) {
@@ -115,9 +114,34 @@ angular.module('myapp.home', [
                 };
                 //  end MY FRIENDS RESTAURANTS --------------------------------------------------------
 
+                //  start LOAD HOME PAGE USER DATA ----------------------------------------------------
+
+                $scope.following_number = 0;
+                $scope.followers_number = 0;
+                var loadHomePageUserData = function () {
+                    var jwt = $localStorage.jwt;
+
+                    if (jwt) {
+                        $http({
+                            method: 'GET',
+                            url: '/api/home-page-user-data',
+                            params: {jwt: jwt}
+                        }).success(function (data) {
+                            $scope.following_number = data.following_number;
+                            $scope.followers_number = data.followers_number;
+                            $scope.restaurants_number = data.restaurants_number;
+                        }).error(function (data, status, headers, config) {
+                            console.log('HomePage user data error.');
+                        });
+                    }
+                };
+                //  end LOAD HOME PAGE USER DATA ----------------------------------------------------
+
+
 
                 loadAllRestaurants(1);
                 loadFriendRestaurants(1);
+                loadHomePageUserData();
             }
         ]
     );

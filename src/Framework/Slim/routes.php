@@ -218,3 +218,13 @@ $app->get('/api/my-restaurants', function ($request, ResponseInterface $response
 
     return $response;
 });
+
+
+$app->get('/api/home-page-user-data', function ($request, ResponseInterface $response, $args) {
+    $ctrlResponse = $this->get('HomePageUserDataController')->getData($request);
+    $response = $response
+        ->withHeader('Content-Type', 'application/json')
+        ->withJson($ctrlResponse->data(), $ctrlResponse->httpCode());
+
+    return $response;
+});
