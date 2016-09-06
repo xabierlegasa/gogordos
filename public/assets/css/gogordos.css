@@ -117,3 +117,7 @@ a.restaurant-name {
     font-weight: bold;
     font-size: 1.3em;
 }
+
+ul.restaurant-list {
+    padding-left: 0px;
+}
