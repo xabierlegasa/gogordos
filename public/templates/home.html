@@ -1,14 +1,17 @@
 <div ng-if="!loggedIn">
     <div class="jumbotron">
-        <h1>Bienvenid@ gogord@!</h1>
-        <p class="">Los restaurantes favoritos de tus amigos.</p>
+        <h1>Recomendación de restaurantes entre amigos</h1>
+        <h3>Crea y comparte la lista de tus sitios favoritos</h3>
         <p><a class="btn btn-lg btn-success" ui-sref="signup({})" role="button">Sí, quiero ser un gogordo</a></p>
     </div>
 
     <div class="row">
         <div class="col-md-4">
             <div class="well">
-                <h3>Sitios favoritos por ciudad</h3>
+                <h3>
+                    <span class="glyphicon glyphicon-map-marker" style="color:#ff0000" aria-hidden="true"></span>
+                    Sitios favoritos en tu ciudad
+                </h3>
                 <p>
                     <a class="lead" ui-sref="cityRestaurants({city: 'barcelona'})">Barcelona</a>,
                     <a class="lead" ui-sref="cityRestaurants({city: 'madrid'})">Madrid</a>,
