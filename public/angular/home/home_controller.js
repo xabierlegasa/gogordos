@@ -14,7 +14,9 @@ angular.module('myapp.home', [
                 //  start ALL RESTAURANTS --------------------------------------------------------
                 $scope.previousPage = function() {
                     if ($scope.allRestaurantsCurrentPage > 1) {
-                        var pageToGo = $scope.currentPage - 1;
+                        var pageToGo = $scope.allRestaurantsCurrentPage - 1;
+                        console.log('go to page ' + pageToGo);
+
                         loadAllRestaurants(pageToGo);
                     }
                 };
@@ -22,6 +24,7 @@ angular.module('myapp.home', [
                 $scope.nextPage = function() {
                     if ($scope.allRestaurantsCurrentPage < $scope.totalPages) {
                         var pageToGo = $scope.allRestaurantsCurrentPage + 1;
+                        console.log('go to page ' + pageToGo);
                         loadAllRestaurants(pageToGo);
                     }
                 };
