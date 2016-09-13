@@ -33,17 +33,16 @@ class RestaurantRepositoryMysql extends BaseRepository implements RestaurantRepo
             /** @var PDO $pdo */
             $pdo = $this->getConnection();
             /** @var PDOStatement $statement */
-            $statement = $pdo->prepare('INSERT INTO restaurants (name, city, category_id, user_id, reason, created_at) VALUES (?, ?, ?, ?, ?, ?)');
+            $statement = $pdo->prepare('INSERT INTO restaurants (name, city, category_id, user_id, address, reason, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)');
             $statement->bindParam(1, $name, PDO::PARAM_STR);
             $statement->bindParam(2, $city, PDO::PARAM_STR);
             $statement->bindParam(3, $categoryId, PDO::PARAM_INT);
             $statement->bindParam(4, $userId, PDO::PARAM_STR);
-            $statement->bindParam(5, $reason, PDO::PARAM_STR);
-            $statement->bindParam(6, $createdAt, PDO::PARAM_STR);
-
+            $statement->bindParam(5, $address, PDO::PARAM_STR);
+            $statement->bindParam(6, $reason, PDO::PARAM_STR);
+            $statement->bindParam(7, $createdAt, PDO::PARAM_STR);
 
             $result = $statement->execute();
-
             if (!$result) {
                 throw new \Exception('Error creating a new restaurant');
             }
